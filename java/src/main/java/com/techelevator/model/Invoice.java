@@ -1,8 +1,12 @@
 package com.techelevator.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
+import java.util.List;
+
 public class Invoice {
-    private int invoiceNumber;
-    private List<> ticket;
-    private Status status;
+    private int invoiceID;
+    private int userID;
 
 }

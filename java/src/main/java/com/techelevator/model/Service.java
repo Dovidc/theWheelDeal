@@ -1,9 +1,9 @@
 package com.techelevator.model;
 
 public class Service {
-    private int serviceNumber;
-    private String serviceName;
+    private int serviceID;
+    private String serviceDescription;
     private double serviceRate;
-    private double serviceHours;
+    private double serviceTime;
 
 }

@@ -1,5 +1,7 @@
 package com.techelevator.model;
 
+import org.springframework.data.relational.core.sql.In;
+
 import java.util.List;
 
 public class User {
@@ -9,10 +11,12 @@ public class User {
     private String lastName;
     private long passwordHash;
     private String email;
-    private List<> userRole;
-    private List<> vehicle;
-    private List<> workOrder;
-    private List<> invoice;
 
+   /*
+    private List<Role> userRole;
+    private List<Vehicle> vehicle;
+    private List<WorkOrder> workOrder;
+    private List<Invoice> invoice;
+  */
 
 }

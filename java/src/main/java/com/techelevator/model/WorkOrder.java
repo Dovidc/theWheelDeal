@@ -4,8 +4,7 @@ import java.util.List;
 
 public class WorkOrder {
     private Long workOrderId;
-    private List<> ticketInformation;
-    private User user;
-    private Vehicle vehicle;
-    private Status status;
+    private int vehicleId;
+    private double timeAdjustment;
+    private boolean isApproved;
 }
