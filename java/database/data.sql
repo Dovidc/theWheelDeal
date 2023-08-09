@@ -1,146 +1,59 @@
 BEGIN TRANSACTION;
 
-DROP TABLE IF EXISTS users, vehicle, users_vehicle, work_order, users_work_order, status, work_order_status, service, work_order_service_status, invoice, invoice_service, user_invoice;
+INSERT INTO users (username, first_name, last_name, password_hash, role) VALUES ('user', 'User FName', 'User LName','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_USER');
+INSERT INTO users (username, first_name, last_name, password_hash, role) VALUES ('admin','Admin FName', 'Admin LName', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_ADMIN');
 
-CREATE TABLE users (
-	user_id SERIAL,
-	username varchar(50) NOT NULL UNIQUE,
-	first_name varchar(25) not null,
-	last_name varchar(25) not null,
-	password_hash varchar(200) NOT NULL,
-	email varchar(50) unique,
-	phone varchar(10),
-	role varchar(50) NOT NULL,
-	is_activated boolean not null default true,
+insert into service (service_description, service_category, service_price, service_time) values ('Tune Up', 'Auto Repair Services', 75.00, 0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Diagnostic Test', 'Auto Repair Services',25.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Car Maintenance Schedule', 'Auto Repair Services',35.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Engine Repair','Auto Repair Services',2499.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Fuel Pump Replacement', 'Auto Repair Services',999.00, 0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Headlight Replacement', 'Auto Repair Services',25.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Power Window Repair', 'Auto Repair Services',99.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Timing Belts & Chains', 'Auto Repair Services',799.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Transmission Repair', 'Auto Repair Services',749.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Windshield Wipers', 'Auto Repair Services',15.00, 0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Cooling System Service', 'Auto Repair Services',15.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Oil Change', 'Oil Change Services',25.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Air & Oil Filters', 'Oil Change Services',15.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Oil, Anti-Freeze & Brake Fluids', 'Oil Change Services',15.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Brake Pads', 'Brake Services',50.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Rotor Discs', 'Brake Services',150.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Performance Tires', 'Tire & Wheel Services',499.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Car Tires', 'Tire & Wheel Services',299.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('SUV & Truck Tires', 'Tire & Wheel Services',399.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Tire Repair', 'Tire & Wheel Services',99.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Tire Rotation & Replacement', 'Tire & Wheel Services',50.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Wheel Alignment', 'Tire & Wheel Services',50.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Wheeel Bearings', 'Tire & Wheel Services',75.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Wheel Balancing', 'Tire & Wheel Services',75.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Car Batteries', 'Battery Service',149.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Alternator & Starter Repair', 'Battery Service',99.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Exhaust & Muffler Repair', 'Exhaust & Catalytic Converters',99.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Catalytic Converters', 'Exhaust & Catalytic Converters',759.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Emissions Repair', 'Exhaust & Catalytic Converters',149.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Performance Exhaust', 'Exhaust & Catalytic Converters',299.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Rack & Pinion Steering System', 'Springs', 1499.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Struts & Shock Absorbers', 'Springs',1099.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Power Steering & Chassis', 'Springs',99.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Suspension Lowering', 'Springs', 649.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Coil Spring Suspension', 'Springs',599.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Axle Repair', 'CV Joints & Driveshafts',799.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Clutch Repair', 'CV Joints & Driveshafts',1199.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('CV Joints & Drivehaft', 'CV Joints & Driveshafts',1099.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Air Conditioner Service', 'Air Conditioning',149.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('AC Condenser & Evaporator', 'Air Conditioning',999.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Fuel Injector Service', 'Miscellaneous Services',349.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Water Pump Repair & Service', 'Miscellaneous Services',649.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Radiator Repair & Service', 'Miscellaneous Services',249.00,0.5);
 
-	CONSTRAINT PK_user PRIMARY KEY (user_id)
-);
-
-create table vehicle
-(
-	vehicle_id serial,
-	make varchar(25) not null,
-	model varchar(25) not null,
-	year varchar(4) not null,
-	color varchar(25) not null,
-	plate_number varchar(15),
-	mileage int,
-
-	constraint pk_vehicle_id primary key (vehicle_id)
-);
-
-create table users_vehicle
-(
-	user_id int not null,
-	vehicle_id int not null,
-
-	constraint pk_users_vehicle primary key (user_id, vehicle_id),
-	constraint fk_user_id foreign key (user_id) references users (user_id),
-	constraint fk_vehicle_id foreign key (vehicle_id) references vehicle (vehicle_id)
-);
-
-create table work_order
-(
-	work_order_id serial,
-	vehicle_id int not null,
-	time_adjustment decimal not null default 0.0,
-	is_approved boolean not null default false,
-
-	constraint pk_work_order_id primary key (work_order_id),
-	constraint fk_vehicle_id foreign key (vehicle_id) references vehicle (vehicle_id)
-);
-
-create table users_work_order
-(
-	user_id int not null,
-	work_order_id int not null,
-
-	constraint pk_users_work_order primary key (user_id, work_order_id),
-	constraint fk_user_id foreign key (user_id) references users (user_id),
-	constraint fk_work_order_id foreign key (work_order_id) references work_order (work_order_id)
-);
-
-create table status
-(
-	status_id serial,
-	status_description varchar(100) not null,
-
-	constraint pk_status_id primary key (status_id),
-	constraint ck_status_description check (status_description in ('Pending Customer Approval', 'Declined', 'Not Started', 'In Progress', 'Completed'))
-);
-
-create table work_order_status
-(
-	work_order_id int not null,
-	status_id int not null,
-	status_change_timestamp timestamp not null,
-
-	constraint pk_work_order_status primary key (work_order_id, status_id),
-	constraint fk_work_order_id foreign key (work_order_id) references work_order (work_order_id),
-	constraint fk_status_id foreign key (status_id) references status (status_id)
--- 	constraint ck_status_id check (status_id in (select status_id from status where status_description in (
--- 		'Pending Customer Approval', 'Not Started', 'In Progress', 'Completed')))
-);
-
-create table service
-(
-	service_id serial,
-	service_description varchar(100) not null,
-	service_category varchar(100),
-	service_price decimal not null,
-	service_time decimal not null default 0.5,
-
-	constraint pk_service_id primary key (service_id),
-	constraint ch_service_price check (service_price >= 0.00)
-);
-
-create table work_order_service_status
-(
-	work_order_id int not null,
-	service_id int not null,
-	work_order_service_status_id int not null,
-	status_change_timestamp timestamp not null,
-
-	constraint pk_work_order_service primary key (work_order_id, service_id, work_order_service_status_id),
-	constraint fk_work_order_id foreign key (work_order_id) references work_order (work_order_id),
-	constraint fk_service_id foreign key (service_id) references service (service_id),
-	constraint fk_work_order_service_status_id foreign key (work_order_service_status_id) references status (status_id)
--- 	constraint ck_work_order_service_status_id check (work_order_service_status_id in (
--- 		select status_id from status where status_description in (
--- 			'Pending Customer Approval', 'Declined', 'Not Started', 'In Progress', 'Completed')))
-);
+insert into status (status_description) values ('Pending Customer Approval');
+insert into status (status_description) values ('Declined');
+insert into status (status_description) values ('Not Started');
+insert into status (status_description) values ('In Progress');
+insert into status (status_description) values ('Completed');
 
 
-create table invoice
-(
-	invoice_id serial,
-	user_id int not null,
-	work_order_id int not null,
-	is_paid boolean not null default false,
 
-	constraint pk_invoice_id primary key (invoice_id),
-	constraint fk_user_id foreign key (user_id) references users (user_id),
-	constraint fk_work_order_id foreign key (work_order_id) references work_order (work_order_id)
-);
-
-create table invoice_service
-(
-	invoice_id int not null,
-	service_id int not null,
-
-	constraint pk_invoice_service primary key (invoice_id, service_id),
-	constraint fk_invoice_id foreign key (invoice_id) references invoice (invoice_id),
-	constraint fk_service_id foreign key (service_id) references service (service_id)
-);
-
-create table user_invoice
-(
-	user_id int not null,
-	invoice_id int not null,
-
-	constraint pk_user_invoice primary key (user_id, invoice_id),
-	constraint fk_user_id foreign key (user_id) references users (user_id),
-	constraint fk_invoice_id foreign key (invoice_id) references invoice (invoice_id)
-);
 
 COMMIT TRANSACTION;
