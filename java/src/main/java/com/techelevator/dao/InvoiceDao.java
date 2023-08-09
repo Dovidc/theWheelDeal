@@ -8,13 +8,13 @@ public interface InvoiceDao {
 
     Invoice getInvoiceById(int invoiceID);
 
-    List<Invoice> getListOfInvoicesByFirstName(String firstName);
+    List<Invoice> getListOfInvoicesByFirstName();
 
-    List<Invoice> getListOfInvoicesByLastName(String lastName);
+    List<Invoice> getListOfInvoicesByLastName();
 
-    List<Invoice> getListOfInvoicesByFirstAndLastName(String firstName, String lastName);
+    List<Invoice> getListOfInvoicesByFirstAndLastName();
 
-    List<Invoice> getListOfInvoiceByUserId(int userId);
+    List<Invoice> getListOfInvoiceByUserId();
 
     Invoice createInvoice(Invoice invoice);
 

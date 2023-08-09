@@ -16,11 +16,11 @@ public interface WorkOrderDao {
      */
     WorkOrder getWorkOrderById(int workOrderId);
 
-    List<WorkOrder> getWorkOrderByUser(User user);
+    List<WorkOrder> getWorkOrderByUser(String username);
 
-    List<Service> getListOfServices(int serviceId);
+    List<Service> getListOfServices(String serviceDescription);
 
-    List<Status> getListOfStatuses(int statusId);
+    List<Status> getListOfStatuses();
 
 
     WorkOrder createWorkOrder(WorkOrder workOrder);

@@ -29,17 +29,17 @@ public class JdbcWorkOrderDao implements WorkOrderDao{
     }
 
     @Override
-    public List<WorkOrder> getWorkOrderByUser(User user) {
+    public List<WorkOrder> getWorkOrderByUser(String username) {
         return null;
     }
 
     @Override
-    public List<Service> getListOfServices(int serviceId) {
+    public List<Service> getListOfServices(String serviceDescription) {
         return null;
     }
 
     @Override
-    public List<Status> getListOfStatuses(int statusId) {
+    public List<Status> getListOfStatuses() {
         return null;
     }
 
