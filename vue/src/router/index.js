@@ -26,7 +26,7 @@ const router = new Router({
       name: 'home',
       component: Home,
       meta: {
-        requiresAuth: true
+        requiresAuth: false // Sayf: set it to false to start working on the components etc. remember to set it back true when done or when back end is working.
       }
     },
     {
