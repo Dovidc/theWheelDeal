@@ -4,6 +4,7 @@ import javax.validation.constraints.NotNull;
 
 public class Vehicle {
     @NotNull
+
     private int vehicleId;
     private String make;
     private String model;

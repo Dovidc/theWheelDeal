@@ -4,9 +4,10 @@ import com.techelevator.model.Service;
 import com.techelevator.model.Status;
 import com.techelevator.model.User;
 import com.techelevator.model.WorkOrder;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
-
+@Component
 public interface WorkOrderDao {
 
     /**

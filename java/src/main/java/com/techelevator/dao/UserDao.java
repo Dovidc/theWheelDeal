@@ -11,7 +11,12 @@ public interface UserDao {
 
     int findIdByUsername(String username);
 
+    User getPhoneNumberByFirstName(String firstName);
+
     List<User> getUser();
+
+
+
 
 
 

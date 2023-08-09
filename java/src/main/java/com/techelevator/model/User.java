@@ -25,6 +25,9 @@ public class User {
     private String email;
     @NotNull
     private String role;
+    @NotNull
+    @NotBlank(message = "Phone Number is required")
+    private String phoneNumber;
 
     private List<Vehicle> vehicle;
     private List<WorkOrder> workOrder;
@@ -37,7 +40,7 @@ public class User {
         return firstName + " " + lastName ;
     }
 
-    public User(int userId, String username, String firstName, String lastName, long passwordHash, String email, String role, List<Vehicle> vehicle, List<WorkOrder> workOrder, List<Invoice> invoice) {
+    public User(int userId, String username, String firstName, String lastName, long passwordHash, String email, String role, String phoneNumber,List<Vehicle> vehicle, List<WorkOrder> workOrder, List<Invoice> invoice) {
         this.userId = userId;
         this.username = username;
         this.firstName = firstName;
@@ -45,6 +48,7 @@ public class User {
         this.passwordHash = passwordHash;
         this.email = email;
         this.role = role;
+        this.phoneNumber = phoneNumber;
         this.vehicle = vehicle;
         this.workOrder = workOrder;
         this.invoice = invoice;
@@ -130,5 +134,11 @@ public class User {
         this.invoice = invoice;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 }

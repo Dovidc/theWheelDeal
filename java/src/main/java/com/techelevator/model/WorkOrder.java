@@ -10,6 +10,7 @@ public class WorkOrder {
 
     @NotNull
     private int workOrderId;
+
     private Vehicle vehicle;
 
     private User user;
