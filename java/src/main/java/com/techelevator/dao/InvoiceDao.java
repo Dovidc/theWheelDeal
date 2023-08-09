@@ -1,8 +1,6 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.Invoice;
-import com.techelevator.model.User;
-import org.springframework.data.relational.core.sql.In;
 
 import java.util.List;
 

@@ -21,6 +21,10 @@ public class JdbcWorkOrderDao implements WorkOrderDao{
 
     @Override
     public WorkOrder getWorkOrderById(int workOrderId) {
+        WorkOrder workOrder = null;
+        String sql = "SELECT work_order_id " +
+                "FROM workOrder" +
+                "WHERE work_order_id = ?";
         return null;
     }
 

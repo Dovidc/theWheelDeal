@@ -1,4 +1,4 @@
-package com.techelevator.security.dao;
+package com.techelevator.dao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.Objects;
 
 import com.techelevator.security.exception.DaoException;
 import com.techelevator.security.model.RegisterUserDto;
-import com.techelevator.security.model.User;
+import com.techelevator.model.User;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -87,10 +87,15 @@ public class JdbcUserDao implements UserDao {
         return newUser;
     }
 
+    
+
     private User mapRowToUser(SqlRowSet rs) {
         User user = new User();
         user.setId(rs.getInt("user_id"));
         user.setUsername(rs.getString("username"));
+        user.setFirstName(rs.getString("first_name"));
+        user.setLastName(rs.getString("last_name"));
+        user.setPhoneNumber(rs.getString("phone"));
         user.setPassword(rs.getString("password_hash"));
         user.setAuthorities(Objects.requireNonNull(rs.getString("role")));
         user.setActivated(true);

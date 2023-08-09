@@ -1,22 +1,19 @@
 package com.techelevator.dao;
 
+import com.techelevator.security.model.RegisterUserDto;
 import com.techelevator.model.User;
 
 import java.util.List;
 
 public interface UserDao {
 
-    User getUserById(int userId);
+    List<User> getUsers();
+
+    User getUserById(int id);
+
     User getUserByUsername(String username);
 
-    int findIdByUsername(String username);
-
-    User getPhoneNumberByFirstName(String firstName);
-
-    List<User> getUser();
-
-
-
+    User createUser(RegisterUserDto user);
 
 
 

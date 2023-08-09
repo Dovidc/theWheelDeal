@@ -1,15 +1,12 @@
 package com.techelevator.dao;
 
-import com.techelevator.security.dao.JdbcUserDao;
 import com.techelevator.security.exception.DaoException;
 import com.techelevator.security.model.RegisterUserDto;
-import com.techelevator.security.model.User;
+import com.techelevator.model.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.List;
 
