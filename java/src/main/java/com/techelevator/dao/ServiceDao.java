@@ -6,12 +6,14 @@ import java.util.List;
 
 public interface ServiceDao {
 
+    List<Service> getServices();
+
     Service getServiceDescriptionById(int serviceId);
 
-    List<Service> getServices();
 
     Service createService(Service service);
 
     Service updateService(Service service);
+
     int deleteServiceById(int serviceId);
 }

@@ -39,6 +39,22 @@ public class User {
 
    public User() { }
 
+   private String fullName(){
+      return firstName + " " + lastName;
+   }
+
+   private String customerBadge(){
+      if (invoice.size() < 3) {
+         return "";
+      } else if (invoice.size() >= 9) {
+         return "Gold";
+      } else if (invoice.size() >= 6) {
+         return "Silver:";
+      } else {
+         return "Bronze";
+      }
+   }
+
    public User(int id, String username, String firstName, String lastName, String password, long passwordHash, boolean activated, Set<Authority> authorities, String email, String phoneNumber, List<Vehicle> vehicle, List<WorkOrder> workOrder, List<Invoice> invoice) {
       this.id = id;
       this.username = username;

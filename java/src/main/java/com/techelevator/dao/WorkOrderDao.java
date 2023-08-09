@@ -10,17 +10,10 @@ import java.util.List;
 @Component
 public interface WorkOrderDao {
 
-    /**
-     * Get a workOrder from the datastore that has a given id
-     * if not return null?
-     */
+
+    List<WorkOrder> getWorkOrders();
+
     WorkOrder getWorkOrderById(int workOrderId);
-
-    List<WorkOrder> getWorkOrderByUser(String username);
-
-    List<Service> getListOfServices(String serviceDescription);
-
-    List<Status> getListOfStatuses();
 
 
     WorkOrder createWorkOrder(WorkOrder workOrder);
