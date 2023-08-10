@@ -25,7 +25,7 @@ insert into service (service_description, service_category, service_price, servi
 insert into service (service_description, service_category, service_price, service_time) values ('Tire Repair', 'Tire & Wheel Services',99.00,0.5);
 insert into service (service_description, service_category, service_price, service_time) values ('Tire Rotation & Replacement', 'Tire & Wheel Services',50.00,0.5);
 insert into service (service_description, service_category, service_price, service_time) values ('Wheel Alignment', 'Tire & Wheel Services',50.00,0.5);
-insert into service (service_description, service_category, service_price, service_time) values ('Wheeel Bearings', 'Tire & Wheel Services',75.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Wheel Bearings', 'Tire & Wheel Services',75.00,0.5);
 insert into service (service_description, service_category, service_price, service_time) values ('Wheel Balancing', 'Tire & Wheel Services',75.00,0.5);
 insert into service (service_description, service_category, service_price, service_time) values ('Car Batteries', 'Battery Service',149.00,0.5);
 insert into service (service_description, service_category, service_price, service_time) values ('Alternator & Starter Repair', 'Battery Service',99.00,0.5);
@@ -40,7 +40,7 @@ insert into service (service_description, service_category, service_price, servi
 insert into service (service_description, service_category, service_price, service_time) values ('Coil Spring Suspension', 'Springs',599.00,0.5);
 insert into service (service_description, service_category, service_price, service_time) values ('Axle Repair', 'CV Joints & Driveshafts',799.00,0.5);
 insert into service (service_description, service_category, service_price, service_time) values ('Clutch Repair', 'CV Joints & Driveshafts',1199.00,0.5);
-insert into service (service_description, service_category, service_price, service_time) values ('CV Joints & Drivehaft', 'CV Joints & Driveshafts',1099.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('CV Joints & Driveshaft', 'CV Joints & Driveshafts',1099.00,0.5);
 insert into service (service_description, service_category, service_price, service_time) values ('Air Conditioner Service', 'Air Conditioning',149.00,0.5);
 insert into service (service_description, service_category, service_price, service_time) values ('AC Condenser & Evaporator', 'Air Conditioning',999.00,0.5);
 insert into service (service_description, service_category, service_price, service_time) values ('Fuel Injector Service', 'Miscellaneous Services',349.00,0.5);

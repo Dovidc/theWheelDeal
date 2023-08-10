@@ -8,10 +8,11 @@ CREATE TABLE users (
 	first_name varchar(25) not null,
 	last_name varchar(25) not null,
 	password_hash varchar(200) NOT NULL,
+	is_activated boolean not null default true,
 	email varchar(50) unique,
 	phone varchar(10),
 	role varchar(50) NOT NULL,
-	is_activated boolean not null default true,
+
 
 	CONSTRAINT PK_user PRIMARY KEY (user_id)
 );
