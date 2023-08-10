@@ -5,6 +5,7 @@
     <services-list />
     <about-us />
     <contact-us />
+    
   </div>
 </template>
 
@@ -27,7 +28,7 @@ export default {
 };
 </script>
 
-<style >
+<style>
 
   .header-container {
     display: flex;
@@ -57,7 +58,7 @@ export default {
     text-align: center;
     background-color: #010C6E;
     padding: 3rem;
-    border-radius: 10px;
+    
     box-shadow: 0 5px 15px rgba(226, 0, 0, 0.2);
   }
   .hero-container h2 {
@@ -136,7 +137,7 @@ export default {
   form button:hover {
     background-color: #2EFF74;
   }
-  /* ... Your existing CSS styles ... */
+  
   .service-list {
     list-style: none;
     padding: 0;
