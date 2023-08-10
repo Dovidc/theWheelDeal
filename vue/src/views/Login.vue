@@ -144,8 +144,11 @@ input[type="password"] {
   color: #721c24;
 }
 
+
 .alert-success {
   background-color: #d4edda;
   color: #155724;
 }
+
+
 </style>
