@@ -104,7 +104,7 @@ body {
     padding-top: 20px;
     padding-bottom: 20px;
     text-align: center;
-    background-color: #ff5e57;
+    background-color: #030303;
     color: #fff;
     padding: 3rem;
     border-radius: 10px;
@@ -148,7 +148,7 @@ body {
   
   
   .service-list li {
-    background-color: #9c9481;
+    background-color: #093e80;
     color: #fff;
     padding: 2rem;
     border-radius: 10px;
@@ -173,6 +173,68 @@ body {
   .services-container button {
     display: inline-block;
     margin-top: 1rem;
+  }
+  .header-container nav ul li a[href="#signin"] {
+    color: #fff;
+    text-decoration: none;
+    
+    transition: color 0.1s ease;
+  }
+  
+  .header-container nav ul li a[href="#signin"]:hover {
+    color: #ff7b00;
+  }
+
+
+  .header-container nav ul li a[href="#contact"] {
+    color: #fff;
+    
+    
+    transition: color 0.1s ease;
+  }
+  
+  .header-container nav ul li a[href="#contact"]:hover {
+    color: #ff7b00;
+  }
+
+
+
+  .header-container nav ul li a[href="#about"] {
+    color: #fff;
+    
+    
+    transition: color 0.1s ease;
+  }
+  
+  .header-container nav ul li a[href="#about"]:hover {
+    color: #ff7b00;
+  }
+
+
+
+
+
+  .header-container nav ul li a[href="#services"] {
+    color: #fff;
+    
+    
+    transition: color 0.1s ease;
+  }
+  
+  .header-container nav ul li a[href="#services"]:hover {
+    color: #ff7b00;
+  }
+
+
+.header-container nav ul li a[href="#home"] {
+    color: #fff;
+    
+    
+    transition: color 0.1s ease;
+  }
+  
+  .header-container nav ul li a[href="#home"]:hover {
+    color: #ff7b00;
   }
   
   
