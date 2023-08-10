@@ -82,4 +82,9 @@ methods: {
 .view-invoice-btn:hover {
   background-color: #0056b3;
 }
+body {
+      background-image: url("https://cdn.cnn.com/cnnnext/dam/assets/220721175751-woman-mechanic-stock-super-tease.jpg"); /* Replace with the actual path to your image */
+      background-size:cover; /* Adjust this property to control how the image covers the background */
+      background-repeat: no-repeat;
+    }
 </style>
