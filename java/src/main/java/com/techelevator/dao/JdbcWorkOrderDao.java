@@ -93,20 +93,34 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
     }//completed
 
     public WorkOrder getWorkOrderById(int workOrderId) {
-        WorkOrder workOrder = null;
-        String sql = "SELECT work_order_id, vehicle_id, time_adjustment, is_approved " +
-                     "FROM work_order " +
-                     "WHERE work_order_id =?";
+        WorkOrder workOrder = new WorkOrder();
+        String sql = "select work_order.work_order_id,\n" +
+                "work_order.vehicle_id, make, model, year, color, \n" +
+                "time_adjustment, is_approved\n" +
+                "from work_order\n" +
+                "join vehicle on work_order.vehicle_id = vehicle.vehicle_id\n" +
+                "where work_order.work_order_id = ?;";
+        String sql2 = "select users.user_id, username, first_name, last_name, role\n" +
+                "from users\n" +
+                "join users_work_order on users.user_id = users_work_order.user_id\n" +
+                "where work_order_id = ?; ";
         try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, workOrder);
-            if (results.next()) {
-                workOrder = mapRowToWorkOrder(results);
+            SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, workOrderId);
+            if (rowSet.next()) {
+                workOrder = mapRowToWorkOrder(rowSet);
+                SqlRowSet rowSet2 = jdbcTemplate.queryForRowSet(sql2, workOrderId);
+                List<User> workOrderUsers = new ArrayList<>();
+                while (rowSet2.next()) {
+                    User newUser = mapRowToUser(rowSet2);
+                    workOrderUsers.add(newUser);
+                }
+                workOrder.setUsers(workOrderUsers);
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         }
         return workOrder;
-    }
+    }//completed
 
 
 
@@ -166,10 +180,8 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
 
     private WorkOrder mapRowToWorkOrder(SqlRowSet rowSet) {
         WorkOrder workOrder = new WorkOrder();
-        User addUser = new User();
         workOrder.setWorkOrderId(rowSet.getInt("work_order.work_order_id"));
         workOrder.setVehicle((mapRowToVehicle(rowSet)));
-        //userLists created elsewhere
         workOrder.setTimeAdjustment(rowSet.getDouble("time_adjustment"));
         workOrder.setApproved(rowSet.getBoolean("is_approved"));
         return workOrder;
