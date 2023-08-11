@@ -1,5 +1,6 @@
 <template>
   <div id="register" class="register-page">
+    <Header />
   <form @submit.prevent="register" class="register-form">
     <h1 class="register-title">Create an Account</h1>
     <div role="alert" v-if="registrationErrors" class="alert alert-danger">
@@ -8,6 +9,14 @@
     <div class="form-input-group">
       <label for="username">Username</label>
       <input type="text" id="username" v-model="user.username" required autofocus />
+    </div>
+    <div class="form-input-group">
+      <label for="fname">First Name</label>
+      <input type="text" id="fname" v-model="user.fname" required autofocus />
+    </div>
+    <div class="form-input-group">
+      <label for="lname">Last Name</label>
+      <input type="text" id="lname" v-model="user.lname" required autofocus />
     </div>
     <div class="form-input-group">
       <label for="password">Password</label>
@@ -27,13 +36,19 @@
 
 <script>
 import authService from '../services/AuthService';
+import Header from '../components/Header';
 
 export default {
   name: 'register',
+  components: {
+    Header
+  },
   data() {
     return {
       user: {
         username: '',
+        fname: '',
+        lname: '',
         password: '',
         confirmPassword: '',
         role: 'user',
@@ -77,11 +92,11 @@ export default {
 
 <style scoped>
 .register-page {
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f5f8fb;
+  align-items: center; */
+  min-height: 100vh;
+  /* background-color: #f5f8fb; */
 }
 
 .register-form {
@@ -90,6 +105,9 @@ export default {
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .register-title {
@@ -155,4 +173,5 @@ input[type="password"] {
   background-color: #f8d7da;
   color: #721c24;
 }
+
 </style>

@@ -1,6 +1,7 @@
 <template>
+
   <div id="login">
-    
+    <Header />
   <form @submit.prevent="login" class="login-form">
     <h1 class="login-title">Welcome to The Wheel Deal</h1>
     <div role="alert" v-if="invalidCredentials" class="alert alert-danger">
@@ -27,10 +28,11 @@
 
 <script>
 import authService from "../services/AuthService";
+import Header from "../components/Header";
 
 export default {
   name: "login",
-  components: {},
+  components: { Header},
   data() {
     return {
       user: {
@@ -65,11 +67,11 @@ export default {
 
 <style scoped>
 #login {
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f5f8fb;
+  align-items: center; */
+  min-height: 100vh;
+  /* background-color: #f5f8fb; */
 }
 
 .login-form {
@@ -78,6 +80,9 @@ export default {
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .login-title {
@@ -86,6 +91,7 @@ export default {
   margin-bottom: 20px;
   color: #333;
 }
+
 
 .form-input-group {
   margin-bottom: 15px;
@@ -144,8 +150,11 @@ input[type="password"] {
   color: #721c24;
 }
 
+
 .alert-success {
   background-color: #d4edda;
   color: #155724;
 }
+
+
 </style>
