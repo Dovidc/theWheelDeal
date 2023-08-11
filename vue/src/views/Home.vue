@@ -175,11 +175,12 @@ export default {
   form input,
   form textarea,
   form button {
-    width: 600px;
+    width: 50%;
     padding: 1rem;
     border: none;
     border-radius: 5px;
     margin-bottom: 1rem;
+    
   }
   form textarea {
     height: 150px;
