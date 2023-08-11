@@ -90,7 +90,7 @@ export default {
 }
 
 .profile-section {
-  display: none;
+  
   margin-top: 20px;
 }
 
