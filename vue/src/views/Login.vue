@@ -67,11 +67,11 @@ export default {
 
 <style scoped>
 #login {
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f5f8fb;
+  align-items: center; */
+  min-height: 100vh;
+  /* background-color: #f5f8fb; */
 }
 
 .login-form {
@@ -80,6 +80,9 @@ export default {
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .login-title {

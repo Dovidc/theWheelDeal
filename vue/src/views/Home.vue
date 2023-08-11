@@ -234,39 +234,39 @@ export default {
     display: inline-block;
     margin-top: 1rem;
   }
-  .header-container nav ul li a[href="#signin"] {
+  .header-container nav ul li a[href="/login"] {
     color: #fff;
     text-decoration: none;
     
     transition: color 0.1s ease;
   }
   
-  .header-container nav ul li a[href="#signin"]:hover {
+  .header-container nav ul li a[href="/login"]:hover {
     color: #ff7b00;
   }
 
 
-  .header-container nav ul li a[href="#contact"] {
+  .header-container nav ul li a[href="/#contact"] {
     color: #fff;
     
     
     transition: color 0.1s ease;
   }
   
-  .header-container nav ul li a[href="#contact"]:hover {
+  .header-container nav ul li a[href="/#contact"]:hover {
     color: #ff7b00;
   }
 
 
 
-  .header-container nav ul li a[href="#about"] {
+  .header-container nav ul li a[href="/#about"] {
     color: #fff;
     
     
     transition: color 0.1s ease;
   }
   
-  .header-container nav ul li a[href="#about"]:hover {
+  .header-container nav ul li a[href="/#about"]:hover {
     color: #ff7b00;
   }
 
@@ -274,26 +274,26 @@ export default {
 
 
 
-  .header-container nav ul li a[href="#services"] {
+  .header-container nav ul li a[href="/#services"] {
     color: #fff;
     
     
     transition: color 0.1s ease;
   }
   
-  .header-container nav ul li a[href="#services"]:hover {
+  .header-container nav ul li a[href="/#services"]:hover {
     color: #ff7b00;
   }
 
 
-.header-container nav ul li a[href="#home"] {
+.header-container nav ul li a[href="/"] {
     color: #fff;
     
     
     transition: color 0.1s ease;
   }
   
-  .header-container nav ul li a[href="#home"]:hover {
+  .header-container nav ul li a[href="/"]:hover {
     color: #ff7b00;
   }
 </style>
