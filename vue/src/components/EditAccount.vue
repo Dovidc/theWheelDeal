@@ -1,117 +1,67 @@
 <template>
-  <div id="profile-page">
-      <Header />
-    <div class="profile-options">
-      <div class="option" @click="showSection('account')">
-        <i class="fas fa-user"></i>
-        <span>Edit Account</span>
+  <div class="registration-form-container">
+    <form @submit.prevent="updateAccount" class="registration-form">
+      <h2>Edit Account Information</h2>
+      <div class="form-input-group">
+        <label for="newUsername"><div> New Username:</div></label>
+        <input type="text" id="newUsername" v-model="newUsername" required />
       </div>
-      <div class="option" @click="showSection('vehicles')">
-        <i class="fas fa-car"></i>
-        <span>Registered Vehicles</span>
+      <div class="form-input-group">
+        <label for="newPassword"><div> New Password:</div></label>
+        <input type="password" id="newPassword" v-model="newPassword" required />
       </div>
-      <div class="option" @click="showSection('services')">
-        <i class="fas fa-wrench"></i>
-        <span>Current Services</span>
+      <div class="form-input-group">
+        <label for="confirmNewPassword"><div> Confirm New Password:</div></label>
+        <input type="password" id="confirmNewPassword" v-model="confirmNewPassword" required />
       </div>
-      <div class="option" @click="showSection('invoices')">
-        <i class="fas fa-file-invoice"></i>
-        <span>Invoices</span>
+      <div class="form-input-group">
+        <label for="email"><div> Email:</div></label>
+        <input type="email" id="email" v-model="email" required />
       </div>
-    </div>
-    <!-- Show Sections -->
-    <div class="profile-section" v-if="activeSection === 'account'">
-      <!-- Edit Account Section -->
-      <span>HELLO</span>
-    </div>
+      <div class="form-input-group">
+        <label for=""><div> Phone Number:</div></label>
+        <input type="tel" id="phoneNumber" v-model="phoneNumber" required />
+      </div>
+      <button type="submit" class="btn btn-primary">Update Account</button>
+    </form>
     
-    <div class="profile-section" v-else-if="activeSection === 'vehicles'">
-      <!-- Registered Vehicles Section -->
-    </div>
-    <div class="profile-section" v-else-if="activeSection === 'services'">
-      <!-- Current Services Section -->
-    </div>
-    <div class="profile-section" v-else-if="activeSection === 'invoices'">
-      <!-- Invoices Section -->
-    </div>
   </div>
 </template>
 
 <script>
-
 export default {
-  data() {
-    return {
-      newUsername: '',
-      newPassword: '',
-      activeSection: 'account',
-    };
-  
-  },
 
-  methods: {
-    updateAccount() {
-      // Logic to update account details
-    },
-    showSection(section) {
-      this.activeSection = section;
-    }
-  },
-};
+}
 </script>
 
-<style scoped>
-#profile-page {
+<style>
+.registration-form-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  padding: 20px;
-}
-
-.profile-options {
-  display: flex;
-  justify-content: center;
-  gap: 50px;
-  margin-top: 50px;
-  margin-bottom: 20px;
-}
-
-.option {
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.option i {
-  font-size: 24px;
-  margin-bottom: 5px;
-}
-
-.profile-section {
+  min-height: 100vh;
   
-  margin-top: 20px;
 }
 
-.profile-section.active {
-  display: block;
-}
-
-
-/* Account Form CSS */
-.account-form {
+.registration-form {
   width: 100%;
   max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #fff;
+  padding: 40px;
+  background-color: rgba(255, 255, 255, 0.800);
   border-radius: 8px;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  
+}
+
+.registration-form h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
 }
 
 .form-input-group {
   margin-bottom: 15px;
+  margin-right: 20px;
 }
 
 label {
@@ -123,7 +73,9 @@ label {
 }
 
 input[type="text"],
-input[type="password"] {
+input[type="password"],
+input[type="tel"],
+input[type="email"] {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
