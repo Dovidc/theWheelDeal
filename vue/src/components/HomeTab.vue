@@ -15,13 +15,5 @@ export default {
 </script>
 
 <style scoped>
-body {
-  
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif, sans-serif;
-    line-height: 1.6;
-    margin: 0;
-    padding: 0;
-    background-color: #FFFFFF;
-    color: rgb(236, 217, 217);
-  }
+
 </style>

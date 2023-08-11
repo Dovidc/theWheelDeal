@@ -39,16 +39,7 @@ export default {
     color: rgb(255, 255, 255);
   }
   
-  .header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #1b1b1bc7;
-    color: #fff;
-    padding: 1rem;
-    
-    
-  }
+  
   h2 {
     text-align: center;
     color: #8704bb;
@@ -152,7 +143,8 @@ export default {
   
   .about-container {
     text-align: center;
-    background-color: #573259;
+    
+    background-color: #573259e7;
     color: #fff;
     padding: 3rem;
     border-radius: 10px;
@@ -183,12 +175,16 @@ export default {
   form input,
   form textarea,
   form button {
-    width: 100%;
+    width: 600px;
     padding: 1rem;
     border: none;
     border-radius: 5px;
     margin-bottom: 1rem;
   }
+  form textarea {
+    height: 150px;
+  }
+  
   
   form button {
     background-color: #56ff47;

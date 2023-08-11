@@ -61,7 +61,7 @@ methods: {
   align-items: center;
   padding: 10px;
   margin-bottom: 10px;
-  background-color: #f5f5f5;
+  background-color: #8a8686;
   border-radius: 5px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }

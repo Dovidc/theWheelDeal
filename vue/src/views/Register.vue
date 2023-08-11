@@ -1,5 +1,6 @@
 <template>
   <div id="register" class="register-page">
+    <Header />
   <form @submit.prevent="register" class="register-form">
     <h1 class="register-title">Create an Account</h1>
     <div role="alert" v-if="registrationErrors" class="alert alert-danger">
@@ -35,9 +36,13 @@
 
 <script>
 import authService from '../services/AuthService';
+import Header from '../components/Header';
 
 export default {
   name: 'register',
+  component: {
+    Header
+  },
   data() {
     return {
       user: {
