@@ -7,7 +7,7 @@ import java.util.List;
 public interface VehicleDao {
 
     List<Vehicle> getVehicles();
-    List<Vehicle> getVehiclesByUserId(int vehicleId);
+    List<Vehicle> getVehiclesByUserId(int userId);
 
 
     Vehicle getVehicleByVehicleId(int vehicleId);
