@@ -19,20 +19,12 @@
         <span>Invoices</span>
       </div>
     </div>
+    <!-- Show Sections -->
     <div class="profile-section" v-if="activeSection === 'account'">
-      <h2>Edit Account Details</h2>
-  <form @submit.prevent="updateAccount" class="account-form">
-    <div class="form-input-group">
-      <label for="newUsername">New Username</label>
-      <input type="text" id="newUsername" v-model="newUsername" required />
+      <!-- Edit Account Section -->
+      <span>HELLO</span>
     </div>
-    <div class="form-input-group">
-      <label for="newPassword">New Password</label>
-      <input type="password" id="newPassword" v-model="newPassword" required />
-    </div>
-    <button type="submit" class="btn btn-primary">Update Account</button>
-  </form>
-    </div>
+    
     <div class="profile-section" v-else-if="activeSection === 'vehicles'">
       <!-- Registered Vehicles Section -->
     </div>

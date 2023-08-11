@@ -1,6 +1,7 @@
 <template>
+
   <div id="login">
-    
+    <Header />
   <form @submit.prevent="login" class="login-form">
     <h1 class="login-title">Welcome to The Wheel Deal</h1>
     <div role="alert" v-if="invalidCredentials" class="alert alert-danger">
@@ -27,10 +28,11 @@
 
 <script>
 import authService from "../services/AuthService";
+import Header from "../components/Header";
 
 export default {
   name: "login",
-  components: {},
+  components: { Header},
   data() {
     return {
       user: {
@@ -86,6 +88,7 @@ export default {
   margin-bottom: 20px;
   color: #333;
 }
+
 
 .form-input-group {
   margin-bottom: 15px;
