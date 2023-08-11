@@ -197,7 +197,7 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
         return newVehicle;
     }
 
-    private User mapRowToUser(SqlRowSet rowSet) {
+    private static User mapRowToUser(SqlRowSet rowSet) {
         User newUser = new User();
         newUser.setId(rowSet.getInt("user_id"));
         newUser.setUsername(rowSet.getString("username"));

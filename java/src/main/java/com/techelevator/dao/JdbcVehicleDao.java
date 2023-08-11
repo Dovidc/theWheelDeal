@@ -15,8 +15,12 @@ import java.util.List;
 @Component
 public class JdbcVehicleDao implements VehicleDao {
 
-    @Autowired
+
     private JdbcTemplate jdbcTemplate;
+
+    public JdbcVehicleDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public List<Vehicle> getVehicles() {

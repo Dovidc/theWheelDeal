@@ -19,25 +19,10 @@ public class JdbcUserDao implements UserDao {
 
     private final JdbcTemplate jdbcTemplate;
 
+
     public JdbcUserDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-
-    @Override
-    public User getUserById(int userId) {
-        User user = null;
-        String sql = "SELECT user_id, username, first_name, last_name, password_hash, email, phone, role, is_activated FROM users WHERE user_id = ?";
-        try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
-            if (results.next()) {
-                user = mapRowToUser(results);
-            }
-        } catch (CannotGetJdbcConnectionException e) {
-            throw new DaoException("Unable to connect to server or database", e);
-        }
-        return user;
-    }
-
     @Override
     public List<User> getUsers() {
         List<User> users = new ArrayList<>();
@@ -52,7 +37,43 @@ public class JdbcUserDao implements UserDao {
             throw new DaoException("Unable to connect to server or database", e);
         }
         return users;
-    }
+    }//completed
+
+    @Override
+    public User getUserById(int userId) {
+        User user = null;
+        String sql = "SELECT user_id, username, first_name, last_name, password_hash, email, phone, role, is_activated FROM users WHERE user_id = ?";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
+            if (results.next()) {
+                user = mapRowToUser(results);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return user;
+    }//completed
+
+    @Override
+    public List<User> getUsersByWorkOrderId (int workOrderId) {
+        List<User> returnedUsers = new ArrayList<>();
+        String sql = "select users.user_id, username, first_name, last_name, role\n" +
+                "from users\n" +
+                "join users_work_order on users.user_id = users_work_order.user_id\n" +
+                "where work_order_id = ?;";
+
+        try {
+            SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, workOrderId);
+            while (rowSet.next()) {
+                User user = mapRowToWorkOrderUser(rowSet);
+                returnedUsers.add(user);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Cannot connect to server or database", e);
+        }
+
+        return returnedUsers;
+    }//completed
 
     @Override
     public User getUserByUsername(String username) {
@@ -68,12 +89,12 @@ public class JdbcUserDao implements UserDao {
             throw new DaoException("Unable to connect to server or database", e);
         }
         return user;
-    }
+    }//completed
 
     @Override
     public User createUser(RegisterUserDto user) {
         User newUser = null;
-        String insertUserSql = "INSERT INTO users (username, first_name, last_name, password_hash, email, phone, role, is_activated) values (?, ?, ?, ?, ?, ?, ?, ?) RETURNING user_id";
+        String insertUserSql = "INSERT INTO users (username, first_name, last_name, password_hash, email, phone, role) values (?, ?, ?, ?, ?, ?, ?) RETURNING user_id";
         String password_hash = new BCryptPasswordEncoder().encode(user.getPassword());
         String ssRole = user.getRole().toUpperCase().startsWith("ROLE_") ? user.getRole().toUpperCase() : "ROLE_" + user.getRole().toUpperCase();
         try {
@@ -85,7 +106,7 @@ public class JdbcUserDao implements UserDao {
             throw new DaoException("Data integrity violation", e);
         }
         return newUser;
-    }
+    }//completed
 
     public User updateUser(User user) {
         User updatedUser = null;
@@ -104,7 +125,18 @@ public class JdbcUserDao implements UserDao {
         user.setPassword(rs.getString("password_hash"));
         user.setEmail(rs.getString("email"));
         user.setAuthorities(Objects.requireNonNull(rs.getString("role")));
-        user.setActivated(true);
+        user.setActivated(rs.getBoolean("is_activated"));
         return user;
+    }//completed
+
+    private User mapRowToWorkOrderUser (SqlRowSet rowSet) {
+        User newUser = new User();
+        newUser.setId(rowSet.getInt("user_id"));
+        newUser.setUsername(rowSet.getString("username"));
+        newUser.setFirstName(rowSet.getString("first_name"));
+        newUser.setLastName(rowSet.getString("last_name"));
+        newUser.setRole(rowSet.getString("role"));
+        //add badge here
+        return newUser;
     }
 }
