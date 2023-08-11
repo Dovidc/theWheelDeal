@@ -11,6 +11,8 @@ public interface UserDao {
 
     User getUserById(int id);
 
+    List<User> getUsersByWorkOrderId(int workOrderId);
+
     User getUserByUsername(String username);
 
     User createUser(RegisterUserDto user);

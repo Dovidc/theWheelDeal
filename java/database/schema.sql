@@ -12,6 +12,7 @@ CREATE TABLE users (
 	email varchar(50) unique,
 	phone varchar(10),
 	role varchar(50) NOT NULL,
+	badge varchar(25),
 
 
 	CONSTRAINT PK_user PRIMARY KEY (user_id)

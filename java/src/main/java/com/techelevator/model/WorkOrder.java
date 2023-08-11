@@ -16,7 +16,7 @@ public class WorkOrder {
     private List<User> users;
     private double timeAdjustment; // set default to 0 in constructor
     private boolean isApproved; //set default to false in constructor
-    private Map<Service, Status> workOrderServices;
+    private List<ServiceStatus> serviceStatuses;
 
 
 
@@ -24,21 +24,21 @@ public class WorkOrder {
     }
 
     public WorkOrder(int workOrderId, Vehicle vehicle, List<User> users,
-                     Map<Service, Status> workOrderServices) {
+                     List<ServiceStatus> serviceStatuses) {
         this.workOrderId = workOrderId;
         this.vehicle = vehicle;
         this.users = users;
         this.timeAdjustment = 0.00;
         this.isApproved = false;
-        this.workOrderServices = workOrderServices;
+        this.serviceStatuses = serviceStatuses;
     }
 
-    public WorkOrder(int workOrderId, List<User> users, Map<Service, Status> workOrderServices) {
+    public WorkOrder(int workOrderId, List<User> users, List<ServiceStatus> serviceStatuses) {
         this.workOrderId = workOrderId;
         this.users = users;
         this.timeAdjustment = 0.00;
         this.isApproved = false;
-        this.workOrderServices = workOrderServices;
+        this.serviceStatuses = serviceStatuses;
     }
 
     public int getWorkOrderId() {
@@ -81,11 +81,11 @@ public class WorkOrder {
         isApproved = approved;
     }
 
-    public Map<Service, Status> getWorkOrderServices() {
-        return workOrderServices;
+    public List<ServiceStatus> getServiceStatuses() {
+        return serviceStatuses;
     }
 
-    public void setWorkOrderServices(Map<Service, Status> workOrderServices) {
-        this.workOrderServices = workOrderServices;
+    public void setServiceStatuses(List<ServiceStatus> serviceStatuses) {
+        this.serviceStatuses = serviceStatuses;
     }
 }
