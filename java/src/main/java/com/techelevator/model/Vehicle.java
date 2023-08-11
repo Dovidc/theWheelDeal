@@ -25,6 +25,14 @@ public class Vehicle {
         this.mileage = mileage;
     }
 
+    public Vehicle(int vehicleId, String make, String model, String year, String color) {
+        this.vehicleId = vehicleId;
+        this.make = make;
+        this.model = model;
+        this.year = year;
+        this.color = color;
+    }
+
     public int getVehicleId() {
         return vehicleId;
     }

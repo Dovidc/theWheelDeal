@@ -8,9 +8,8 @@ public interface ServiceDao {
 
     List<Service> getServices();
 
-    Service getServiceDescriptionById(int serviceId);
-
-
+    List<String> getServiceCategories();
+    Service getServiceById(int serviceId);
     Service createService(Service service);
 
     Service updateService(Service service);
