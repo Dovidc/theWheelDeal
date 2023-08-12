@@ -23,6 +23,7 @@ public class Invoice {
         return user.getRole().equalsIgnoreCase("customer");
     }
 
+
     public Invoice() {
 
     }

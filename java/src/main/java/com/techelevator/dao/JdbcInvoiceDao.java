@@ -1,16 +1,24 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.Invoice;
+import com.techelevator.model.User;
+import com.techelevator.model.WorkOrder;
+import com.techelevator.security.exception.DaoException;
 import org.springframework.data.relational.core.sql.In;
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class JdbcInvoiceDao implements InvoiceDao {
 
     private JdbcTemplate jdbcTemplate;
+    private JdbcUserDao jdbcUserDao;
+    private JdbcWorkOrderDao jdbcWorkOrderDao;
 
     public JdbcInvoiceDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -20,23 +28,96 @@ public class JdbcInvoiceDao implements InvoiceDao {
     @Override
     public Invoice getInvoiceByInvoiceId(int invoiceID) {
         Invoice returnedInvoice = new Invoice();
-        String sql = ""
+        String sql = "select invoice.invoice_id, invoice.user_id, invoice.work_order_id, is_paid \n" +
+                "from invoice\n" +
+                "where invoice.invoice_id = ?;";
 
-    }
+        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, invoiceID);
+
+        try {
+            if (rowSet.next()) {
+                returnedInvoice.setInvoiceID(rowSet.getInt("invoice_id"));
+                returnedInvoice.setUser(jdbcUserDao.getUserById(rowSet.getInt("user_id")));
+                returnedInvoice.setWorkOrder(jdbcWorkOrderDao.getWorkOrderById(rowSet.getInt("work_order_id")));
+                returnedInvoice.setPaid(rowSet.getBoolean("is_paid"));
+            }
+
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Cannot connect to server or database", e);
+        }
+
+        return returnedInvoice;
+    }//COMPLETED
 
     @Override
     public List<Invoice> getListOfInvoicesByUserId(int userId) {
+        List<Invoice> returnedInvoices = new ArrayList<>();
+        String sql = "select invoice.invoice_id, invoice.user_id, invoice.work_order_id, is_paid\n" +
+                "from invoice\n" +
+                "join user_invoice on invoice.user_id = user_invoice.user_id\n" +
+                "where user_invoice.user_id = ?;";
 
-    }
+        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, userId);
+
+        try {
+
+            while (rowSet.next()) {
+                Invoice invoice = new Invoice();
+                invoice.setInvoiceID(rowSet.getInt("invoice_id"));
+                User user = jdbcUserDao.getUserById(rowSet.getInt("user_id"));
+                invoice.setUser(user);
+                WorkOrder workOrder = jdbcWorkOrderDao.getWorkOrderById(rowSet.getInt("work_order_id"));
+                invoice.setWorkOrder(workOrder);
+                invoice.setPaid(rowSet.getBoolean("is_paid"));
+                returnedInvoices.add(invoice);
+            }
+
+
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Cannot connect to server or database.", e);
+        }
+
+        return returnedInvoices;
+    }//COMPLETED
 
     @Override
     public List<Invoice> getAllInvoices() {
+        List<Invoice> returnedInvoices = new ArrayList<>();
+        String sql = "select invoice.invoice_id, invoice.user_id, invoice.work_order_id, is_paid, username, first_name, last_name, role, work_order.vehicle_id, is_approved, make, model, year, color\n" +
+                "from invoice\n" +
+                "join user_invoice on invoice.user_id = user_invoice.user_id\n" +
+                "join users on user_invoice.user_id = users.user_id\n" +
+                "join users_work_order on users.user_id = users_work_order.user_id\n" +
+                "join work_order on users_work_order.work_order_id = work_order.work_order_id\n" +
+                "join vehicle on work_order.vehicle_id = vehicle.vehicle_id;";
 
-    }
+        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql);
+
+        try {
+
+            while (rowSet.next()) {
+                Invoice invoice = new Invoice();
+                User user = new User();
+                WorkOrder workOrder = new WorkOrder();
+                invoice.setInvoiceID(rowSet.getInt("invoice_id"));
+                user = JdbcWorkOrderDao.mapRowToUser(rowSet);
+                invoice.setUser(user);
+                workOrder = JdbcWorkOrderDao.mapRowToWorkOrder(rowSet);
+                invoice.setWorkOrder(workOrder);
+                returnedInvoices.add(invoice);
+
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Cannot connect to server or database", e);
+        }
+
+        return returnedInvoices;
+    }//COMPLETED
 
     @Override
     public Invoice createInvoice(Invoice invoice) {
-
+        //make sure that user = customer from workOrder
+        //make sure that ServiceStatus List only contains completed services
     }
 
     @Override

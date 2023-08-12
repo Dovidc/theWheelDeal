@@ -231,7 +231,7 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
     }
 
 
-    private WorkOrder mapRowToWorkOrder(SqlRowSet rowSet) {
+    public static WorkOrder mapRowToWorkOrder(SqlRowSet rowSet) {
         WorkOrder workOrder = new WorkOrder();
         workOrder.setWorkOrderId(rowSet.getInt("work_order.work_order_id"));
         workOrder.setVehicle((mapRowToVehicle(rowSet)));
@@ -240,7 +240,7 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
         return workOrder;
     }
 
-    private Vehicle mapRowToVehicle(SqlRowSet rowSet) {
+    public static Vehicle mapRowToVehicle(SqlRowSet rowSet) {
         Vehicle newVehicle = new Vehicle();
         newVehicle.setVehicleId(rowSet.getInt("work_order.vehicle_id"));
         newVehicle.setMake(rowSet.getString("make"));
@@ -250,7 +250,7 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
         return newVehicle;
     }
 
-    private static User mapRowToUser(SqlRowSet rowSet) {
+    public static User mapRowToUser(SqlRowSet rowSet) {
         User newUser = new User();
         newUser.setId(rowSet.getInt("user_id"));
         newUser.setUsername(rowSet.getString("username"));
