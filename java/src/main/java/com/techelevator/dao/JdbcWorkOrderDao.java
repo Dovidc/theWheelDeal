@@ -54,7 +54,7 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
         }
         return workOrders;
 
-    }//completed
+    }//JUST NEED TO ADD List<ServiceStatus> to WorkOrders
     @Override
     public List<WorkOrder> getWorkOrdersByUserId (int userId) {
         List<WorkOrder> workOrders = new ArrayList<>(); // add badge to db schema and change method to update badge
@@ -90,7 +90,7 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
         }
         return workOrders;
 
-    }//completed
+    }//JUST NEED TO ADD List<ServiceStatus> to WorkOrders
 
     public WorkOrder getWorkOrderById(int workOrderId) {
         WorkOrder workOrder = new WorkOrder();
@@ -120,7 +120,7 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
             throw new DaoException("Unable to connect to server or database", e);
         }
         return workOrder;
-    }//completed
+    }//JUST NEED TO ADD List<ServiceStatus> to WorkOrders
 
 
 

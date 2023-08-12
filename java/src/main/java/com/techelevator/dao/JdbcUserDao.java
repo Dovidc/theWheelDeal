@@ -108,10 +108,11 @@ public class JdbcUserDao implements UserDao {
         return newUser;
     }//completed
 
+    @Override
     public User updateUser(User user) {
-        User updatedUser = null;
+        User updatedUser = new User();
         String sql = "";
-        return null;
+        return updatedUser;
     }
     
 
@@ -138,5 +139,5 @@ public class JdbcUserDao implements UserDao {
         newUser.setRole(rowSet.getString("role"));
         //add badge here
         return newUser;
-    }
+    }//completed
 }

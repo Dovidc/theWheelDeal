@@ -9,6 +9,7 @@ public interface ServiceDao {
     List<Service> getServices();
 
     List<String> getServiceCategories();
+
     Service getServiceById(int serviceId);
     Service createService(Service service);
 

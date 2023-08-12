@@ -1,8 +1,10 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.Vehicle;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
+
 
 public interface VehicleDao {
 
