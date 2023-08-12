@@ -1,13 +1,15 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.Vehicle;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
+
 
 public interface VehicleDao {
 
     List<Vehicle> getVehicles();
-    List<Vehicle> getVehiclesByUserId(int vehicleId);
+    List<Vehicle> getVehiclesByUserId(int userId);
 
 
     Vehicle getVehicleByVehicleId(int vehicleId);

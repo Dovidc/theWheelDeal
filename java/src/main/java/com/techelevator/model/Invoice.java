@@ -13,18 +13,16 @@ public class Invoice {
     private int invoiceID;
     private User user;
     private WorkOrder workOrder;
-    private List<Service> services;
+
     private boolean isPaid;
 
-    @AssertTrue
-    private boolean isListGreaterThanZero() {
-        return services.size() >= 1;
-    }
+
 
     @AssertTrue
     private boolean isUserCustomer() {
         return user.getRole().equalsIgnoreCase("customer");
     }
+
 
     public Invoice() {
 
@@ -34,7 +32,7 @@ public class Invoice {
         this.invoiceID = invoiceID;
         this.user = user;
         this.workOrder = workOrder;
-        this.services = services;
+
         this.isPaid = false;
     }
 
@@ -62,13 +60,6 @@ public class Invoice {
         this.workOrder = workOrder;
     }
 
-    public List<Service> getServices() {
-        return services;
-    }
-
-    public void setServices(List<Service> services) {
-        this.services = services;
-    }
 
     public boolean isPaid() {
         return isPaid;
