@@ -30,6 +30,7 @@
     </div>
     <div class="profile-section" v-else-if="activeSection === 'services'">
       <!-- Current Services Section -->
+      <current-services />
     </div>
     <div class="profile-section" v-else-if="activeSection === 'invoices'">
       <!-- Invoices Section -->
@@ -38,11 +39,12 @@
 </template>
 
 <script>
-import EditAccount from '../components/EditAccount';
-
+import EditAccount from '../components/ProfileSelections/EditAccount';
+import CurrentServices from '../components/ProfileSelections/CurrentServices';
 export default {
   components: {
-    EditAccount
+    EditAccount,
+    CurrentServices
   },
 
   data() {
