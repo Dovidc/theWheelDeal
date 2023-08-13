@@ -86,7 +86,7 @@
           </li>
           <li>
             <img src="https://www.motortrend.com/uploads/f/102375678.jpg?fit=around%7C875:492" alt="Tire Replacement">
-            <h3> Emissions and converters</h3>
+            <h3> Emissions & converters</h3>
             <p>  Keep yourself and your car clean by reducing your C02 emissions to UN standards.</p>
             <label>
               <label>
