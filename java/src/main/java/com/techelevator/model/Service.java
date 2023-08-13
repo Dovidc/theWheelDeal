@@ -4,18 +4,25 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class Service {
-    @NotNull
+
     private int serviceID;
+    @NotNull
     private String serviceDescription;
+    @NotNull
+    private String category;
     private double price;
     private double serviceTime;
-    private String category;
 
-    public Service(int serviceID, String serviceDescription, double price, double serviceTime, String category) {
+
+    public Service() {
+
+    }
+
+    public Service(int serviceID, String serviceDescription, double price, String category) {
         this.serviceID = serviceID;
         this.serviceDescription = serviceDescription;
         this.price = price;
-        this.serviceTime = serviceTime;
+        this.serviceTime = 0.5;
         this.category = category;
     }
 

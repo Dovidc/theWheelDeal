@@ -11,67 +11,96 @@ import java.util.Objects;
 import java.util.Set;
 
 public class User {
-
+   //security
    private int id;
-   private String username;
    @NotNull
-   @NotBlank(message =  "First name is required")
+   private String username;
+
+   @NotNull
    private String firstName;
    @NotNull
-   @NotBlank(message =  "Last name is required")
    private String lastName;
+
+   //security
+   @NotNull
    @JsonIgnore
    private String password;
-
    @JsonIgnore
    private boolean activated;
+   private String role;
    private Set<Authority> authorities = new HashSet<>();
-   @NotNull
-   @NotBlank(message = "Email address is required")
+
    private String email;
-   @NotNull
-   @NotBlank(message = "Phone Number is required")
    private String phoneNumber;
+   private String badge;
+   private List<Vehicle> vehicles;
+   private List<WorkOrder> workOrders;
+   private List<Invoice> invoices;
 
-   private List<Vehicle> vehicle;
-   private List<WorkOrder> workOrder;
-   private List<Invoice> invoice;
 
-   public User() { }
 
    private String fullName(){
       return firstName + " " + lastName;
    }
 
-   private String customerBadge(){
-      if (invoice.size() < 3) {
+   private String getBadge(){
+      if (invoices == null || invoices.size() < 3) {
          return "";
-      } else if (invoice.size() >= 9) {
+      }else if (invoices.size() >= 9) {
          return "Gold";
-      } else if (invoice.size() >= 6) {
+      } else if (invoices.size() >= 6) {
          return "Silver:";
       } else {
          return "Bronze";
       }
    }
 
-   public User(int id, String username, String firstName, String lastName, String password, long passwordHash, boolean activated, Set<Authority> authorities, String email, String phoneNumber, List<Vehicle> vehicle, List<WorkOrder> workOrder, List<Invoice> invoice) {
+   public User() {
+
+   }
+
+   public User(int id, String username, String firstName, String lastName, String password,
+               String authorities, String email, String phoneNumber) {
       this.id = id;
       this.username = username;
       this.firstName = firstName;
       this.lastName = lastName;
       this.password = password;
-      this.activated = activated;
-      this.authorities = authorities;
+      if (authorities != null) this.setAuthorities(authorities);
+      this.activated = true;
       this.email = email;
       this.phoneNumber = phoneNumber;
-      this.vehicle = vehicle;
-      this.workOrder = workOrder;
-      this.invoice = invoice;
+      this.badge = getBadge();
 
+   }
+
+   public User(int id, String username, String firstName, String lastName, String authorities,
+               String password, String email, String phoneNumber,
+               List<Vehicle> vehicles, List<WorkOrder> workOrders, List<Invoice> invoices) {
+      this.id = id;
+      this.username = username;
+      this.firstName = firstName;
+      this.lastName = lastName;
+      this.password = password;
+      if (authorities != null) this.setAuthorities(authorities);
+      this.activated = true;
+      this.email = email;
+      this.phoneNumber = phoneNumber;
+      this.badge = getBadge();
+      this.vehicles = vehicles;
+      this.workOrders = workOrders;
+      this.invoices = invoices;
+   }
+
+   public User(int id, String username, String password, String authorities) {
+      this.id = id;
+      this.username = username;
+      this.password = password;
       if (authorities != null) this.setAuthorities(authorities);
       this.activated = true;
    }
+
+
    
 
    public int getId() {
@@ -108,6 +137,13 @@ public class User {
 
    public Set<Authority> getAuthorities() {
       return authorities;
+   }
+   public void setAuthorities(String authorities) {
+      String[] roles = authorities.split(",");
+      for (String role : roles) {
+         String authority = role.contains("ROLE_") ? role : "ROLE_" + role;
+         this.authorities.add(new Authority(authority));
+      }
    }
 
    public void setAuthorities(Set<Authority> authorities) {
@@ -147,36 +183,40 @@ public class User {
       this.phoneNumber = phoneNumber;
    }
 
-   public List<Vehicle> getVehicle() {
-      return vehicle;
+   public List<Vehicle> getVehicles() {
+      return vehicles;
    }
 
-   public void setVehicle(List<Vehicle> vehicle) {
-      this.vehicle = vehicle;
+   public void setVehicles(List<Vehicle> vehicles) {
+      this.vehicles = vehicles;
    }
 
-   public List<WorkOrder> getWorkOrder() {
-      return workOrder;
+   public List<WorkOrder> getWorkOrders() {
+      return workOrders;
    }
 
-   public void setWorkOrder(List<WorkOrder> workOrder) {
-      this.workOrder = workOrder;
+   public void setWorkOrders(List<WorkOrder> workOrders) {
+      this.workOrders = workOrders;
    }
 
-   public List<Invoice> getInvoice() {
-      return invoice;
+   public List<Invoice> getInvoices() {
+      return invoices;
    }
 
-   public void setInvoice(List<Invoice> invoice) {
-      this.invoice = invoice;
+   public void setInvoices(List<Invoice> invoices) {
+      this.invoices = invoices;
    }
 
-   public void setAuthorities(String authorities) {
-      String[] roles = authorities.split(",");
-      for (String role : roles) {
-         String authority = role.contains("ROLE_") ? role : "ROLE_" + role;
-         this.authorities.add(new Authority(authority));
-      }
+   public String getRole() {
+      return role;
+   }
+
+   public void setRole(String role) {
+      this.role = role;
+   }
+
+   public void setBadge(String badge) {
+      this.badge = badge;
    }
 
    @Override

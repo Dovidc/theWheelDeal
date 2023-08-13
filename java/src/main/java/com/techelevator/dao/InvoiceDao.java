@@ -6,15 +6,11 @@ import java.util.List;
 
 public interface InvoiceDao {
 
-    Invoice getInvoiceById(int invoiceID);
+    Invoice getInvoiceByInvoiceId(int invoiceID);
 
-    List<Invoice> getListOfInvoicesByFirstName();
+    List<Invoice> getListOfInvoicesByUserId(int userId);
 
-    List<Invoice> getListOfInvoicesByLastName();
-
-    List<Invoice> getListOfInvoicesByFirstAndLastName();
-
-    List<Invoice> getListOfInvoiceByUserId();
+    List<Invoice> getAllInvoices();
 
     Invoice createInvoice(Invoice invoice);
 

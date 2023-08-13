@@ -5,10 +5,32 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class Status {
-    @NotNull
+
     private int statusId;
     @NotNull
-    @NotBlank(message = "Status must have a description")
     private String description;
 
+    public Status() {
+
+    }
+    public Status(int statusId, String description) {
+        this.statusId = statusId;
+        this.description = description;
+    }
+
+    public int getStatusId() {
+        return statusId;
+    }
+
+    public void setStatusId(int statusId) {
+        this.statusId = statusId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

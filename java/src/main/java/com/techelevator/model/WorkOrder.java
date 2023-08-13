@@ -5,38 +5,40 @@ import javax.validation.constraints.NotNull;
 import java.security.PrivateKey;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public class WorkOrder {
 
-    @NotNull
+
     private int workOrderId;
-
     private Vehicle vehicle;
+    @NotNull
+    private List<User> users;
+    private double timeAdjustment; // set default to 0 in constructor
+    private boolean isApproved; //set default to false in constructor
+    private List<ServiceStatus> serviceStatuses;
 
-    private User user;
 
-    private double timeAdjustment;
-
-    private boolean isApproved = false;
-
-    private LocalDate workOrderStatusTimeStamp;
-
-    private List<Service> listOfWorkOrderServices;
-
-    private List<Status> workOrderStatusList;
 
     public WorkOrder() {
     }
 
-    public WorkOrder(int workOrderId, Vehicle vehicle, User user, double timeAdjustment, boolean isApproved, LocalDate workOrderStatusTimeStamp, List<Service> listOfWorkOrderServices, List<Status> workOrderStatusList) {
+    public WorkOrder(int workOrderId, Vehicle vehicle, List<User> users,
+                     List<ServiceStatus> serviceStatuses) {
         this.workOrderId = workOrderId;
         this.vehicle = vehicle;
-        this.user = user;
-        this.timeAdjustment = timeAdjustment;
-        this.isApproved = isApproved;
-        this.workOrderStatusTimeStamp = workOrderStatusTimeStamp;
-        this.listOfWorkOrderServices = listOfWorkOrderServices;
-        this.workOrderStatusList = workOrderStatusList;
+        this.users = users;
+        this.timeAdjustment = 0.00;
+        this.isApproved = false;
+        this.serviceStatuses = serviceStatuses;
+    }
+
+    public WorkOrder(int workOrderId, List<User> users, List<ServiceStatus> serviceStatuses) {
+        this.workOrderId = workOrderId;
+        this.users = users;
+        this.timeAdjustment = 0.00;
+        this.isApproved = false;
+        this.serviceStatuses = serviceStatuses;
     }
 
     public int getWorkOrderId() {
@@ -55,12 +57,12 @@ public class WorkOrder {
         this.vehicle = vehicle;
     }
 
-    public User getUser() {
-        return user;
+    public List<User> getUsers() {
+        return users;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
     public double getTimeAdjustment() {
@@ -79,27 +81,11 @@ public class WorkOrder {
         isApproved = approved;
     }
 
-    public LocalDate getWorkOrderStatusTimeStamp() {
-        return workOrderStatusTimeStamp;
+    public List<ServiceStatus> getServiceStatuses() {
+        return serviceStatuses;
     }
 
-    public void setWorkOrderStatusTimeStamp(LocalDate workOrderStatusTimeStamp) {
-        this.workOrderStatusTimeStamp = workOrderStatusTimeStamp;
-    }
-
-    public List<Service> getListOfWorkOrderServices() {
-        return listOfWorkOrderServices;
-    }
-
-    public void setListOfWorkOrderServices(List<Service> listOfWorkOrderServices) {
-        this.listOfWorkOrderServices = listOfWorkOrderServices;
-    }
-
-    public List<Status> getWorkOrderStatusList() {
-        return workOrderStatusList;
-    }
-
-    public void setWorkOrderStatusList(List<Status> workOrderStatusList) {
-        this.workOrderStatusList = workOrderStatusList;
+    public void setServiceStatuses(List<ServiceStatus> serviceStatuses) {
+        this.serviceStatuses = serviceStatuses;
     }
 }

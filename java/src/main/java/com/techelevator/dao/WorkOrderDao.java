@@ -7,14 +7,15 @@ import com.techelevator.model.WorkOrder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-@Component
+
 public interface WorkOrderDao {
 
 
     List<WorkOrder> getWorkOrders();
 
-    WorkOrder getWorkOrderById(int workOrderId);
+    List<WorkOrder> getWorkOrdersByUserId(int userId);
 
+    WorkOrder getWorkOrderById(int workOrderId);
 
     WorkOrder createWorkOrder(WorkOrder workOrder);
 

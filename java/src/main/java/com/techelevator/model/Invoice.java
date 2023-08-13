@@ -6,33 +6,34 @@ import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Invoice {
-    @NotNull
+
     private int invoiceID;
-    @AssertTrue
     private User user;
     private WorkOrder workOrder;
 
-    private List<Service> services;
-    private boolean isPaid = false;
+    private boolean isPaid;
 
-    @AssertTrue
-    private boolean isListGreaterThanZero() {
-        return services.size() >= 1;
-    }
+
 
     @AssertTrue
     private boolean isUserCustomer() {
-        return user.getRole().equals("Customer");
+        return user.getRole().equalsIgnoreCase("customer");
     }
 
-    public Invoice(int invoiceID, User user, WorkOrder workOrder, List<Service> services, boolean isPaid) {
+
+    public Invoice() {
+
+    }
+
+    public Invoice(int invoiceID, User user, WorkOrder workOrder, List<Service> services) {
         this.invoiceID = invoiceID;
         this.user = user;
         this.workOrder = workOrder;
-        this.services = services;
-        this.isPaid = isPaid;
+
+        this.isPaid = false;
     }
 
     public int getInvoiceID() {
@@ -59,13 +60,6 @@ public class Invoice {
         this.workOrder = workOrder;
     }
 
-    public List<Service> getServices() {
-        return services;
-    }
-
-    public void setServices(List<Service> services) {
-        this.services = services;
-    }
 
     public boolean isPaid() {
         return isPaid;

@@ -2,6 +2,7 @@ package com.techelevator.dao;
 
 import com.techelevator.model.*;
 import com.techelevator.security.exception.DaoException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -16,43 +17,164 @@ import java.util.List;
 @Component
 public class JdbcWorkOrderDao implements WorkOrderDao {
 
+    private static JdbcServiceDao jdbcServiceDao;
     private final JdbcTemplate jdbcTemplate;
+
 
     public JdbcWorkOrderDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
     @Override
-    public WorkOrder getWorkOrderById(int workOrderId) {
-        WorkOrder workOrder = null;
-        String sql = "SELECT work_order_id, vehicle_id, time_adjustment, is_approved " +
-                     "FROM work_order " +
-                     "WHERE work_order_id =?";
-        try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, workOrder);
-            if (results.next()) {
-                workOrder = mapRowToWorkOrder(results);
-            }
-        } catch (CannotGetJdbcConnectionException e) {
-            throw new DaoException("Unable to connect to server or database", e);
-        }
-        return workOrder;
-    }
-    @Override
     public List<WorkOrder> getWorkOrders() {
-        List<WorkOrder> workOrders = new ArrayList<>();
-        String sql = "SELECT work_order_id, vehicle_id, time_adjustment, is_approved " +
-                     "FROM work_order";
+        List<WorkOrder> workOrders = new ArrayList<>(); // add badge to db schema and change method to update badge
+
+        String sql = "select work_order.work_order_id, " +
+                "work_order.vehicle_id, make, model, year, color, " +
+                "time_adjustment, is_approved " +
+                "from work_order " +
+                "join vehicle on work_order.vehicle_id = vehicle.vehicle_id;";
+        String sql2 = "select users.user_id, username, first_name, last_name, role\n" +
+                "from users\n" +
+                "join users_work_order on users.user_id = users_work_order.user_id\n" +
+                "where work_order_id = ?; ";
+        String sql3 = "select work_order_service_status.service_id, service_description, " +
+                "service_category, service_price, service_time,\n" +
+                "work_order_service_status_id, status_description\n" +
+                "from work_order_service_status\n" +
+                "join service on work_order_service_status.service_id = service.service_id\n" +
+                "join status on work_order_service_status_id = status.status_id\n" +
+                "where work_order_id = ?;";
+
         try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
-            while (results.next()) {
-                WorkOrder workOrder = mapRowToWorkOrder(results);
+            SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql);
+            while (rowSet.next()) {
+                WorkOrder workOrder = mapRowToWorkOrder(rowSet);
+
+                SqlRowSet rowSet2 = jdbcTemplate.queryForRowSet(sql2,rowSet.getInt("work_order.work_order_id"));
+                List<User> workOrderUsers = new ArrayList<>();
+                while (rowSet2.next()) {
+                    User newUser = mapRowToUser(rowSet2);
+                    workOrderUsers.add(newUser);
+                }
+                workOrder.setUsers(workOrderUsers);
+
+                SqlRowSet rowSet3 = jdbcTemplate.queryForRowSet(sql3, rowSet.getInt("work_order.work_order_id"));
+                List<ServiceStatus> workOrderServiceStatuses = new ArrayList<>();
+                while (rowSet3.next()) {
+                    ServiceStatus serviceStatus = mapRowToServiceStatus(rowSet3);
+                    workOrderServiceStatuses.add(serviceStatus);
+                }
+                workOrder.setServiceStatuses(workOrderServiceStatuses);
+
                 workOrders.add(workOrder);
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         }
         return workOrders;
-    }
+
+    }//COMPLETED
+    @Override
+    public List<WorkOrder> getWorkOrdersByUserId (int userId) {
+        List<WorkOrder> workOrders = new ArrayList<>(); // add badge to db schema and change method to update badge
+
+        String sql = "select work_order.work_order_id, \n" +
+                "work_order.vehicle_id, make, model, year, color, \n" +
+                "time_adjustment, is_approved\n" +
+                "from work_order\n" +
+                "join vehicle on work_order.vehicle_id = vehicle.vehicle_id\n" +
+                "join users_work_order on work_order.work_order_id = users_work_order.work_order_id\n" +
+                "where users_work_order.user_id = ?;";
+        String sql2 = "select users.user_id, username, first_name, last_name, role\n" +
+                "from users\n" +
+                "join users_work_order on users.user_id = users_work_order.user_id\n" +
+                "where work_order_id = ?; ";
+        String sql3 = "select work_order_service_status.service_id, service_description, " +
+                "service_category, service_price, service_time,\n" +
+                "work_order_service_status_id, status_description\n" +
+                "from work_order_service_status\n" +
+                "join service on work_order_service_status.service_id = service.service_id\n" +
+                "join status on work_order_service_status_id = status.status_id\n" +
+                "where work_order_id = ?;";
+
+        try {
+            SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql,userId);
+            while (rowSet.next()) {
+                WorkOrder workOrder = mapRowToWorkOrder(rowSet);
+
+                SqlRowSet rowSet2 = jdbcTemplate.queryForRowSet(sql2, rowSet.getInt("work_order.work_order_id"));
+                List<User> workOrderUsers = new ArrayList<>();
+                while (rowSet2.next()) {
+                    User newUser = mapRowToUser(rowSet2);
+                    workOrderUsers.add(newUser);
+                }
+                workOrder.setUsers(workOrderUsers);
+
+                SqlRowSet rowSet3 = jdbcTemplate.queryForRowSet(sql3, rowSet.getInt("work_order.work_order_id"));
+                List<ServiceStatus> workOrderServiceStatuses = new ArrayList<>();
+                while (rowSet3.next()) {
+                    ServiceStatus serviceStatus = mapRowToServiceStatus(rowSet3);
+                    workOrderServiceStatuses.add(serviceStatus);
+                }
+                workOrder.setServiceStatuses(workOrderServiceStatuses);
+
+                workOrders.add(workOrder);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return workOrders;
+
+    }//COMPLETED
+
+    public WorkOrder getWorkOrderById(int workOrderId) {
+        WorkOrder workOrder = new WorkOrder();
+        String sql = "select work_order.work_order_id,\n" +
+                "work_order.vehicle_id, make, model, year, color, \n" +
+                "time_adjustment, is_approved\n" +
+                "from work_order\n" +
+                "join vehicle on work_order.vehicle_id = vehicle.vehicle_id\n" +
+                "where work_order.work_order_id = ?;";
+        String sql2 = "select users.user_id, username, first_name, last_name, role\n" +
+                "from users\n" +
+                "join users_work_order on users.user_id = users_work_order.user_id\n" +
+                "where work_order_id = ?; ";
+        String sql3 = "select work_order_service_status.service_id, service_description, " +
+                "service_category, service_price, service_time,\n" +
+                "work_order_service_status_id, status_description\n" +
+                "from work_order_service_status\n" +
+                "join service on work_order_service_status.service_id = service.service_id\n" +
+                "join status on work_order_service_status_id = status.status_id\n" +
+                "where work_order_id = ?;";
+        try {
+            SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, workOrderId);
+            if (rowSet.next()) {
+                workOrder = mapRowToWorkOrder(rowSet);
+
+                SqlRowSet rowSet2 = jdbcTemplate.queryForRowSet(sql2, workOrderId);
+                List<User> workOrderUsers = new ArrayList<>();
+                while (rowSet2.next()) {
+                    User newUser = mapRowToUser(rowSet2);
+                    workOrderUsers.add(newUser);
+                }
+                workOrder.setUsers(workOrderUsers);
+
+                SqlRowSet rowSet3 = jdbcTemplate.queryForRowSet(sql3, workOrderId);
+                List<ServiceStatus> workOrderServiceStatuses = new ArrayList<>();
+                while (rowSet3.next()) {
+                    ServiceStatus serviceStatus = mapRowToServiceStatus(rowSet3);
+                    workOrderServiceStatuses.add(serviceStatus);
+                }
+                workOrder.setServiceStatuses(workOrderServiceStatuses);
+
+
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return workOrder;
+    }//COMPLETED
+
 
 
 
@@ -108,28 +230,52 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
         return 0;
     }
 
-    /**
-     * Need to start thinking about how to link tables For example
-     *
-     *  public void userWorkOrder(int workOrderId, int userId) {
-     *         String sql = "INSERT INTO users_work_order (workOrderId, userId) VALUES (?, ?);";
-     *         try {
-     *             jdbcTemplate.update(sql, workOrderId, userId);
-     *         } catch (CannotGetJdbcConnectionException e) {
-     *             throw new DaoException("Unable to connect to server or database", e);
-     *         } catch (DataIntegrityViolationException e) {
-     *             throw new DaoException("Data integrity violation", e);
-     *         }
-     *     }
-     */
 
-    private WorkOrder mapRowToWorkOrder(SqlRowSet rs) {
+    public static WorkOrder mapRowToWorkOrder(SqlRowSet rowSet) {
         WorkOrder workOrder = new WorkOrder();
-        workOrder.setWorkOrderId(rs.getInt("work_order_id"));
-        workOrder.setVehicle((Vehicle)rs.getObject("vehicle_id"));
-        workOrder.setUser((User) rs.getObject("user_id"));
-        workOrder.setTimeAdjustment(rs.getDouble("time_adjustment"));
-        workOrder.setApproved(true);
+        workOrder.setWorkOrderId(rowSet.getInt("work_order.work_order_id"));
+        workOrder.setVehicle((mapRowToVehicle(rowSet)));
+        workOrder.setTimeAdjustment(rowSet.getDouble("time_adjustment"));
+        workOrder.setApproved(rowSet.getBoolean("is_approved"));
         return workOrder;
     }
+
+    public static Vehicle mapRowToVehicle(SqlRowSet rowSet) {
+        Vehicle newVehicle = new Vehicle();
+        newVehicle.setVehicleId(rowSet.getInt("work_order.vehicle_id"));
+        newVehicle.setMake(rowSet.getString("make"));
+        newVehicle.setModel(rowSet.getString("model"));
+        newVehicle.setYear(rowSet.getString("year"));
+        newVehicle.setColor(rowSet.getString("color"));
+        return newVehicle;
+    }
+
+    public static User mapRowToUser(SqlRowSet rowSet) {
+        User newUser = new User();
+        newUser.setId(rowSet.getInt("user_id"));
+        newUser.setUsername(rowSet.getString("username"));
+        newUser.setFirstName(rowSet.getString("first_name"));
+        newUser.setLastName(rowSet.getString("last_name"));
+        newUser.setRole(rowSet.getString("role"));
+        //add badge here
+        return newUser;
+    }
+
+    private Status mapRowToStatus(SqlRowSet rowSet) {
+        Status newStatus = new Status();
+        newStatus.setStatusId(rowSet.getInt("work_order_service_status_id"));
+        newStatus.setDescription(rowSet.getString("status_description"));
+        return newStatus;
+    }
+
+    private ServiceStatus mapRowToServiceStatus (SqlRowSet rowSet) {
+        ServiceStatus newServiceStatus = new ServiceStatus();
+        newServiceStatus.setService(jdbcServiceDao.mapRowToService(rowSet));
+        newServiceStatus.setStatus(mapRowToStatus(rowSet));
+        return newServiceStatus;
+    }
+
+
+
+
 }
