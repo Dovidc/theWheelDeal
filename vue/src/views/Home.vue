@@ -42,7 +42,7 @@ export default {
   
   h2 {
     text-align: center;
-    color: #8704bb;
+    color: #ffffff;
     
   }
   .service-list li select {
@@ -66,7 +66,7 @@ export default {
   .service-list li select option {
     font-size: 1rem;
     color: rgb(255, 255, 255);
-    background-color: rgb(122, 3, 126);
+    background-color: rgb(120, 1, 124);
   }
   
   
@@ -129,7 +129,7 @@ export default {
   }
   
   .services-container .service-item {
-    background-color: #76ce12;
+    background-color: #cffd01;
     color: #fff;
     padding: 2rem;
     border-radius: 10px;
@@ -173,7 +173,7 @@ export default {
     color: #fff;
     padding: 2rem;
     border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.959);
   }
   
   .service-list li img {

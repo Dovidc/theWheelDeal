@@ -7,11 +7,11 @@
         <input type="text" id="newUsername" v-model="newUsername">
       </div>
       <div class="form-input-group">
-        <label for="newPassword"><div> New Password:</div></label>
+        <label for="newPassword"><div> Current Password:</div></label>
         <input type="password" id="newPassword" v-model="newPassword" />
       </div>
       <div class="form-input-group">
-        <label for="confirmNewPassword"><div> Confirm New Password:</div></label>
+        <label for="confirmNewPassword"><div> New Password:</div></label>
         <input type="password" id="confirmNewPassword" v-model="confirmNewPassword" />
       </div>
       <div class="form-input-group">
