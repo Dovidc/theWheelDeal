@@ -4,23 +4,23 @@
       <h2>Edit Account Information</h2>
       <div class="form-input-group">
         <label for="newUsername"><div> New Username:</div></label>
-        <input type="text" id="newUsername" v-model="newUsername" required />
+        <input type="text" id="newUsername" v-model="newUsername">
       </div>
       <div class="form-input-group">
-        <label for="newPassword"><div> New Password:</div></label>
-        <input type="password" id="newPassword" v-model="newPassword" required />
+        <label for="newPassword"><div> Current Password:</div></label>
+        <input type="password" id="newPassword" v-model="newPassword" />
       </div>
       <div class="form-input-group">
-        <label for="confirmNewPassword"><div> Confirm New Password:</div></label>
-        <input type="password" id="confirmNewPassword" v-model="confirmNewPassword" required />
+        <label for="confirmNewPassword"><div> New Password:</div></label>
+        <input type="password" id="confirmNewPassword" v-model="confirmNewPassword" />
       </div>
       <div class="form-input-group">
         <label for="email"><div> Email:</div></label>
-        <input type="email" id="email" v-model="email" required />
+        <input type="email" id="email" v-model="email" />
       </div>
       <div class="form-input-group">
         <label for=""><div> Phone Number:</div></label>
-        <input type="tel" id="phoneNumber" v-model="phoneNumber" required />
+        <input type="tel" id="phoneNumber" v-model="phoneNumber" />
       </div>
       <button type="submit" class="btn btn-primary">Update Account</button>
     </form>
@@ -55,7 +55,7 @@ export default {
 
 .registration-form h2 {
   font-size: 24px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   color: #333;
 }
 

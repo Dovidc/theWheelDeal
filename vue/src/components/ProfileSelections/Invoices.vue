@@ -67,7 +67,7 @@ body {
   max-width: 800px;
   margin: 40px auto;
   padding: 20px;
-  background-color: white;
+  background-color: rgb(15, 14, 14);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 

@@ -156,47 +156,7 @@ export default {
     margin-bottom: 1rem;
   }
   
-  .contact-container {
-    padding-top: 20px;
-    padding-bottom: 20px;
-    text-align: center;
-    
-    color: #fff;
-    padding: 3rem;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  }
   
-  .contact-container h2 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-  }
-  
-  form input,
-  form textarea,
-  form button {
-    width: 50%;
-    padding: 1rem;
-    border: none;
-    border-radius: 5px;
-    margin-bottom: 1rem;
-    
-  }
-  form textarea {
-    height: 150px;
-  }
-  
-  
-  form button {
-    background-color: #56ff47;
-    color: rgb(0, 0, 0);
-    cursor: pointer;
-    transition: background-color  ease;
-  }
-  
-  form button:hover {
-    background-color: #2eff74;
-  }
   /* ... Your existing CSS styles ... */
   
   .service-list {
