@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -175,60 +176,106 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
         return workOrder;
     }//COMPLETED
 
-
-
-
     @Override
-    public WorkOrder createWorkOrder(WorkOrder workOrder) {
-        WorkOrder newWorkOrder = null;
-        String insertWorkOrderSql = "INSERT INTO work_order (vehicle_id, time_adjustment, is_approved) " +
-                                    "VALUES (?, ?, ?) " +
-                                    "RETURNING ";
+    public WorkOrder createWorkOrder(WorkOrderDto workOrderDto) {
+        WorkOrder newWorkOrder = new WorkOrder();
+
+        List<User> newWorkOrderUserList = new ArrayList<>();
+        User newUser = workOrderDto.getCustomer();
+        newWorkOrderUserList.add(newUser);
+        newWorkOrder.setUsers(newWorkOrderUserList);
+
+        Vehicle newWorkOrderVehicle = new Vehicle();
+        newWorkOrderVehicle = workOrderDto.getVehicle();
+        newWorkOrder.setVehicle(newWorkOrderVehicle);
+
+        List<ServiceStatus> newWorkOrderServiceStatusList = new ArrayList<>();
+        for (Service service: workOrderDto.getServices()) {
+            Status startStatus = new Status();
+            startStatus.setStatusId(1);
+            startStatus.setDescription("Pending Customer Approval");
+            ServiceStatus serviceStatus = new ServiceStatus();
+            serviceStatus.setService(service);
+            serviceStatus.setStatus(startStatus);
+            newWorkOrderServiceStatusList.add(serviceStatus);
+        }
+        newWorkOrder.setServiceStatuses(newWorkOrderServiceStatusList);
+
+        String sql = "insert into  work_order (vehicle_id) values (?) returning work_order_id;";
+        String sqlLinkToUser = "insert into users_work_order (user_id, work_order_id) values (?, ?)";
+        String sqlLinkToServiceStatus = "insert into work_order_service_status (work_order_id, " +
+                "service_id, work_order_service_status_id, status_change_timestamp) values (?,?,?,?);";
+
         try {
-            Integer newWorkOrderId = jdbcTemplate.queryForObject(insertWorkOrderSql, Integer.class, workOrder.getWorkOrderStatusTimeStamp(), workOrder.getTimeAdjustment(), workOrder.isApproved());
+            int newWorkOrderId = jdbcTemplate.queryForObject(sql, int.class, newWorkOrder.getVehicle().getVehicleId());
+            int customerId = -1;
+
+            for (User user : newWorkOrder.getUsers()) {
+                if (user.getRole() == "Customer") {
+                    customerId = user.getId();
+                }
+            }
+
+            jdbcTemplate.update(sqlLinkToUser, customerId, newWorkOrderId);
+
+            for (ServiceStatus serviceStatus : newWorkOrder.getServiceStatuses()) {
+                int serviceId = serviceStatus.getService().getServiceID();
+                int statusId = serviceStatus.getStatus().getStatusId();
+                jdbcTemplate.update(sqlLinkToServiceStatus, newWorkOrderId, serviceId, statusId, LocalDateTime.now());
+            }
+
             newWorkOrder = getWorkOrderById(newWorkOrderId);
+
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
-            throw new DaoException("Data integrity violation", e);
+            throw new DaoException("Could not create new work Order");
         }
 
         return newWorkOrder;
-    }
+    }//COMPLETED
 
     @Override
-    public WorkOrder updateWorkOrder(WorkOrder workOrder) {
-        WorkOrder updatedWorkOrder = null;
-        String sql = "UPDATE work_order " +
-                     "SET vehicle_id = ?, time_adjustment = ?, is_approved = ? " +
-                     "WHERE work_order_id = ?;";
+    public WorkOrder updateWorkOrder(WorkOrder workOrderToUpdate) {
+        WorkOrder updatedWorkOrder = new WorkOrder();
+
+        String sqlUpdateWorkOrder = "update work_order " +
+                "set vehicle_id = ?, time_adjustment = ?, is_approved = ? " +
+                "where work_order_id = ?;";
+        String sqlUnlinkCurrentUsers = "delete from users_work_order where work_order_id = ?;";
+        String sqlLinkNewUsers = "insert into users_work_order (user_id, work_order_id) " +
+                "values (?,?);";//use update
+        String sqlUpdateServiceStatusList = "insert into work_order_service_status " +
+                "(work_order_id, service_id, " +
+                "work_order_service_status_id, status_change_timestamp) values (?,?,?,?);";
+
         try {
-            int numberOfRows = jdbcTemplate.update(sql, workOrder.getVehicle().getVehicleId(), workOrder.getTimeAdjustment(), workOrder.isApproved());
+            int numberOfRows = jdbcTemplate.update(sqlUpdateWorkOrder, workOrderToUpdate.getVehicle().getVehicleId(),
+                workOrderToUpdate.getTimeAdjustment(), workOrderToUpdate.isApproved(),
+                    workOrderToUpdate.getWorkOrderId());
+            jdbcTemplate.update(sqlUnlinkCurrentUsers, workOrderToUpdate.getWorkOrderId());
+            for (User user : workOrderToUpdate.getUsers()) {
+                jdbcTemplate.update(sqlLinkNewUsers, user.getId(), workOrderToUpdate.getWorkOrderId());
+            }
+            for (ServiceStatus serviceStatus : workOrderToUpdate.getServiceStatuses()) {
+                jdbcTemplate.update(sqlUpdateServiceStatusList, workOrderToUpdate.getWorkOrderId(),
+                        serviceStatus.getService().getServiceID(), serviceStatus.getStatus().getStatusId(),
+                        LocalDateTime.now());
+            }
 
             if (numberOfRows == 0) {
-                throw new DaoException("Zero rows affected, expected at least one");
+                throw new DaoException("Could not update Work Order.");
             } else {
-                updatedWorkOrder = getWorkOrderById(workOrder.getWorkOrderId());
+                updatedWorkOrder = getWorkOrderById(workOrderToUpdate.getWorkOrderId());
             }
+
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
-            throw new DaoException("Data integrity violation", e);
+            throw new DaoException("Could not update Work Order", e);
         }
         return updatedWorkOrder;
-    }
-
-    @Override
-    public int deleteWorkOrderById(int workOrderId) {
-        int numberOfRows = 0;
-        /**
-         * Need to input all sql queries where workOrderId exist.
-         * Starting with the tables where workOrderId is PK
-         * and finsihing with its origin table work_order.
-         */
-
-        return 0;
-    }
+    }//COMPLETED
 
 
     public static WorkOrder mapRowToWorkOrder(SqlRowSet rowSet) {

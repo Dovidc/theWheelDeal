@@ -1,9 +1,6 @@
 package com.techelevator.dao;
 
-import com.techelevator.model.Service;
-import com.techelevator.model.Status;
-import com.techelevator.model.User;
-import com.techelevator.model.WorkOrder;
+import com.techelevator.model.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -17,11 +14,11 @@ public interface WorkOrderDao {
 
     WorkOrder getWorkOrderById(int workOrderId);
 
-    WorkOrder createWorkOrder(WorkOrder workOrder);
+    WorkOrder createWorkOrder(WorkOrderDto workOrderDto);
 
-    WorkOrder updateWorkOrder (WorkOrder workOrder);
+    WorkOrder updateWorkOrder (WorkOrder workOrderToUpdate);
 
-    int deleteWorkOrderById(int workOrderId);
+
 
 
 
