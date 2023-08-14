@@ -7,10 +7,13 @@
           <li><a href="/#services">Services</a></li>
           <li><a href="/#about">About Us</a></li>
           <li><a href="/#contact">Contact</a></li>
+          <li><!-- <li v-show="$store.state.token"> -->
+            <a href="/profile">Profile</a></li>
           <!-- This should only show when user is not logged in -->
           <li v-show="$store.state.token === ''"><router-link  :to="{ name: 'login' }">Log in</router-link></li>
-          <!-- This should only show when user is logged in, not sure if it works -->
-          <li v-show="$store.state.token"><a href="/profile">Profile</a></li>
+          <!-- Shows when user is logged in -->
+          
+            <li v-show="!$store.state.token === ''">Log Out</li>
         </ul>
       </nav>
     </div>

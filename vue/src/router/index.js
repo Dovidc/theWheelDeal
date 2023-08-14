@@ -7,6 +7,7 @@ import Register from '../views/Register.vue'
 import store from '../store/index'
 import Employee from '../views/Employee.vue'
 import Profile from '../views/Profile.vue'
+import Appointment from '../views/Appointment.vue'
 
 Vue.use(Router)
 
@@ -67,6 +68,14 @@ const router = new Router({
     path: "/profile",
     name: "profile",
     component: Profile,
+    meta: {
+      requiresAuth: false
+    }
+  },
+  {
+    path: "/appointment",
+    name: "appointment",
+    component: Appointment,
     meta: {
       requiresAuth: false
     }
