@@ -15,5 +15,5 @@ public interface ServiceDao {
 
     Service updateService(Service service);
 
-    int deleteServiceById(int serviceId);
+    
 }

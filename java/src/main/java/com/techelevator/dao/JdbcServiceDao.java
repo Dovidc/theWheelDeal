@@ -84,10 +84,7 @@ public class JdbcServiceDao implements ServiceDao {
 
     }
 
-    @Override
-    public int deleteServiceById(int serviceId) {
 
-    }
 
 
     public Service mapRowToService (SqlRowSet rowSet) {

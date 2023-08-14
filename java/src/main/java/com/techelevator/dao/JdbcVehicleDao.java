@@ -1,8 +1,10 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.Vehicle;
+import com.techelevator.model.VehicleDto;
 import com.techelevator.security.exception.DaoException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -121,17 +123,56 @@ public class JdbcVehicleDao implements VehicleDao {
     }//completed
 
     @Override
-    public Vehicle createVehicle(Vehicle vehicle) {
+    public Vehicle createVehicle(VehicleDto vehicleDto) {
+        Vehicle newVehicle = new Vehicle();
 
-    }
+        String sql = "insert into vehicle (make, model, year, color) values (?,?,?,?) " +
+                "returning vehicle_id ;";
+
+        try {
+            int newVehicleId = jdbcTemplate.queryForObject(sql, int.class, vehicleDto.getMake(),
+                    vehicleDto.getModel(), vehicleDto.getYear(), vehicleDto.getColor());
+
+            newVehicle = getVehicleByVehicleId(newVehicleId);
+
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Cannot connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Cannot create New Vehicle", e);
+        }
+
+        return newVehicle;
+    }//completed
     @Override
     public Vehicle updateVehicle(Vehicle vehicle) {
+        Vehicle updatedVehicle = new Vehicle();
 
-    }
-    @Override
-    public Vehicle deleteVehicleById(int vehicleId) {
+        String sql = "update vehicle set make = ?, model = ?, " +
+                "year=?, color=?, plate_number=coalesce(?,plate_number), " +
+                "mileage=coalesce(?,mileage) " +
+                "where vehicle_id=?;";
 
-    }
+        try {
+
+            int numberOfRows = jdbcTemplate.update(sql, vehicle.getMake(),
+                    vehicle.getModel(), vehicle.getYear(), vehicle.getColor(),
+                    vehicle.getPlateNumber(), vehicle.getMileage());
+
+            if (numberOfRows == 0) {
+                throw new DaoException("Could not update Vehicle.");
+            } else {
+                updatedVehicle = getVehicleByVehicleId(vehicle.getVehicleId());
+            }
+
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Cannot connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Could not update Vehicle", e);
+        }
+
+        return updatedVehicle;
+    }//completed
+
 
     public Vehicle mapRowToVehicle (SqlRowSet rowSet) {
         Vehicle newVehicle = new Vehicle();
