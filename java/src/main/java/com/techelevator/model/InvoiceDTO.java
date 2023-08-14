@@ -1,9 +1,13 @@
 package com.techelevator.model;
 
+import javax.validation.constraints.AssertTrue;
+
 public class InvoiceDTO {
+
 
     private User user;
     private WorkOrder workOrder;
+
 
     public InvoiceDTO(User user, WorkOrder workOrder) {
         this.user = user;

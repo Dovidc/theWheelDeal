@@ -11,7 +11,9 @@ import java.util.Locale;
 public class Invoice {
 
     private int invoiceID;
+    @NotNull
     private User user;
+    @NotNull
     private WorkOrder workOrder;
 
     private boolean isPaid;
