@@ -18,6 +18,10 @@
         <i class="fas fa-file-invoice"></i>
         <span>Invoices</span>
       </div>
+      <div class="option" @click="showSection('appoinment')">
+        <i class="fa fa-calendar"></i>
+        <span>Appointment</span>
+      </div>
     </div>
     <!-- Show Sections -->
     <div class="profile-section" v-if="activeSection === 'account'">
@@ -46,6 +50,8 @@ import CurrentServices from '../components/ProfileSelections/CurrentServices';
 import RegisteredVehicles from '../components/ProfileSelections/RegisteredVehicles';
 import Invoices from '../components/ProfileSelections/Invoices';
 
+// import profileService from '../services/ProfileService.js';
+
 export default {
   components: {
     EditAccount,
@@ -53,6 +59,12 @@ export default {
     RegisteredVehicles,
     Invoices
   },
+
+  // created() {
+  //   profileService.getProfile().then(response => {
+  //       const profileData = response.data;
+  //   })
+  // },
 
   data() {
     return {

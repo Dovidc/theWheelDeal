@@ -71,6 +71,7 @@ export default {
 }
 </script>
 <style scoped>
+
 .invoices-page {
   max-width: 800px;
   width: 1000px;
@@ -78,6 +79,7 @@ export default {
   padding: 20px;
   border: 1px solid #ddd;
   background-color: #ffffffcc;
+  
 }
 
 h1 {
