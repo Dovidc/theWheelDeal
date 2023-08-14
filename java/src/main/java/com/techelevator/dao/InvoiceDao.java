@@ -1,6 +1,7 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.Invoice;
+import com.techelevator.model.InvoiceDTO;
 
 import java.util.List;
 
@@ -12,11 +13,11 @@ public interface InvoiceDao {
 
     List<Invoice> getAllInvoices();
 
-    Invoice createInvoice(Invoice invoice);
+    Invoice createInvoice(InvoiceDTO invoiceDTO);
 
     Invoice updateInvoice(Invoice invoice);
 
-    int deleteInvoiceById(int invoiceId);
+
 
 
 }
