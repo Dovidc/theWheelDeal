@@ -71,13 +71,34 @@ export default {
 }
 </script>
 <style scoped>
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  background-image: url("https://cdn.cnn.com/cnnnext/dam/assets/220721175751-woman-mechanic-stock-super-tease.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
 .invoices-page {
   max-width: 800px;
   width: 1000px;
   margin: 0 auto;
   padding: 20px;
-  border: 1px solid #ddd;
+  border: 1px solid rgb(78, 78, 78);
   background-color: #ffffffcc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  box-sizing: border-box;
 }
 
 h1 {
@@ -95,7 +116,7 @@ h1 {
   border: 1px solid #ddd;
   padding: 10px;
   margin-bottom: 10px;
-  background-color: #555555cc;
+  background-color: #9c9a9acc;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -110,18 +131,21 @@ h1 {
   border: none;
   padding: 5px 10px;
   cursor: pointer;
+  border-radius: 9px;
 }
 
 .invoice-summary {
   display: flex;
   flex-direction: column;
   align-items: flex;
+  border-radius: 333px;
 }
 
 .invoice-details {
   border-top: 1px solid #ddd;
   margin-top: 10px;
   padding-top: 10px;
+  
 }
 
 .purchase {
@@ -138,7 +162,6 @@ h1 {
 
 .purchase-total {
   flex: 0.5;
-  
 }
 
 strong {
@@ -151,10 +174,12 @@ p {
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s;
+  transition: opacity 0.2s;
 }
+
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
 }
+
 </style>
