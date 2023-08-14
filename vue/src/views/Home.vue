@@ -112,8 +112,8 @@ export default {
     text-decoration: none;
     padding: 1rem 1rem;
     border-radius: 5px;
-    align-self: center;
     transition: background-color 0.1s ease;
+    grid-column: span 2;
     
   }
   
@@ -268,4 +268,7 @@ export default {
   .header-container nav ul li a[href="/"]:hover {
     color: #ff7b00;
   }
+   body{
+    background-image: url("https://cdn.cnn.com/cnnnext/dam/assets/220721175751-woman-mechanic-stock-super-tease.jpg");
+  } 
 </style>
