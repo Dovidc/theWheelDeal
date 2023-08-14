@@ -18,10 +18,7 @@
         <i class="fas fa-file-invoice"></i>
         <span>Invoices</span>
       </div>
-      <div class="option" @click="showSection('appoinment')">
-        <i class="fa fa-calendar"></i>
-        <span>Appointment</span>
-      </div>
+      
     </div>
     <!-- Show Sections -->
     <div class="profile-section" v-if="activeSection === 'account'">
