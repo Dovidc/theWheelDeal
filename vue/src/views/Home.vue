@@ -37,7 +37,12 @@ export default {
     padding: 0;
     background-color: #ffffff;
     color: rgb(255, 255, 255);
-  }
+     background-size:cover; /* Adjust this property to control how the image covers the background */
+    background-repeat: no-repeat;
+    background-image: url("https://cdn.cnn.com/cnnnext/dam/assets/220721175751-woman-mechanic-stock-super-tease.jpg");
+    /* background-image: url("https://img.freepik.com/free-vector/blank-blue-halftone-background_53876-114466.jpg"); Replace with the actual path to your image */
+}
+  
   
   
   h2 {
@@ -266,6 +271,16 @@ export default {
   }
   
   .header-container nav ul li a[href="/"]:hover {
+    color: #ff7b00;
+  }
+  .header-container nav ul li a[href="/logout"] {
+    color: #fff;
+    
+    
+    transition: color 0.1s ease;
+  }
+  
+  .header-container nav ul li a[href="/logout"]:hover {
     color: #ff7b00;
   }
    body{
