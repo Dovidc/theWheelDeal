@@ -1,114 +1,160 @@
 <template>
-  <div class="invoice">
+  <div class="invoices-page">
+    <h1>User Invoices</h1>
+    <div class="invoices-list">
+      <div v-for="invoice in invoices" :key="invoice.id" class="invoice">
         <div class="invoice-header">
-            <h1>Invoice</h1>
-            <p>Invoice #12345</p>
-            <p>Date: August 13, 2023</p>
+         
+          <div class="invoice-summary">
+            <p><strong>Customer:</strong> {{ invoice.customerName }}</p>
+            <p><strong>Total:</strong> {{ invoice.total }}</p>
+          </div>
+           <button class="toggle-details-btn" @click="toggleDetails(invoice)">
+            {{ invoice.isOpen ? 'Hide Details' : 'Show Details' }}
+          </button>
         </div>
-        <div class="invoice-details">
-            <h2>Bill To:</h2>
-            <p>Customer Name</p>
-            <p>123 Main Street</p>
-            <p>City, State, ZIP</p>
-        </div>
-        <table class="invoice-table">
-            <thead>
-                <tr>
-                    <th>Description</th>
-                    <th>Quantity</th>
-                    <th>Unit Price</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Item 1</td>
-                    <td>2</td>
-                    <td>$50.00</td>
-                    <td>$100.00</td>
-                </tr>
-                <tr>
-                    <td>Item 2</td>
-                    <td>1</td>
-                    <td>$75.00</td>
-                    <td>$75.00</td>
-                </tr>
-                <tr>
-                    <td colspan="3">Subtotal</td>
-                    <td>$175.00</td>
-                </tr>
-                <tr>
-                    <td colspan="3">Tax (10%)</td>
-                    <td>$17.50</td>
-                </tr>
-                <tr>
-                    <td colspan="3">Total</td>
-                    <td>$192.50</td>
-                </tr>
-            </tbody>
-        </table>
+        <transition name="fade">
+          <div v-if="invoice.isOpen" class="invoice-details">
+            <div class="purchase" v-for="purchase in invoice.purchases" :key="purchase.id">
+              <div class="purchase-info">
+                <p><strong>Description:</strong> {{ purchase.description }}</p>
+                <p><strong>Quantity:</strong> {{ purchase.quantity }}</p>
+                <p><strong>Price:</strong> {{ purchase.price }}</p>
+              </div>
+              <div class="purchase-total">
+                <p><strong>Total:</strong> {{ purchase.price * purchase.quantity + '.00$' }}</p>
+              </div>
+            </div>
+          </div>
+        </transition>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
 export default {
-
+  data() {
+    return {
+      invoices: [
+        {
+          id: 1,
+          customerName: 'John Doe',
+          total: '80.00$',
+          isOpen: false,
+          purchases: [
+            { id: 1, description: 'Oil Change', quantity: 2, price: '25.00', total: '50.00' },
+            { id: 2, description: 'Engine Repair', quantity: 1, price: '30.00', total: '30.00' }
+          ]
+        },
+        {
+          id: 2,
+          customerName: 'Jane Smith',
+          total: '60.00$',
+          isOpen: false,
+          purchases: [
+            { id: 3, description: 'Service C', quantity: 1, price: '60.00', total: '60.00' }
+          ]
+        }
+        // ...other user invoices...
+      ]
+    };
+  },
+  methods: {
+    toggleDetails(invoice) {
+      invoice.isOpen = !invoice.isOpen;
+    },
+    calculateTotal(purchase) {
+      (purchase.price * purchase.quantity)
+    }
+  }
 }
 </script>
 <style scoped>
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f5f5f5;
+.invoices-page {
+  max-width: 800px;
+  width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  background-color: #ffffffcc;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #555555;
+}
+
+.invoices-list {
+  display: flex;
+  flex-direction: column;
 }
 
 .invoice {
-  max-width: 800px;
-  margin: 40px auto;
-  padding: 20px;
-  background-color: rgb(15, 14, 14);
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #555555cc;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .invoice-header {
-  text-align: center;
-  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.toggle-details-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.invoice-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: flex;
 }
 
 .invoice-details {
-  margin-bottom: 30px;
+  border-top: 1px solid #ddd;
+  margin-top: 10px;
+  padding-top: 10px;
 }
 
-.invoice-table {
-  width: 100%;
-  border-collapse: collapse;
+.purchase {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
 }
 
-.invoice-table th, .invoice-table td {
-  padding: 8px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
+.purchase-info {
+  flex: 1;
 }
 
-.invoice-table th {
-  background-color: #f5f5f5;
+.purchase-total {
+  flex: 0.5;
+  
 }
 
-.invoice-table td {
-  vertical-align: top;
-}
-
-.invoice-table td:last-child {
-  text-align: right;
-}
-
-h1, h2, h3 {
-  margin: 0;
+strong {
+  font-weight: bold;
 }
 
 p {
   margin: 5px 0;
 }
 
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
 </style>

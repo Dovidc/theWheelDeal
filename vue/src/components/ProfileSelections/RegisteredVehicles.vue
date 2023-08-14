@@ -48,6 +48,7 @@ data() {
       registeredVehicles: [
         { id: 1, make: 'Toyota', model: 'Camry', year: 2022, plateNumber: 'DWT3878' },
         { id: 2, make: 'Honda', model: 'Civic', year: 2021, plateNumber: 'HMT3570' },
+        
         // ...other registered vehicles...
       ],
       newVehicle: {
@@ -103,15 +104,18 @@ h1 {
 .vehicle-list {
   display: flex;
   flex-wrap: wrap;
-  color: #555555;
+  color: #dfdddd;
+  justify-content: space-evenly;
 }
 
 .vehicle {
   border: 1px solid #ddd;
   padding: 10px;
   margin: 10px;
-  background-color: white;
+  background-color: #333333cc;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+
 }
 
 h2 {
@@ -133,10 +137,7 @@ h2 {
   flex-direction: column;
   padding: 10px;
 }
-#color {
-    margin-right: 10px;
-    
-}
+
 
 label {
   margin-bottom: 5px;
@@ -147,6 +148,7 @@ input {
   border: 1px solid #ccc;
   border-radius: 4px;
   text-align: center;
+  /* margin-right: 10px; */
 }
 
 button {
@@ -157,7 +159,7 @@ button {
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s;
-  
+  text-align: center;
 }
 
 button:hover {

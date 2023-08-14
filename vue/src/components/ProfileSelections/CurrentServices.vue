@@ -15,7 +15,7 @@
           </span>
       </div>
       <!-- Why is this div not showing!!!!! -->
-    <div v-for="service in Services" :key="service.id" class="current-services-list">
+    <div v-for="service in services" :key="service.id" class="current-services-list">
       <div class="service-info">
         <h4>{{ service.description }}</h4>
         <p><strong>Price:</strong> {{ service.price }}</p>
@@ -77,8 +77,9 @@ export default {
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #ddd;
-  background-color: #f8f8f8cc;
+  background-color: #ffffffcc;
   border-radius: 8px;
+  width: 900px;
 }
 
 h1 {
@@ -122,7 +123,7 @@ button:hover {
   border: 1px solid #ddd;
   padding: 10px;
   margin-bottom: 10px;
-  background-color: white;
+  background-color: #333333cc;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 </style>
