@@ -9,6 +9,9 @@ public class WorkOrderDto {
     private Vehicle vehicle;
     private List<Service> services;
 
+    public WorkOrderDto() {
+
+    }
     public WorkOrderDto(User customer, Vehicle vehicle, List<Service> services) {
         this.customer = customer;
         this.vehicle = vehicle;

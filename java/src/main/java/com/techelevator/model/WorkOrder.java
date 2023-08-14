@@ -17,6 +17,7 @@ public class WorkOrder {
     private double timeAdjustment; // set default to 0 in constructor
     private boolean isApproved; //set default to false in constructor
     private List<ServiceStatus> serviceStatuses;
+    private boolean isCompleted;
 
 
 
@@ -31,6 +32,7 @@ public class WorkOrder {
         this.timeAdjustment = 0.00;
         this.isApproved = false;
         this.serviceStatuses = serviceStatuses;
+        this.isCompleted = false;
     }
 
     public WorkOrder(int workOrderId, List<User> users, List<ServiceStatus> serviceStatuses) {
@@ -39,6 +41,15 @@ public class WorkOrder {
         this.timeAdjustment = 0.00;
         this.isApproved = false;
         this.serviceStatuses = serviceStatuses;
+        this.isCompleted = false;
+    }
+
+    public boolean isCompleted() {
+        return isCompleted;
+    }
+
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
     }
 
     public int getWorkOrderId() {

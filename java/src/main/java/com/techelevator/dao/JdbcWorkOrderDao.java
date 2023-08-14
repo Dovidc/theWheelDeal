@@ -31,7 +31,7 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
 
         String sql = "select work_order.work_order_id, " +
                 "work_order.vehicle_id, make, model, year, color, " +
-                "time_adjustment, is_approved " +
+                "time_adjustment, is_approved, is_completed " +
                 "from work_order " +
                 "join vehicle on work_order.vehicle_id = vehicle.vehicle_id;";
         String sql2 = "select users.user_id, username, first_name, last_name, role\n" +
@@ -81,7 +81,7 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
 
         String sql = "select work_order.work_order_id, \n" +
                 "work_order.vehicle_id, make, model, year, color, \n" +
-                "time_adjustment, is_approved\n" +
+                "time_adjustment, is_approved, is_completed\n" +
                 "from work_order\n" +
                 "join vehicle on work_order.vehicle_id = vehicle.vehicle_id\n" +
                 "join users_work_order on work_order.work_order_id = users_work_order.work_order_id\n" +
@@ -132,7 +132,7 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
         WorkOrder workOrder = new WorkOrder();
         String sql = "select work_order.work_order_id,\n" +
                 "work_order.vehicle_id, make, model, year, color, \n" +
-                "time_adjustment, is_approved\n" +
+                "time_adjustment, is_approved, is_completed\n" +
                 "from work_order\n" +
                 "join vehicle on work_order.vehicle_id = vehicle.vehicle_id\n" +
                 "where work_order.work_order_id = ?;";
@@ -179,11 +179,13 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
     public WorkOrder createWorkOrder(WorkOrderDto workOrderDto) {
         WorkOrder newWorkOrder = new WorkOrder();
 
+        //null check
         List<User> newWorkOrderUserList = new ArrayList<>();
         User newUser = workOrderDto.getCustomer();
         newWorkOrderUserList.add(newUser);
         newWorkOrder.setUsers(newWorkOrderUserList);
 
+        //null check
         Vehicle newWorkOrderVehicle = new Vehicle();
         newWorkOrderVehicle = workOrderDto.getVehicle();
         newWorkOrder.setVehicle(newWorkOrderVehicle);
@@ -210,7 +212,7 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
             int customerId = -1;
 
             for (User user : newWorkOrder.getUsers()) {
-                if (user.getRole() == "Customer") {
+                if (user.getRole().equalsIgnoreCase("Customer")){
                     customerId = user.getId();
                 }
             }
@@ -238,7 +240,7 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
         WorkOrder updatedWorkOrder = new WorkOrder();
 
         String sqlUpdateWorkOrder = "update work_order " +
-                "set vehicle_id = ?, time_adjustment = ?, is_approved = ? " +
+                "set vehicle_id = ?, time_adjustment = ?, is_approved = ?, is_completed " +
                 "where work_order_id = ?;";
         String sqlUnlinkCurrentUsers = "delete from users_work_order where work_order_id = ?;";
         String sqlLinkNewUsers = "insert into users_work_order (user_id, work_order_id) " +
@@ -251,7 +253,7 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
 
         try {
             int numberOfRows = jdbcTemplate.update(sqlUpdateWorkOrder, workOrderToUpdate.getVehicle().getVehicleId(),
-                workOrderToUpdate.getTimeAdjustment(), workOrderToUpdate.isApproved(),
+                workOrderToUpdate.getTimeAdjustment(), workOrderToUpdate.isApproved(), workOrderToUpdate.isCompleted(),
                     workOrderToUpdate.getWorkOrderId());
             jdbcTemplate.update(sqlUnlinkCurrentUsers, workOrderToUpdate.getWorkOrderId());
             for (User user : workOrderToUpdate.getUsers()) {
@@ -284,6 +286,7 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
         workOrder.setVehicle((mapRowToVehicle(rowSet)));
         workOrder.setTimeAdjustment(rowSet.getDouble("time_adjustment"));
         workOrder.setApproved(rowSet.getBoolean("is_approved"));
+        workOrder.setCompleted(rowSet.getBoolean("is_completed"));
         return workOrder;
     }
     public static Vehicle mapRowToVehicle(SqlRowSet rowSet) {
