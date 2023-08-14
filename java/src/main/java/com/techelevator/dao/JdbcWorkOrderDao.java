@@ -127,7 +127,7 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
         return workOrders;
 
     }//COMPLETED
-
+    @Override
     public WorkOrder getWorkOrderById(int workOrderId) {
         WorkOrder workOrder = new WorkOrder();
         String sql = "select work_order.work_order_id,\n" +
@@ -175,7 +175,6 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
         }
         return workOrder;
     }//COMPLETED
-
     @Override
     public WorkOrder createWorkOrder(WorkOrderDto workOrderDto) {
         WorkOrder newWorkOrder = new WorkOrder();
@@ -234,7 +233,6 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
 
         return newWorkOrder;
     }//COMPLETED
-
     @Override
     public WorkOrder updateWorkOrder(WorkOrder workOrderToUpdate) {
         WorkOrder updatedWorkOrder = new WorkOrder();
@@ -248,6 +246,8 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
         String sqlUpdateServiceStatusList = "insert into work_order_service_status " +
                 "(work_order_id, service_id, " +
                 "work_order_service_status_id, status_change_timestamp) values (?,?,?,?);";
+
+        //should revisit wrapping all of these queries in a transaction
 
         try {
             int numberOfRows = jdbcTemplate.update(sqlUpdateWorkOrder, workOrderToUpdate.getVehicle().getVehicleId(),
@@ -286,7 +286,6 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
         workOrder.setApproved(rowSet.getBoolean("is_approved"));
         return workOrder;
     }
-
     public static Vehicle mapRowToVehicle(SqlRowSet rowSet) {
         Vehicle newVehicle = new Vehicle();
         newVehicle.setVehicleId(rowSet.getInt("work_order.vehicle_id"));
@@ -296,7 +295,6 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
         newVehicle.setColor(rowSet.getString("color"));
         return newVehicle;
     }
-
     public static User mapRowToUser(SqlRowSet rowSet) {
         User newUser = new User();
         newUser.setId(rowSet.getInt("user_id"));
@@ -307,14 +305,12 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
         //add badge here
         return newUser;
     }
-
     private Status mapRowToStatus(SqlRowSet rowSet) {
         Status newStatus = new Status();
         newStatus.setStatusId(rowSet.getInt("work_order_service_status_id"));
         newStatus.setDescription(rowSet.getString("status_description"));
         return newStatus;
     }
-
     private ServiceStatus mapRowToServiceStatus (SqlRowSet rowSet) {
         ServiceStatus newServiceStatus = new ServiceStatus();
         newServiceStatus.setService(jdbcServiceDao.mapRowToService(rowSet));
