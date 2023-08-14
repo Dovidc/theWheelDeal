@@ -46,7 +46,7 @@ methods: {
 };
 </script>
 
-<style >
+<style scoped>
 #employee-page {
   padding: 20px;
 }
