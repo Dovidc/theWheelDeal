@@ -1,6 +1,7 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.Service;
+import com.techelevator.model.ServiceDto;
 
 import java.util.List;
 
@@ -11,9 +12,9 @@ public interface ServiceDao {
     List<String> getServiceCategories();
 
     Service getServiceById(int serviceId);
-    Service createService(Service service);
+    Service createService(ServiceDto serviceDto);
 
     Service updateService(Service service);
 
-    int deleteServiceById(int serviceId);
+
 }

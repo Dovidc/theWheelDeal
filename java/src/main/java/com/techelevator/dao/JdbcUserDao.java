@@ -98,7 +98,9 @@ public class JdbcUserDao implements UserDao {
         String password_hash = new BCryptPasswordEncoder().encode(user.getPassword());
         String ssRole = user.getRole().toUpperCase().startsWith("ROLE_") ? user.getRole().toUpperCase() : "ROLE_" + user.getRole().toUpperCase();
         try {
-            int newUserId = jdbcTemplate.queryForObject(insertUserSql, int.class, user.getUsername(), password_hash, ssRole);
+            int newUserId = jdbcTemplate.queryForObject(insertUserSql, int.class, user.getUsername(),
+                    user.getFirstName(), user.getLastname(), password_hash, user.getEmail(),
+                    user.getPhone(), ssRole);
             newUser = getUserById(newUserId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
@@ -111,9 +113,31 @@ public class JdbcUserDao implements UserDao {
     @Override
     public User updateUser(User user) {
         User updatedUser = new User();
-        String sql = "";
+        String sql = "update user set username=?, first_name=?, last_name=?, " +
+                "password_hash=?, email=?, phone=?, role=?, is_activated=? " +
+                "where user_id=?;";
+
+        try {
+
+            int rowsUpdated = jdbcTemplate.update(sql, int.class, user.getUsername(),
+                    user.getFirstName(), user.getLastName(), user.getPassword(),
+                    user.getEmail(), user.getPhoneNumber(), user.getRole(),
+                    user.isActivated(), user.getId());
+
+            if (rowsUpdated == 0) {
+                throw new DaoException("Could not update User.");
+            } else {
+                updatedUser = getUserById(user.getId());
+            }
+
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Cannot connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Could not update User.", e);
+        }
+
         return updatedUser;
-    }
+    }//completed
     
 
     private User mapRowToUser(SqlRowSet rs) {

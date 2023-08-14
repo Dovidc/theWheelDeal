@@ -1,9 +1,8 @@
 package com.techelevator.dao;
 
-import com.techelevator.model.Invoice;
-import com.techelevator.model.User;
-import com.techelevator.model.WorkOrder;
+import com.techelevator.model.*;
 import com.techelevator.security.exception.DaoException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.relational.core.sql.In;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -115,18 +114,58 @@ public class JdbcInvoiceDao implements InvoiceDao {
     }//COMPLETED
 
     @Override
-    public Invoice createInvoice(Invoice invoice) {
-        //make sure that user = customer from workOrder
-        //make sure that ServiceStatus List only contains completed services
-    }
+    public Invoice createInvoice(InvoiceDTO invoiceDTO) {
+        Invoice createdInvoice = new Invoice();
+
+        String sql = "insert into invoice (user_id, work_order_id) " +
+                "values (?,?) returning invoice_id;";
+        String sqlLinkInvoiceToUser = "insert into user_invoice (user_id, work_order_id) " +
+                "values (?,?);";
+
+        try {
+            int createdInvoiceId = jdbcTemplate.queryForObject(sql, int.class, invoiceDTO.getUser().getId(),
+                    invoiceDTO.getWorkOrder().getWorkOrderId());
+
+            jdbcTemplate.update(sqlLinkInvoiceToUser, invoiceDTO.getUser().getId(),
+                    invoiceDTO.getWorkOrder().getWorkOrderId());
+
+            createdInvoice = getInvoiceByInvoiceId(createdInvoiceId);
+
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Cannot connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Could not create new Invoice.", e);
+        }
+
+        return createdInvoice;
+    }//COMPLETED
 
     @Override
     public Invoice updateInvoice(Invoice invoice) {
+        Invoice updatedInvoice = new Invoice();
 
-    }
+        String sql = "update invoice set user_id=?, work_order_id=?, is_paid=? " +
+                "where invoice_id=?;";
 
-    @Override
-    public int deleteInvoiceById(int invoiceId) {
+        try {
 
-    }
+            int updatedRows = jdbcTemplate.queryForObject(sql, int.class, invoice.getUser().getId(),
+                    invoice.getWorkOrder().getWorkOrderId(), invoice.isPaid());
+
+            if (updatedRows == 0) {
+                throw new DaoException("Could not update Invoice.");
+            } else {
+                updatedInvoice = getInvoiceByInvoiceId(invoice.getInvoiceID());
+            }
+
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Cannot connect to server or database.", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Could not update Invoice.", e);
+        }
+
+        return updatedInvoice;
+    }//COMPLETED
+
+
 }
