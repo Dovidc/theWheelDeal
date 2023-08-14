@@ -20,5 +20,10 @@ export default {
 </script>
 
 <style>
-
+#profile {
+  background-image: url("https://img.freepik.com/free-vector/blank-blue-halftone-background_53876-114466.jpg"); /* Replace with the actual path to your image */
+  background-size:cover; /* Adjust this property to control how the image covers the background */
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
 </style>

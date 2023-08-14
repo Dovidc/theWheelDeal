@@ -34,7 +34,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 .registration-form-container {
   display: flex;
@@ -99,9 +99,4 @@ input[type="email"] {
 .btn-primary:hover {
   background-color: #0056b3;
 }
-body {
-      background-image: url("https://img.freepik.com/free-vector/blank-blue-halftone-background_53876-114466.jpg"); /* Replace with the actual path to your image */
-      background-size:cover; /* Adjust this property to control how the image covers the background */
-      background-repeat: no-repeat;
-    }
 </style>
