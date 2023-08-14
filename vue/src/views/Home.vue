@@ -92,7 +92,7 @@ export default {
   
   .hero-container {
     text-align: center;
-    background-color: #573259
+    background-color: #57325975
     ;
     padding: 3rem;
     border-radius: 10px;
@@ -107,13 +107,13 @@ export default {
   
   .cta-button {
     display: inline-block;
-    background-color: #78009c;
+    background-color: #78009c5e;
     color: rgb(252, 252, 252);
     text-decoration: none;
     padding: 1rem 1rem;
     border-radius: 5px;
-    align-self: center;
     transition: background-color 0.1s ease;
+    grid-column: span 2;
     
   }
   
@@ -195,6 +195,17 @@ export default {
     display: inline-block;
     margin-top: 1rem;
   }
+  .header-container nav ul li a[href="/profile"] {
+    color: #fff;
+    text-decoration: none;
+    
+    transition: color 0.1s ease;
+  }
+  
+  .header-container nav ul li a[href="/profile"]:hover {
+    color: #ff7b00;
+  }
+
   .header-container nav ul li a[href="/login"] {
     color: #fff;
     text-decoration: none;
@@ -257,4 +268,7 @@ export default {
   .header-container nav ul li a[href="/"]:hover {
     color: #ff7b00;
   }
+   body{
+    background-image: url("https://cdn.cnn.com/cnnnext/dam/assets/220721175751-woman-mechanic-stock-super-tease.jpg");
+  } 
 </style>

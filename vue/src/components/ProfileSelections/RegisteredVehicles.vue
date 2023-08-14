@@ -48,6 +48,7 @@ data() {
       registeredVehicles: [
         { id: 1, make: 'Toyota', model: 'Camry', year: 2022, plateNumber: 'DWT3878' },
         { id: 2, make: 'Honda', model: 'Civic', year: 2021, plateNumber: 'HMT3570' },
+        
         // ...other registered vehicles...
       ],
       newVehicle: {
@@ -85,39 +86,61 @@ data() {
 </script>
 
 <style scoped>
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
 .vehicle-form-container {
   max-width: 800px;
+  width: 100%;
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #ddd;
   background-color: #f8f8f8cc;
   border-radius: 8px;
+  box-sizing: border-box;
 }
 
 h1 {
   font-size: 24px;
   margin-bottom: 20px;
   color: #333333;
+  text-align: center;
 }
 
 .vehicle-list {
   display: flex;
   flex-wrap: wrap;
-  color: #555555;
+  justify-content: center;
 }
 
 .vehicle {
   border: 1px solid #ddd;
   padding: 10px;
   margin: 10px;
-  background-color: white;
+  background-color: #333333cc;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 }
 
 h2 {
   font-size: 20px;
   margin-top: 30px;
-  color: #555555;
+  color: #2b2db4;
+  text-align: center;
 }
 
 .new-vehicle-form {
@@ -125,7 +148,7 @@ h2 {
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
   margin-top: 10px;
-  
+  margin: 0 -10px; /* Add negative margin to adjust the gap between boxes and border */
 }
 
 .form-group {
@@ -133,34 +156,36 @@ h2 {
   flex-direction: column;
   padding: 10px;
 }
-#color {
-    margin-right: 10px;
-    
-}
 
 label {
   margin-bottom: 5px;
+  text-align: center;
 }
 
 input {
   padding: 8px;
-  border: 1px solid #ccc;
+  width: 90%;
+  border: 1px solid rgb(109, 107, 107);
   border-radius: 4px;
   text-align: center;
 }
 
 button {
   padding: 8px 12px;
-  background-color: #007bff;
+  background-color: #002df3;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s;
-  
+  text-align: center;
+  grid-column: span 2;
+  width: 100%; /* Stretch the button to extend from one border to the other */
 }
 
 button:hover {
   background-color: #0056b3;
 }
 </style>
+
+
