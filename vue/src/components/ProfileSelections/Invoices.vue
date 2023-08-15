@@ -53,7 +53,7 @@ export default {
           total: '60.00$',
           isOpen: false,
           purchases: [
-            { id: 3, description: 'Service C', quantity: 1, price: '60.00', total: '60.00' }
+            { id: 3, description: 'Break Pads', quantity: 3, price: '60.00', total: '60.00' }
           ]
         }
         // ...other user invoices...
