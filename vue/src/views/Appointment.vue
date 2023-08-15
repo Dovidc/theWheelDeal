@@ -53,10 +53,7 @@
         <label for="appointmentDate">Appointment Date:</label>
         <input type="date" v-model="appointmentDate" id="appointmentDate" >
       </div>
-      <div class="form-group">
-        <label for="appointmentTime">Vehicle Drop Off Time:</label>
-        <input type="time" v-model="appointmentTime" id="appointmentTime" >
-      </div>
+    
       <button type="submit">Book Appointment</button>
     </form>
     </div>
