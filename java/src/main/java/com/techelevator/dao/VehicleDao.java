@@ -16,7 +16,7 @@ public interface VehicleDao {
     List<Vehicle> getVehiclesByMake(String make);
 
     List<Vehicle> getVehiclesByModel(String model);
-    Vehicle createVehicle(VehicleDto vehicleDto);
+    Vehicle createVehicle(VehicleDto vehicleDto, int userId);
     Vehicle updateVehicle(Vehicle vehicle);
 
 
