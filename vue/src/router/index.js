@@ -8,6 +8,7 @@ import store from '../store/index'
 import Employee from '../views/Employee.vue'
 import Profile from '../views/Profile.vue'
 import Appointment from '../views/Appointment.vue'
+import ForgotPassword from '../views/ForgotPassword.vue'
 
 Vue.use(Router)
 
@@ -76,6 +77,14 @@ const router = new Router({
     path: "/appointment",
     name: "appointment",
     component: Appointment,
+    meta: {
+      requiresAuth: false
+    }
+  },
+  {
+    path: "/ForgotPassword",
+    name: "ForgotPassword",
+    component: ForgotPassword,
     meta: {
       requiresAuth: false
     }

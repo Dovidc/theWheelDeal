@@ -47,14 +47,16 @@ export default {
   h2 {
     text-align: center;
     color: #ffffff;
+    padding-bottom: 20px;
+    padding-top: 20px;
     
   }
   .service-list li select {
     width: 100%;
     padding: 0.7rem;
-    border: 2px solid rgb(255, 238, 0);
+    border: 2px solid rgb(43, 255, 0);
     border-radius: 4px;
-    background-color: #8806c4;
+    background-color: #0e1bd6;
     font-size: 0.8rem;
     color: rgb(219, 200, 200);
     transition: border-color 0.3s ease, background-color 0.3s ease;
@@ -70,7 +72,7 @@ export default {
   .service-list li select option {
     font-size: 1rem;
     color: rgb(255, 255, 255);
-    background-color: rgb(120, 1, 124);
+    background-color: rgb(92, 4, 95);
   }
   
   
@@ -96,22 +98,23 @@ export default {
   
   .hero-container {
     text-align: center;
-    background-color: #57325975
-    ;
+    background-color: #9e43a375;
+    
     padding: 3rem;
     border-radius: 10px;
-    box-shadow: 0 5px 15px rgb(255, 196, 0);
+    box-shadow: 0 5px 15px rgb(135, 250, 4);
   }
   
   .hero-container h2 {
     font-size: 2rem;
     margin-bottom: 1rem;
+    padding-bottom: 20px;
     
   }
   
   .cta-button {
     display: inline-block;
-    background-color: #78009c5e;
+    background-color: #78009c;
     color: rgb(252, 252, 252);
     text-decoration: none;
     padding: 1rem 1rem;
@@ -148,7 +151,7 @@ export default {
   .about-container {
     text-align: center;
     
-    background-color: #573259e7;
+    background-color: #6a336de7;
     color: #fff;
     padding: 3rem;
     border-radius: 10px;
@@ -173,11 +176,11 @@ export default {
   
   
   .service-list li {
-    background-color: #2b1633;
+    background-color: #8208b393;
     color: #fff;
     padding: 2rem;
     border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.959);
+    
   }
   
   .service-list li img {
