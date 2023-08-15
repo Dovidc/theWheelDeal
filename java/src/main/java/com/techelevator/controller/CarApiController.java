@@ -15,12 +15,12 @@ public class CarApiController {
         this.carApiService = carApiService;
     }
 
-    @GetMapping("/makes")
+    @GetMapping("/makes")//need path
     public List<String> getMakes() {
         return carApiService.getMakes();
     }
 
-    @GetMapping("/models")
+    @GetMapping("/models") //need path
     public List<String> getModelsByMake(@RequestParam String make) {
         return carApiService.getModelsByMake(make);
     }
