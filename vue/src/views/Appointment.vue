@@ -53,7 +53,10 @@
         <label for="appointmentDate">Appointment Date:</label>
         <input type="date" v-model="appointmentDate" id="appointmentDate" >
       </div>
-    
+      <div class="form-group">
+        <label for="appointmentTime">Vehicle Drop Off Time:</label>
+        <input type="time" v-model="appointmentTime" id="appointmentTime" >
+      </div>
       <button type="submit">Book Appointment</button>
     </form>
     </div>
@@ -62,9 +65,11 @@
 
 <script>
 import Header from '../components/Header';
+import CarApiService from '../services/CarApiService';
+
 export default {
     components: {
-        Header
+        Header,
     },
     data() {
     return {
@@ -74,8 +79,8 @@ export default {
         { id: 2, make: "Honda", model: "Civic", year: 2020 },
         // ...other saved vehicles...
       ],
-       availableMakes: ['Make1', 'Make2', 'Make3'], // Your available makes from API
-      availableModels: ['Model1', 'Model2', 'Model3'], // Your available models from API
+      availableMakes:[], // Your available makes from API
+      availableModels:[], // Your available models from API
       showAddNewVehicle: false,
       newVehicle: {
         make: '',
@@ -110,11 +115,34 @@ export default {
       };
     },
     addNewVehicle() {
-      // Handle adding new vehicle logic here
-      // Push the newVehicle object to your savedVehicles array, etc.
-      // Reset the form and hide the form
+      CarApiService.createVehicle(this.newVehicle)
+    .then(response => {
+      // Assuming the API returns the newly created vehicle object
+      this.savedVehicles.push(response.data);
       this.toggleAddNewVehicle();
+    })
+    .catch(error => {
+      console.error("Error adding new vehicle:", error);
+    });
     }
+},
+created() {
+ CarApiService.getMakes()
+    .then(response => {
+      this.availableMakes = response.data; 
+    })
+    .catch(error => {
+      console.error("Error fetching makes:", error);
+    });
+
+  CarApiService.getModels()
+    .then(response => {
+      this.availableModels = response.data; 
+    })
+    .catch(error => {
+      console.error("Error fetching models:", error);
+    });
+
 }
   };
 
