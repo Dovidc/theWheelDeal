@@ -16,11 +16,13 @@ import java.util.List;
 public class JdbcInvoiceDao implements InvoiceDao {
 
     private JdbcTemplate jdbcTemplate;
-    private JdbcUserDao jdbcUserDao;
-    private JdbcWorkOrderDao jdbcWorkOrderDao;
+    private UserDao jdbcUserDao;
+    private WorkOrderDao jdbcWorkOrderDao;
 
-    public JdbcInvoiceDao(JdbcTemplate jdbcTemplate) {
+    public JdbcInvoiceDao(JdbcTemplate jdbcTemplate, UserDao userDao, WorkOrderDao workOrderDao) {
         this.jdbcTemplate = jdbcTemplate;
+        this.jdbcUserDao = userDao;
+        this.jdbcWorkOrderDao = workOrderDao;
     }
 
 
