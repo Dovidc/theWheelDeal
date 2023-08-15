@@ -22,6 +22,11 @@
     <p class="signup-link">
       <router-link :to="{ name: 'register' }">Don't have an account? Sign up.</router-link>
     </p>
+    <p class="forgot-password">
+    <router-link :to="{ name: 'ForgotPassword' }">Forgot Password?.</router-link>
+    </p>
+
+    
   </form>
 </div>
 </template>
@@ -72,6 +77,12 @@ export default {
   align-items: center; */
   min-height: 100vh;
   /* background-color: #f5f8fb; */
+}
+.forgot-password {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 14px;
+  color: #777;
 }
 
 .login-form {
