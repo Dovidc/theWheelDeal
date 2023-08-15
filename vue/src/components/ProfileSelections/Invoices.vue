@@ -94,7 +94,7 @@ body {
   width: 1000px;
   margin: 0 auto;
   padding: 20px;
-  border: 1px solid rgb(78, 78, 78);
+  border: 1px solid rgb(253, 253, 253);
   background-color: #ffffffcc;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
@@ -118,6 +118,7 @@ h1 {
   margin-bottom: 10px;
   background-color: #9c9a9acc;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
 }
 
 .invoice-header {
@@ -131,7 +132,7 @@ h1 {
   border: none;
   padding: 5px 10px;
   cursor: pointer;
-  border-radius: 9px;
+  border-radius: 20px;
 }
 
 .invoice-summary {
@@ -142,7 +143,7 @@ h1 {
 }
 
 .invoice-details {
-  border-top: 1px solid #ddd;
+  border-top: 1px solid rgb(18, 22, 243);
   margin-top: 10px;
   padding-top: 10px;
   
@@ -152,7 +153,7 @@ h1 {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid rgb(38, 17, 226);
   padding-top: 10px;
 }
 
@@ -166,6 +167,7 @@ h1 {
 
 strong {
   font-weight: bold;
+  color: #007bff;
 }
 
 p {
@@ -174,7 +176,7 @@ p {
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.2s;
+  transition: opacity .5s;
 }
 
 .fade-enter,

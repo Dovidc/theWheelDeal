@@ -1,25 +1,15 @@
 <template>
-  <div id="register" class="register-page">
+  <div id="forgot-password" class="register-page">
     <Header />
   <form @submit.prevent="register" class="register-form">
-    <h1 class="register-title">Create an Account</h1>
+    <h1 class="register-title">New Password</h1>
     <div role="alert" v-if="registrationErrors" class="alert alert-danger">
       {{ registrationErrorMsg }}
     </div>
+    
+    
     <div class="form-input-group">
-      <label for="username">Username:</label>
-      <input type="text" id="username" v-model="user.username" required autofocus />
-    </div>
-    <div class="form-input-group">
-      <label for="fname">First Name:</label>
-      <input type="text" id="fname" v-model="user.first_name" required autofocus />
-    </div>
-    <div class="form-input-group">
-      <label for="lname">Last Name:</label>
-      <input type="text" id="lname" v-model="user.last_name" required autofocus />
-    </div>
-    <div class="form-input-group">
-      <label for="password">Password:</label>
+      <label for="password">New Password:</label>
       <input type="password" id="password" v-model="user.password" required />
     </div>
     <div class="form-input-group">
@@ -34,7 +24,7 @@
       <label for="phoneNumber">Phone Number:</label>
       <input type="tel" id="phoneNumber" v-model="user.phone" required autofocus />
     </div>
-    <button type="submit" class="btn btn-primary">Create Account</button>
+    <button type="submit" class="btn btn-primary">Confirm Password Reset</button>
     <p class="login-link">
       <router-link :to="{ name: 'login' }">Already have an account? Log in.</router-link>
     </p>
@@ -47,7 +37,7 @@ import authService from '../services/AuthService';
 import Header from '../components/Header';
 
 export default {
-  name: 'register',
+  name: 'forgot-password',
   components: {
     Header
   },
@@ -140,7 +130,6 @@ label {
   color: #555;
 }
 
-input[type="text"],
 input[type="email"],
 input[type="tel"],
 input[type="password"] {

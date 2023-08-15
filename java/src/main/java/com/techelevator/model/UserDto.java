@@ -16,7 +16,7 @@ public class UserDto {
     private String email;
     private String phoneNumber;
     private String badge;
-    private WorkOrderDto workOrderDto;
+
 
     public UserDto () {
 
@@ -24,7 +24,7 @@ public class UserDto {
 
     public UserDto(String username, String firstName, String lastName,
                    String password, String role, Set<Authority> authorities,
-                   String email, String phoneNumber, WorkOrderDto workOrderDto) {
+                   String email, String phoneNumber) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -34,7 +34,7 @@ public class UserDto {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.badge = "";
-        this.workOrderDto = workOrderDto;
+
     }
 
     public String getUsername() {
@@ -109,11 +109,4 @@ public class UserDto {
         this.badge = badge;
     }
 
-    public WorkOrderDto getWorkOrderDto() {
-        return workOrderDto;
-    }
-
-    public void setWorkOrderDto(WorkOrderDto workOrderDto) {
-        this.workOrderDto = workOrderDto;
-    }
 }
