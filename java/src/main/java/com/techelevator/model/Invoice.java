@@ -25,6 +25,11 @@ public class Invoice {
         return user.getRole().equalsIgnoreCase("customer");
     }
 
+    @AssertTrue
+    private boolean isCompleted () {
+        return workOrder.isCompleted();
+    }
+
 
     public Invoice() {
 

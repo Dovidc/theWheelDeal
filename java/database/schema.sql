@@ -47,6 +47,7 @@ create table work_order
 	vehicle_id int not null,
 	time_adjustment decimal not null default 0.0,
 	is_approved boolean not null default false,
+	is_completed boolean not null default false,
 
 	constraint pk_work_order_id primary key (work_order_id),
 	constraint fk_vehicle_id foreign key (vehicle_id) references vehicle (vehicle_id)
