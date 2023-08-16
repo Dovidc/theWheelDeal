@@ -93,8 +93,9 @@
 </template>
 
 <script>
-import Header from "../components/Header";
-import CarApiService from "../services/CarApiService";
+import Header from '../components/Header';
+import CarApiService from '../services/CarApiService';
+import VehicleService from '../services/VehicleService';
 
 export default {
   components: {
@@ -109,12 +110,7 @@ export default {
     );
 
     return {
-      selectedVehicle: "",
-      savedVehicles: [
-        { id: 1, make: "Toyota", model: "Camry", year: 2022 },
-        { id: 2, make: "Honda", model: "Civic", year: 2020 },
-        // ...other saved vehicles...
-      ],
+      selectedVehicle: [],
       availableMakes: [], // Your available makes from API should create a drop down list
       availableModels: [], // Your available models from API
       yearRange,
@@ -170,35 +166,49 @@ export default {
         .catch((error) => {
           console.error("Error fetching models:", error);
         });
-    },
-  },
-  created() {
-    CarApiService.getMakes()
-      .then((response) => {
-        this.availableMakes = response.data;
-      })
-      .catch((error) => {
-        console.error("Error fetching makes:", error);
-      });
 
-    CarApiService.getModels()
-      .then((response) => {
-        this.availableModels = response.data;
-      })
-      .catch((error) => {
-        console.error("Error fetching models:", error);
-      });
-  },
-};
+    }
+},
+created() {
+ CarApiService.getMakes()
+    .then(response => {
+      this.availableMakes = response.data; 
+    })
+    .catch(error => {
+      console.error("Error fetching makes:", error);
+    });
+
+  CarApiService.getModels()
+    .then(response => {
+      this.availableModels = response.data; 
+    })
+    .catch(error => {
+      console.error("Error fetching models:", error);
+    });
+
+    VehicleService
+    .getVehicleForUser(this.$store.state.user.id)
+    .then(response => {
+      this.registeredVehicles = response.data;
+    });
+
+}
+  };
+
+
 </script>
 
 <style scoped>
+.appointment-form {
+  height: 100vh;
+}
 .add-new-vehicle-form {
   margin-top: 20px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: #f9f9f9;
+  
 }
 
 .form-container {
@@ -218,6 +228,8 @@ h1 {
 .form-group {
   margin-bottom: 15px;
   width: 95%;
+  color: #555555;
+  
 }
 #vehicle {
   width: 99%;
@@ -226,6 +238,7 @@ h1 {
 label {
   display: block;
   font-weight: bold;
+  margin-bottom: 5px;
 }
 
 select,
@@ -242,5 +255,7 @@ button {
   border: none;
   padding: 10px 20px;
   cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 </style>

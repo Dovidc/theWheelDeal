@@ -129,6 +129,7 @@ export default {
 <style scoped>
 .employee-dashboard {
   padding: 20px;
+  height: 100vh;
 }
 h1 {
   font-size: 25px;

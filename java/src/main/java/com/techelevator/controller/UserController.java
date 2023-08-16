@@ -35,6 +35,7 @@ public class UserController {
         if (!principal.getName().equals(user.getUsername())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Cannot update another user's profile.");
         } else {
+            user.setId(userDao.getUserByUsername(principal.getName()).getId());
             return userDao.updateUser(user);
         }
     }

@@ -4,26 +4,26 @@
       <div class="vehicle-selection-and-add-new-button">
            <label for="vehicle-selection">Vehicle:</label>
       <span>
-        <select name="saved-vehicles" id="vehicle-selection">
-          <option value="none">Select Vehicle</option>
+        <select name="saved-vehicles" id="vehicle-selection" v-model="selectedVehicleId">
+          <option value="-1">Select Vehicle</option>
           <!-- below option should show saved users saved vehicles -->
-          <option value=""></option>
+          <option v-for= "vehicle in registeredVehicles" :key="vehicle.id" class="vehicles-drop-down" :value="vehicle.vehicleId">{{vehicle.make}} {{vehicle.model}}</option>
         </select>
       </span>
           <span>
              <button v-on:click="$parent.showSection('vehicles')">Add New</button>
           </span>
       </div>
-      <!-- Why is this div not showing!!!!! -->
-    <div v-for="service in services" :key="service.id" class="current-services-list">
+      
+    <div v-for="service in services" :key="service.serviceId" class="current-services-list">
       <div class="service-info">
         <h4>{{ service.description }}</h4>
         <p><strong>Price:</strong> {{ service.price }}</p>
-        <p><strong>Qty:</strong> {{ service.quantity }}</p>
+        <!-- <p><strong>Qty:</strong> {{ service.quantity }}</p> -->
       </div>
-      <div class="service-total">
+      <!-- <div class="service-total">
         <p><strong>Total:</strong> {{ calculateTotal(service) }}</p>
-      </div>
+      </div> -->
       <div class="service-status">
         <p><strong>Status:</strong> {{ service.status }}</p>
       </div>
@@ -36,35 +36,61 @@
 </template>
 
 <script>
+import VehicleService from '../../services/VehicleService';
+import WorkOrderService from '../../services/WorkOrderService';
 export default {
+  created() {
+  VehicleService
+    .getVehicleForUser(this.$store.state.user.id)
+    .then(response => {
+      this.registeredVehicles = response.data;
+    });
+
+  WorkOrderService
+    .getWorkOrderByUserId(this.$store.state.user.id)
+    .then(response => {
+      this.workOrders = response.data;
+    });
+},
 
     data() {
         return {
-            services: [
-                {
-                    id: 1,
-                    description: 'Oil Change',
-                    price: '25.00$',
-                    quantity: 1,
-                    total: '25,00$',
-                    status: 'In Progress'
-                },
-                {
-                     id: 2,
-                    description: 'Engine Repair',
-                    price: '2499.00$',
-                    quantity: 1,
-                    total: '2499.00$',
-                    status: 'Completed'
-                },
-            ],
+          registeredVehicles: [],
+          workOrders: [],
+          selectedVehicleId: -1
         };
         
     },
     methods: {
         calculateTotal(service) {
             service.price * service.quantity
+        },
+        
+    },
+    computed: {
+      services() {
+        if (this.selectedVehicleId === -1) {
+          return [];
         }
+
+        const workOrderForVehicle = this.workOrders.find(wo => wo.vehicle.vehicleId === this.selectedVehicleId);
+        
+        if (workOrderForVehicle == null) {
+          return [];
+        }
+
+        return workOrderForVehicle.serviceStatuses.map(obj => {
+          return {
+            serviceId: obj.service.serviceID,
+            description: obj.service.serviceDescription,
+            category: obj.service.category,
+            price: obj.service.price,
+            serviceTime: obj.service.serviceTime,
+            statusId: obj.status.statusId,
+            status: obj.status.description
+          }
+        })
+      }
     }
    
 }
@@ -80,6 +106,9 @@ export default {
   background-color: #ffffffcc;
   border-radius: 8px;
   width: 900px;
+}
+option {
+  color: red;
 }
 
 h1 {
