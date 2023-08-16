@@ -1,66 +1,93 @@
 <template>
-   <div class="appointment-form">
-      <Header />
-      <div class= "form-container">
-    <h1>Create Appointment</h1>
-    
-    <form @submit.prevent="createAppointment">
-      <div class="form-group-vehicle">
-        <label for="vehicle">Select Vehicle:</label>
-        <select v-model="selectedVehicle" id="vehicle">
-          <option value="">Select a vehicle</option>
-          <option v-for="vehicle in registeredVehicles" :key="vehicle.id" :value="vehicle.id">{{ vehicle.make }} {{ vehicle.model }} ({{ vehicle.year }})</option>
-        </select>
-      </div>
-      <!-- Add New Vehicle Drop Down -->
-      <button @click="toggleAddNewVehicle">Add New Vehicle</button>
+  <div class="appointment-form">
+    <Header />
+    <div class="form-container">
+      <h1>Create Appointment</h1>
 
-    <div v-if="showAddNewVehicle" class="add-new-vehicle-form">
-      <form>
-        <div class="form-group">
-          <label for="make">Make:</label>
-          <select v-model="newVehicle.make" id="make" @change="makeChanged">
-            <option value="">Make</option>
-            <option v-for="make in availableMakes" :key="make" :value="make.name">{{ make.name }}</option>
+      <form @submit.prevent="createAppointment">
+        <div class="form-group-vehicle">
+          <label for="vehicle">Select Vehicle:</label>
+          <select v-model="selectedVehicle" id="vehicle">
+            <option value="">Select a vehicle</option>
+            <option
+              v-for="vehicle in savedVehicles"
+              :key="vehicle.id"
+              :value="vehicle.id"
+            >
+              {{ vehicle.make }} {{ vehicle.model }} ({{ vehicle.year }})
+            </option>
           </select>
         </div>
+        <!-- Add New Vehicle Drop Down -->
+        <button @click="toggleAddNewVehicle">Add New Vehicle</button>
+
+        <div v-if="showAddNewVehicle" class="add-new-vehicle-form">
+          <form>
+            <div class="form-group">
+              <label for="make">Make:</label>
+              <select v-model="newVehicle.make" id="make" @change="makeChanged">
+                <option value="">Make</option>
+                <option
+                  v-for="make in availableMakes"
+                  :key="make"
+                  :value="make.name"
+                >
+                  {{ make.name }}
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="model">Model:</label>
+              <select v-model="newVehicle.model" id="model">
+                <option value="">Model</option>
+                <option
+                  v-for="model in availableModels"
+                  :key="model"
+                  :value="model.name"
+                >
+                  {{ model.name }}
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="year">Year:</label>
+              <select id="year" v-model="newVehicle.year" required>
+                <option value="">Year</option>
+                <option v-for="year in yearRange" :key="year" :value="year">
+                  {{ year }}
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="color">Color:</label>
+              <input type="text" v-model="newVehicle.color" id="color" />
+            </div>
+            <div class="form-group">
+              <label for="plateNumber">Plate Number:</label>
+              <input
+                type="text"
+                v-model="newVehicle.plateNumber"
+                id="plateNumber"
+              />
+            </div>
+            <div class="form-group">
+              <label for="mileage">Mileage:</label>
+              <input type="number" v-model="newVehicle.mileage" id="mileage" />
+            </div>
+            <button @click="addNewVehicle">Add Vehicle</button>
+          </form>
+        </div>
+        <!-- Drop Down End -->
         <div class="form-group">
-          <label for="model">Model:</label>
-          <select v-model="newVehicle.model" id="model">
-            <option value="">Model</option>
-            <option v-for="model in availableModels" :key="model" :value="model.name">{{ model.name }}</option>
-          </select>
+          <label for="appointmentDate">Appointment Date:</label>
+          <input type="date" v-model="appointmentDate" id="appointmentDate" />
         </div>
         <div class="form-group">
-          <label for="year">Year:</label>
-          <input type="number" v-model="newVehicle.year" id="year">
+          <label for="appointmentTime">Vehicle Drop Off Time:</label>
+          <input type="time" v-model="appointmentTime" id="appointmentTime" />
         </div>
-        <div class="form-group">
-          <label for="color">Color:</label>
-          <input type="text" v-model="newVehicle.color" id="color">
-        </div>
-        <div class="form-group">
-          <label for="plateNumber">Plate Number:</label>
-          <input type="text" v-model="newVehicle.plateNumber" id="plateNumber">
-        </div>
-        <div class="form-group">
-          <label for="mileage">Mileage:</label>
-          <input type="number" v-model="newVehicle.mileage" id="mileage">
-        </div>
-        <button @click="addNewVehicle">Add Vehicle</button>
+        <button type="submit">Book Appointment</button>
       </form>
-    </div>
-    <!-- Drop Down End -->
-      <div class="form-group">
-        <label for="appointmentDate">Appointment Date:</label>
-        <input type="date" v-model="appointmentDate" id="appointmentDate" >
-      </div>
-      <div class="form-group">
-        <label for="appointmentTime">Vehicle Drop Off Time:</label>
-        <input type="time" v-model="appointmentTime" id="appointmentTime" >
-      </div>
-      <button type="submit">Book Appointment</button>
-    </form>
     </div>
   </div>
 </template>
@@ -71,66 +98,72 @@ import CarApiService from '../services/CarApiService';
 import VehicleService from '../services/VehicleService';
 
 export default {
-    components: {
-        Header,
-    },
-    data() {
+  components: {
+    Header,
+  },
+  data() {
+    const currentYear = new Date().getFullYear();
+    const startYear = 2000; // Replace with your desired start year
+    const yearRange = Array.from(
+      { length: currentYear - startYear + 1 },
+      (_, index) => startYear + index
+    );
+
     return {
-      registeredVehicles: [],
-      
-      availableMakes:[] , // Your available makes from API should create a drop down list
-      availableModels:[], // Your available models from API
+      selectedVehicle: [],
+      availableMakes: [], // Your available makes from API should create a drop down list
+      availableModels: [], // Your available models from API
+      yearRange,
       showAddNewVehicle: false,
       newVehicle: {
-        make: '',
-        model: '',
+        make: "",
+        model: "",
         year: null,
-        color: '',
-        plateNumber: '',
-        mileage: null
+        color: "",
+        plateNumber: "",
+        mileage: null,
       },
       appointmentDate: "",
-      appointmentTime: ""
+      appointmentTime: "",
     };
   },
   methods: {
     createAppointment() {
-    //   const appointmentDetails = 
-    //     vehicleId: this.selectedVehicle,
-    //     date: this.appointmentDate,
-    //     time: this.appointmentTime
-      
+      //   const appointmentDetails =
+      //     vehicleId: this.selectedVehicle,
+      //     date: this.appointmentDate,
+      //     time: this.appointmentTime
       // You can perform further actions with the appointment details, like sending to a server or updating a database.
     },
-     toggleAddNewVehicle() {
+    toggleAddNewVehicle() {
       this.showAddNewVehicle = !this.showAddNewVehicle;
       this.newVehicle = {
-        make: '',
-        model: '',
+        make: "",
+        model: "",
         year: null,
-        color: '',
-        plateNumber: '',
-        mileage: null
+        color: "",
+        plateNumber: "",
+        mileage: null,
       };
     },
     addNewVehicle() {
       CarApiService.createVehicle(this.newVehicle)
-    .then(response => {
-      // Assuming the API returns the newly created vehicle object
-      this.savedVehicles.push(response.data);
-      this.toggleAddNewVehicle();
-    })
-    .catch(error => {
-      console.error("Error adding new vehicle:", error);
-    });
+        .then((response) => {
+          // Assuming the API returns the newly created vehicle object
+          this.savedVehicles.push(response.data);
+          this.toggleAddNewVehicle();
+        })
+        .catch((error) => {
+          console.error("Error adding new vehicle:", error);
+        });
     },
 
     makeChanged() {
       CarApiService.getModels(this.newVehicle.make)
-        .then(response => {
-          this.availableModels = response.data; 
+        .then((response) => {
+          this.availableModels = response.data;
         })
-        .catch(error => {
+        .catch((error) => {
           console.error("Error fetching models:", error);
         });
 
@@ -179,20 +212,17 @@ created() {
 }
 
 .form-container {
-
   max-width: 500px;
   margin: 0 auto;
   padding: 20px;
   border: 1px solid rgb(221, 221, 221);
   background-color: #f8f8f8cc;
-  
-  
 }
 
 h1 {
   font-size: 24px;
   margin-bottom: 20px;
-  color: #555555
+  color: #555555;
 }
 
 .form-group {
@@ -202,7 +232,7 @@ h1 {
   
 }
 #vehicle {
-    width: 99%;
+  width: 99%;
 }
 
 label {
@@ -217,7 +247,6 @@ input {
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  
 }
 
 button {
