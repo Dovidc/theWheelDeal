@@ -24,7 +24,7 @@ public class RegisterUserDto {
     @NotEmpty
     private String confirmPassword;
     @NotEmpty(message = "Please select a role for this user.")
-    private String role;
+    private String role = "Customer";
 
     public String getUsername() {
         return username;
