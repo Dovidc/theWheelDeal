@@ -57,9 +57,9 @@ import VehicleService from '../../services/VehicleService';
 export default {
 
 data() {
-  const currentYear = new Date().getFullYear();
-    const startYear = 2000; // Replace with your desired start year
-    const yearRange = Array.from({ length: currentYear - startYear + 1 }, (_, index) => startYear + index);
+const endYear = 2000;
+const startYear = 2023;
+const yearRange = Array.from({ length: startYear - endYear + 1 }, (_, index) => startYear - index)
 
     return {
       registeredVehicles: [],
