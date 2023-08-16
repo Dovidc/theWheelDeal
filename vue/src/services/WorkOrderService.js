@@ -10,8 +10,8 @@ export default {
         return axios.get('/employeedashboard/workorders');
     },
         
-    createWorkOrder(userId, user) {
-        return axios.post(`/profile/${userId}/currentservices`, user);
+    createWorkOrder(userId, workOrderDto) {
+        return axios.post(`/profile/${userId}/currentservices`, workOrderDto);
     },
         // is this right?
     updateWorkOrder(workOrderId ,workOrder) {

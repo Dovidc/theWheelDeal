@@ -78,7 +78,7 @@ const router = new Router({
     name: "appointment",
     component: Appointment,
     meta: {
-      requiresAuth: false
+      requiresAuth: true
     }
   },
   {

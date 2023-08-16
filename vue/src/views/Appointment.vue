@@ -8,11 +8,11 @@
         <div class="form-group-vehicle">
           <label for="vehicle">Select Vehicle:</label>
           <select v-model="selectedVehicle" id="vehicle">
-            <option value="">Select a vehicle</option>
+            <option value="-1">Select a vehicle</option>
             <option
               v-for="vehicle in savedVehicles"
-              :key="vehicle.id"
-              :value="vehicle.id"
+              :key="vehicle.vehicleId"
+              :value="vehicle.vehicleId"
             >
               {{ vehicle.make }} {{ vehicle.model }} ({{ vehicle.year }})
             </option>
@@ -22,14 +22,14 @@
         <button @click="toggleAddNewVehicle">Add New Vehicle</button>
 
         <div v-if="showAddNewVehicle" class="add-new-vehicle-form">
-          <form>
+          <form @submit.prevent="addNewVehicle">
             <div class="form-group">
               <label for="make">Make:</label>
               <select v-model="newVehicle.make" id="make" @change="makeChanged">
                 <option value="">Make</option>
                 <option
                   v-for="make in availableMakes"
-                  :key="make"
+                  :key="make.name"
                   :value="make.name"
                 >
                   {{ make.name }}
@@ -42,7 +42,7 @@
                 <option value="">Model</option>
                 <option
                   v-for="model in availableModels"
-                  :key="model"
+                  :key="model.name"
                   :value="model.name"
                 >
                   {{ model.name }}
@@ -74,7 +74,7 @@
               <label for="mileage">Mileage:</label>
               <input type="number" v-model="newVehicle.mileage" id="mileage" />
             </div>
-            <button @click="addNewVehicle">Add Vehicle</button>
+            <button>Add Vehicle</button>
           </form>
         </div>
         <!-- Drop Down End -->
@@ -96,6 +96,7 @@
 import Header from '../components/Header';
 import CarApiService from '../services/CarApiService';
 import VehicleService from '../services/VehicleService';
+import WorkOrderService from '../services/WorkOrderService';
 
 export default {
   components: {
@@ -110,7 +111,7 @@ export default {
     );
 
     return {
-      selectedVehicle: [],
+      selectedVehicle: -1,
       availableMakes: [], // Your available makes from API should create a drop down list
       availableModels: [], // Your available models from API
       yearRange,
@@ -125,10 +126,26 @@ export default {
       },
       appointmentDate: "",
       appointmentTime: "",
+      savedVehicles: []
     };
   },
   methods: {
     createAppointment() {
+      const vehicle = this.savedVehicles.find(vehicle => vehicle.vehicleId === this.selectedVehicle);
+      const services = this.$store.state.selectedServices;
+
+      const workOrderDto = {
+        vehicle,
+        services
+      };
+
+      WorkOrderService
+        .createWorkOrder(this.$store.state.user.id, workOrderDto)
+        .then(() => {
+          this.$router.push('/');
+        });
+
+
       //   const appointmentDetails =
       //     vehicleId: this.selectedVehicle,
       //     date: this.appointmentDate,
@@ -147,7 +164,7 @@ export default {
       };
     },
     addNewVehicle() {
-      CarApiService.createVehicle(this.newVehicle)
+      VehicleService.registerVehicle(this.$store.state.user.id, this.newVehicle)
         .then((response) => {
           // Assuming the API returns the newly created vehicle object
           this.savedVehicles.push(response.data);
@@ -189,7 +206,7 @@ created() {
     VehicleService
     .getVehicleForUser(this.$store.state.user.id)
     .then(response => {
-      this.registeredVehicles = response.data;
+      this.savedVehicles = response.data;
     });
 
 }

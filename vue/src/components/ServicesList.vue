@@ -126,7 +126,7 @@
     <section id="services">
       
         <div class="services-container">
-          <form action="submit_services.php" method="post"> <!-- Change 'submit_services.php' to your server-side script -->
+          <form @submit.prevent="submitForm"> <!-- Change 'submit_services.php' to your server-side script -->
             <ul class="service-list">
               <!-- ... Existing service items ... -->
             </ul>
@@ -218,6 +218,21 @@ export default {
       } else {
         this.addService(id);
       }
+    },
+    submitForm() {
+      const selectedServiceObjects = [];
+
+      this.selectedServices.forEach(serviceId => {
+        this.allServices.forEach(serviceObject => {
+          if (serviceId === serviceObject.serviceID) {
+            selectedServiceObjects.push(serviceObject);
+          }
+        });
+      });
+
+
+      this.$store.commit('ADD_SELECTED_SERVICES', selectedServiceObjects);
+      this.$router.push({ name:'appointment' });
     }
   }
 }

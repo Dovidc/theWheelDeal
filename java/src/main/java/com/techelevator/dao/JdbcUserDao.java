@@ -96,11 +96,11 @@ public class JdbcUserDao implements UserDao {
         User newUser = null;
         String insertUserSql = "INSERT INTO users (username, first_name, last_name, password_hash, email, phone, role) values (?, ?, ?, ?, ?, ?, ?) RETURNING user_id";
         String password_hash = new BCryptPasswordEncoder().encode(user.getPassword());
-        String ssRole = user.getRole().toUpperCase().startsWith("ROLE_") ? user.getRole().toUpperCase() : "ROLE_" + user.getRole().toUpperCase();
+//        String ssRole = user.getRole().toUpperCase().startsWith("ROLE_") ? user.getRole().toUpperCase() : "ROLE_" + user.getRole().toUpperCase();
         try {
             int newUserId = jdbcTemplate.queryForObject(insertUserSql, int.class, user.getUsername(),
                     user.getFirstName(), user.getLastname(), password_hash, user.getEmail(),
-                    user.getPhone(), ssRole);
+                    user.getPhone(), user.getRole());
             newUser = getUserById(newUserId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
@@ -151,6 +151,7 @@ public class JdbcUserDao implements UserDao {
         user.setEmail(rs.getString("email"));
         user.setAuthorities(Objects.requireNonNull(rs.getString("role")));
         user.setActivated(rs.getBoolean("is_activated"));
+        user.setRole(rs.getString("role"));
         return user;
     }//completed
 
