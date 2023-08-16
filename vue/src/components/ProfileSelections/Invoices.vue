@@ -6,7 +6,7 @@
         <div class="invoice-header">
          
           <div class="invoice-summary">
-            <p><strong>Customer:</strong> {{ invoice.customerName }}</p>
+            <p><strong>Vehicle:</strong> {{ invoice.customerName }}</p>
             <p><strong>Total:</strong> {{ invoice.total }}</p>
           </div>
            <button class="toggle-details-btn" @click="toggleDetails(invoice)">
