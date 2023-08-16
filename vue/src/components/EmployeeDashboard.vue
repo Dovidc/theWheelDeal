@@ -129,6 +129,7 @@ export default {
 <style scoped>
 .employee-dashboard {
   padding: 20px;
+  height: 100vh;
 }
 h1 {
   font-size: 25px;
@@ -181,5 +182,6 @@ body {
   background-image: url("https://cdn.cnn.com/cnnnext/dam/assets/220721175751-woman-mechanic-stock-super-tease.jpg"); /* Replace with the actual path to your image */
   background-size: cover; /* Adjust this property to control how the image covers the background */
   background-repeat: no-repeat;
+  
 }
 </style>

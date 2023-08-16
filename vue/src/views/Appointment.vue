@@ -9,7 +9,7 @@
         <label for="vehicle">Select Vehicle:</label>
         <select v-model="selectedVehicle" id="vehicle">
           <option value="">Select a vehicle</option>
-          <option v-for="vehicle in savedVehicles" :key="vehicle.id" :value="vehicle.id">{{ vehicle.make }} {{ vehicle.model }} ({{ vehicle.year }})</option>
+          <option v-for="vehicle in registeredVehicles" :key="vehicle.id" :value="vehicle.id">{{ vehicle.make }} {{ vehicle.model }} ({{ vehicle.year }})</option>
         </select>
       </div>
       <!-- Add New Vehicle Drop Down -->
@@ -68,6 +68,7 @@
 <script>
 import Header from '../components/Header';
 import CarApiService from '../services/CarApiService';
+import VehicleService from '../services/VehicleService';
 
 export default {
     components: {
@@ -75,12 +76,8 @@ export default {
     },
     data() {
     return {
-      selectedVehicle: "",
-      savedVehicles: [
-        { id: 1, make: "Toyota", model: "Camry", year: 2022 },
-        { id: 2, make: "Honda", model: "Civic", year: 2020 },
-        // ...other saved vehicles...
-      ],
+      registeredVehicles: [],
+      
       availableMakes:[] , // Your available makes from API should create a drop down list
       availableModels:[], // Your available models from API
       showAddNewVehicle: false,
@@ -156,6 +153,12 @@ created() {
       console.error("Error fetching models:", error);
     });
 
+    VehicleService
+    .getVehicleForUser(this.$store.state.user.id)
+    .then(response => {
+      this.registeredVehicles = response.data;
+    });
+
 }
   };
 
@@ -163,12 +166,16 @@ created() {
 </script>
 
 <style scoped>
+.appointment-form {
+  height: 100vh;
+}
 .add-new-vehicle-form {
   margin-top: 20px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: #f9f9f9;
+  
 }
 
 .form-container {
@@ -191,6 +198,7 @@ h1 {
 .form-group {
   margin-bottom: 15px;
   width: 95%;
+  color: #555555;
   
 }
 #vehicle {
@@ -200,6 +208,7 @@ h1 {
 label {
   display: block;
   font-weight: bold;
+  margin-bottom: 5px;
 }
 
 select,
@@ -216,5 +225,7 @@ button {
   border: none;
   padding: 10px 20px;
   cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 </style>
