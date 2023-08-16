@@ -26,7 +26,7 @@ public class JdbcServiceDao implements ServiceDao {
     public List<Service> getServices() {
         List<Service> returnedServices = new ArrayList<>();
         String sql = "select service_id, service_description, " +
-                "service_category, service_price, service_time" +
+                "service_category, service_price, service_time " +
                 "from service;";
 
         try {

@@ -133,7 +133,7 @@ label {
 input[type="email"],
 input[type="tel"],
 input[type="password"] {
-  width: 100%;
+  width: 106%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -160,7 +160,7 @@ input[type="password"] {
   margin-top: 15px;
   text-align: center;
   font-size: 14px;
-  color: #777;
+  color: rgb(92, 32, 32);
 }
 
 .alert {
