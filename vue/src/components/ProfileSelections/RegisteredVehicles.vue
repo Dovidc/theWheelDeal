@@ -26,10 +26,13 @@
             <option v-for="model in availableModels" :key="model" :value="model.name">{{ model.name }}</option>
           </select>
         </div>
-      <div class="form-group">
-        <label for="year">Year:</label>
-        <input type="number" id="year" v-model="newVehicle.year" required />
-      </div>
+       <div class="form-group">
+    <label for="year">Year:</label>
+    <select id="year" v-model="newVehicle.year" required>
+      <option value="">Year</option>
+      <option v-for="year in yearRange" :key="year" :value="year">{{ year }}</option>
+    </select>
+  </div>
       <div class="form-group">
         <label for="color">Color:</label>
         <input type="text" id="color" v-model="newVehicle.color" required />
@@ -54,10 +57,15 @@ import VehicleService from '../../services/VehicleService';
 export default {
 
 data() {
+  const currentYear = new Date().getFullYear();
+    const startYear = 2000; // Replace with your desired start year
+    const yearRange = Array.from({ length: currentYear - startYear + 1 }, (_, index) => startYear + index);
+
     return {
       registeredVehicles: [],
       availableMakes:[],
       availableModels:[],
+      yearRange,
       newVehicle: {
         make: '',
         model: '',
@@ -211,7 +219,7 @@ label {
   margin-bottom: 5px;
   text-align: center;
 }
-
+select,
 input {
   padding: 8px;
   width: 90%;
