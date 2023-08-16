@@ -53,6 +53,14 @@ insert into status (status_description) values ('Not Started');
 insert into status (status_description) values ('In Progress');
 insert into status (status_description) values ('Completed');
 
+-- faking vehicles temporarily.
+insert into vehicle (make, model, year, color, plate_number, mileage)
+values ('Toyota', 'Camry', 2022, 'Blue', 'FGZ-1324', 56050),
+ ('Honda', 'Civic', 2023, 'White', 'HGY-2334', 21442);
+
+insert into users_vehicle (user_id, vehicle_id)
+values (1,1), (1,2);
+
 
 
 

@@ -18,12 +18,13 @@ import java.util.List;
 @Component
 public class JdbcWorkOrderDao implements WorkOrderDao {
 
-    private static JdbcServiceDao jdbcServiceDao;
+    private ServiceDao jdbcServiceDao;
     private final JdbcTemplate jdbcTemplate;
 
 
-    public JdbcWorkOrderDao(JdbcTemplate jdbcTemplate) {
+    public JdbcWorkOrderDao(JdbcTemplate jdbcTemplate, ServiceDao serviceDao) {
         this.jdbcTemplate = jdbcTemplate;
+        this.jdbcServiceDao = serviceDao;
     }
     @Override
     public List<WorkOrder> getWorkOrders() {
@@ -282,7 +283,7 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
 
     public static WorkOrder mapRowToWorkOrder(SqlRowSet rowSet) {
         WorkOrder workOrder = new WorkOrder();
-        workOrder.setWorkOrderId(rowSet.getInt("work_order.work_order_id"));
+        workOrder.setWorkOrderId(rowSet.getInt("work_order_id"));
         workOrder.setVehicle((mapRowToVehicle(rowSet)));
         workOrder.setTimeAdjustment(rowSet.getDouble("time_adjustment"));
         workOrder.setApproved(rowSet.getBoolean("is_approved"));
@@ -291,7 +292,7 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
     }
     public static Vehicle mapRowToVehicle(SqlRowSet rowSet) {
         Vehicle newVehicle = new Vehicle();
-        newVehicle.setVehicleId(rowSet.getInt("work_order.vehicle_id"));
+        newVehicle.setVehicleId(rowSet.getInt("vehicle_id"));
         newVehicle.setMake(rowSet.getString("make"));
         newVehicle.setModel(rowSet.getString("model"));
         newVehicle.setYear(rowSet.getString("year"));
