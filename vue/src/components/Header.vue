@@ -35,8 +35,8 @@ export default {
     
   }
   .header-title {
-      color: white;
+      color: rgb(42, 243, 15);
     
-      text-decoration: unset;
+      
   }
 </style>

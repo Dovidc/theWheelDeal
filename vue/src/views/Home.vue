@@ -72,7 +72,7 @@ export default {
   .service-list li select option {
     font-size: 1rem;
     color: rgb(255, 255, 255);
-    background-color: rgb(54, 52, 54);
+    background-color: rgb(131, 101, 131);
   }
   
   

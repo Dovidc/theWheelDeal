@@ -33,7 +33,7 @@ insert into service (service_description, service_category, service_price, servi
 insert into service (service_description, service_category, service_price, service_time) values ('Catalytic Converters', 'Exhaust & Catalytic Converters',759.00,0.5);
 insert into service (service_description, service_category, service_price, service_time) values ('Emissions Repair', 'Exhaust & Catalytic Converters',149.00,0.5);
 insert into service (service_description, service_category, service_price, service_time) values ('Performance Exhaust', 'Exhaust & Catalytic Converters',299.00,0.5);
-insert into service (service_description, service_category, service_price, service_time) values ('Rack & Pinion Steering System', 'Springs', 1499.00,0.5);
+insert into service (service_description, service_category, service_price, service_time) values ('Rack & Pinion ', 'Springs', 1499.00,0.5);
 insert into service (service_description, service_category, service_price, service_time) values ('Struts & Shock Absorbers', 'Springs',1099.00,0.5);
 insert into service (service_description, service_category, service_price, service_time) values ('Power Steering & Chassis', 'Springs',99.00,0.5);
 insert into service (service_description, service_category, service_price, service_time) values ('Suspension Lowering', 'Springs', 649.00,0.5);

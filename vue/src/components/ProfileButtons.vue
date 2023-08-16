@@ -92,6 +92,7 @@ export default {
   padding: 20px;
 }
 
+
 .profile-options {
   display: flex;
   justify-content: center;
@@ -108,7 +109,7 @@ export default {
 }
 
 .option i {
-  font-size: 24px;
+  font-size: 34px;
   margin-bottom: 5px;
 }
 
