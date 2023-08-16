@@ -216,7 +216,7 @@ label {
   margin-bottom: 5px;
   text-align: center;
 }
-
+select,
 input {
   padding: 8px;
   width: 90%;

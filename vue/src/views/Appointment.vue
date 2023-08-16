@@ -208,6 +208,7 @@ input {
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
+  
 }
 
 button {
