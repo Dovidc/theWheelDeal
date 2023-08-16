@@ -6,12 +6,36 @@ public class VehicleDto {
     private String model;
     private String year;
     private String color;
+    private String plateNumber;
+    private String mileage;
 
-    public VehicleDto(String make, String model, String year, String color) {
+    public VehicleDto () {
+
+    }
+
+    public VehicleDto(String make, String model, String year, String color, String plateNumber, String mileage) {
         this.make = make;
         this.model = model;
         this.year = year;
         this.color = color;
+        this.plateNumber = plateNumber;
+        this.mileage = mileage;
+    }
+
+    public String getPlateNumber() {
+        return plateNumber;
+    }
+
+    public void setPlateNumber(String plateNumber) {
+        this.plateNumber = plateNumber;
+    }
+
+    public String getMileage() {
+        return mileage;
+    }
+
+    public void setMileage(String mileage) {
+        this.mileage = mileage;
     }
 
     public String getMake() {
