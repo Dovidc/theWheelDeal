@@ -1,7 +1,7 @@
 BEGIN TRANSACTION;
 
-INSERT INTO users (username, first_name, last_name, password_hash, role) VALUES ('user', 'User FName', 'User LName','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_USER');
-INSERT INTO users (username, first_name, last_name, password_hash, role) VALUES ('admin','Admin FName', 'Admin LName', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_ADMIN');
+INSERT INTO users (username, first_name, last_name, password_hash, role) VALUES ('user', 'User FName', 'User LName','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','Customer');
+INSERT INTO users (username, first_name, last_name, password_hash, role) VALUES ('admin','Admin FName', 'Admin LName', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','Admin');
 
 insert into service (service_description, service_category, service_price, service_time) values ('Tune Up', 'Auto Repair Services', 75.00, 0.5);
 insert into service (service_description, service_category, service_price, service_time) values ('Diagnostic Test', 'Auto Repair Services',25.00,0.5);
