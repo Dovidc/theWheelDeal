@@ -54,9 +54,9 @@ export default {
   .service-list li select {
     width: 100%;
     padding: 0.7rem;
-    border: 2px solid rgb(43, 255, 0);
+    border: 2px solid rgb(255, 255, 255);
     border-radius: 4px;
-    background-color: #0e1bd6;
+    background-color: #555555;
     font-size: 0.8rem;
     color: rgb(219, 200, 200);
     transition: border-color 0.3s ease, background-color 0.3s ease;
@@ -72,7 +72,7 @@ export default {
   .service-list li select option {
     font-size: 1rem;
     color: rgb(255, 255, 255);
-    background-color: rgb(92, 4, 95);
+    background-color: rgb(54, 52, 54);
   }
   
   

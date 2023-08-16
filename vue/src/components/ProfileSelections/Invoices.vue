@@ -15,17 +15,39 @@
         </div>
         <transition name="fade">
           <div v-if="invoice.isOpen" class="invoice-details">
-            <div class="purchase" v-for="purchase in invoice.purchases" :key="purchase.id">
-              <div class="purchase-info">
-                <p><strong>Description:</strong> {{ purchase.description }}</p>
-                <p><strong>Quantity:</strong> {{ purchase.quantity }}</p>
-                <p><strong>Price:</strong> {{ purchase.price }}</p>
-              </div>
-              <div class="purchase-total">
-                <p><strong>Total:</strong> {{ purchase.price * purchase.quantity + '.00$' }}</p>
-              </div>
-            </div>
-          </div>
+            <!-- Invoice Button -->
+             <div class="invoice-pop-up">
+                <h1>Invoice</h1>
+                
+                <div class="invoice-details-pop-up">
+                  <p><strong>Invoice No:</strong> {{ invoiceId }}</p>
+                  <p><strong>Employee Assigned:</strong> {{ employeeAssigned }}</p>
+                  <p><strong>Customer Name:</strong> {{ customerName }}</p>
+                  <p><strong>Vehicle:</strong> {{ vehicleMake }} {{ vehicleModel }} (Plate No: {{ plateNumber }})</p>
+                </div>
+                
+                <table class="services-table">
+                  <thead>
+                    <tr>
+                      <th>Services</th>
+                      <th>Price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(service, index) in services" :key="index">
+                      <td>{{ service.name }}</td>
+                      <td>{{ service.price }}</td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th>Total:</th>
+                      <td>{{ total }}</td>
+                    </tr>
+                  </tfoot>
+    </table>
+    </div>
+    </div>
         </transition>
       </div>
     </div>
@@ -53,7 +75,7 @@ export default {
           total: '60.00$',
           isOpen: false,
           purchases: [
-            { id: 3, description: 'Service C', quantity: 1, price: '60.00', total: '60.00' }
+            { id: 3, description: 'Break Pads', quantity: 3, price: '60.00', total: '60.00' }
           ]
         }
         // ...other user invoices...
@@ -184,4 +206,35 @@ p {
   opacity: 0;
 }
 
+/* New Invoice CSS */
+.invoice-pop-up {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ffffff;
+  background-color: rgba(143, 142, 142, 0.8);
+}
+
+.invoice-details-pop-up {
+  margin-bottom: 20px;
+  color: white;
+}
+
+.services-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  color: rgb(0, 0, 0);
+  
+}
+label {
+    padding: 10px
+}
+
+.services-table th,
+.services-table td {
+  padding: 8px;
+  border: 1px solid rgb(255, 255, 255);
+  text-align: left;
+}
 </style>
