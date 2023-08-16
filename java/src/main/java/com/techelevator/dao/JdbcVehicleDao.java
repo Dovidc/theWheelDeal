@@ -128,8 +128,8 @@ public class JdbcVehicleDao implements VehicleDao {
 
         String sql = "insert into vehicle (make, model, year, color) values (?,?,?,?) " +
                 "returning vehicle_id ;";
-        String sqlLinkVehicleToUser = "insert into user_vehicle (user_id, vehicle_id) " +
-                "values (?,?)"
+        String sqlLinkVehicleToUser = "insert into users_vehicle (user_id, vehicle_id) " +
+                "values (?,?)";
 
         try {
             int newVehicleId = jdbcTemplate.queryForObject(sql, int.class, vehicleDto.getMake(),

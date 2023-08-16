@@ -42,15 +42,19 @@
 </template>
 
 <script>
+import VehicleService from '../../services/VehicleService';
 export default {
+created() {
+  VehicleService
+    .getVehicleForUser(this.$store.state.user.id)
+    .then(response => {
+      this.registeredVehicles = response.data;
+    });
+},
+
 data() {
     return {
-      registeredVehicles: [
-        { id: 1, make: 'Toyota', model: 'Camry', year: 2022, plateNumber: 'DWT3878' },
-        { id: 2, make: 'Honda', model: 'Civic', year: 2021, plateNumber: 'HMT3570' },
-        
-        // ...other registered vehicles...
-      ],
+      registeredVehicles: [],
       newVehicle: {
         make: '',
         model: '',
@@ -71,6 +75,9 @@ data() {
         year: this.newVehicle.year,
         // ...other properties...
       });
+
+      VehicleService.registerVehicle(this.$store.state.user.id, this.newVehicle);
+      
       // Reset the newVehicle object
       this.newVehicle = {
         make: '',
