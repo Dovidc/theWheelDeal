@@ -86,6 +86,9 @@ data() {
         make: this.newVehicle.make,
         model: this.newVehicle.model,
         year: this.newVehicle.year,
+        color: this.newVehicle.color,
+        plateNumber: this.newVehicle.plateNumber.toUpperCase,
+        mileage: this.newVehicle.mileage
         // ...other properties...
       });
 
