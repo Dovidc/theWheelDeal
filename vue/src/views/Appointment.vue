@@ -19,14 +19,16 @@
       <form>
         <div class="form-group">
           <label for="make">Make:</label>
-          <select v-model="newVehicle.make" id="make">
-            <option v-for="make in availableMakes" :key="make">{{ make }}</option>
+          <select v-model="newVehicle.make" id="make" @change="makeChanged">
+            <option value="">Make</option>
+            <option v-for="make in availableMakes" :key="make" :value="make.name">{{ make.name }}</option>
           </select>
         </div>
         <div class="form-group">
           <label for="model">Model:</label>
           <select v-model="newVehicle.model" id="model">
-            <option v-for="model in availableModels" :key="model">{{ model }}</option>
+            <option value="">Model</option>
+            <option v-for="model in availableModels" :key="model" :value="model.name">{{ model.name }}</option>
           </select>
         </div>
         <div class="form-group">
@@ -79,7 +81,7 @@ export default {
         { id: 2, make: "Honda", model: "Civic", year: 2020 },
         // ...other saved vehicles...
       ],
-      availableMakes:[], // Your available makes from API
+      availableMakes:[] , // Your available makes from API should create a drop down list
       availableModels:[], // Your available models from API
       showAddNewVehicle: false,
       newVehicle: {
@@ -124,6 +126,17 @@ export default {
     .catch(error => {
       console.error("Error adding new vehicle:", error);
     });
+    },
+
+    makeChanged() {
+      CarApiService.getModels(this.newVehicle.make)
+        .then(response => {
+          this.availableModels = response.data; 
+        })
+        .catch(error => {
+          console.error("Error fetching models:", error);
+        });
+
     }
 },
 created() {

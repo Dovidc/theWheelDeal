@@ -1,4 +1,4 @@
-<template>
+npm<template>
    <section id="home">
       <div class="hero-container">
         <h2>Welcome to The Wheel Deal</h2>

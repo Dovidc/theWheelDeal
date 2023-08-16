@@ -14,6 +14,7 @@
     <form @submit.prevent="registerVehicle" class="new-vehicle-form">
       <div class="form-group">
         <label for="make">Make:</label>
+       
         <input type="text" id="make" v-model="newVehicle.make" required />
       </div>
       <div class="form-group">
