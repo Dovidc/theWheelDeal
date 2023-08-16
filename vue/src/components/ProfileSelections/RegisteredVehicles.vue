@@ -13,14 +13,19 @@
     <h2>Register New Vehicle</h2>
     <form @submit.prevent="registerVehicle" class="new-vehicle-form">
       <div class="form-group">
-        <label for="make">Make:</label>
-       
-        <input type="text" id="make" v-model="newVehicle.make" required />
-      </div>
+          <label for="make">Make:</label>
+          <select v-model="newVehicle.make" id="make" @change="makeChanged">
+            <option value="">Make</option>
+            <option v-for="make in availableMakes" :key="make" :value="make.name">{{ make.name }}</option>
+          </select>
+        </div>
       <div class="form-group">
-        <label for="model">Model:</label>
-        <input type="text" id="model" v-model="newVehicle.model" required />
-      </div>
+          <label for="model">Model:</label>
+          <select v-model="newVehicle.model" id="model">
+            <option value="">Model</option>
+            <option v-for="model in availableModels" :key="model" :value="model.name">{{ model.name }}</option>
+          </select>
+        </div>
       <div class="form-group">
         <label for="year">Year:</label>
         <input type="number" id="year" v-model="newVehicle.year" required />
@@ -43,19 +48,16 @@
 </template>
 
 <script>
+import CarApiService from '../../services/CarApiService';
 import VehicleService from '../../services/VehicleService';
+
 export default {
-created() {
-  VehicleService
-    .getVehicleForUser(this.$store.state.user.id)
-    .then(response => {
-      this.registeredVehicles = response.data;
-    });
-},
 
 data() {
     return {
       registeredVehicles: [],
+      availableMakes:[],
+      availableModels:[],
       newVehicle: {
         make: '',
         model: '',
@@ -67,6 +69,8 @@ data() {
     };
   },
   methods: {
+    
+    
     registerVehicle() {
       // Add the new vehicle to the registeredVehicles array
       this.registeredVehicles.push({
@@ -88,9 +92,44 @@ data() {
         plateNumber: '',
         mileage: ''
       };
-    }
+    },
+    makeChanged() {
+      CarApiService.getModels(this.newVehicle.make)
+        .then(response => {
+          this.availableModels = response.data; 
+        })
+        .catch(error => {
+          console.error("Error fetching models:", error);
+        });
+
+    },
+  },
+
+  created() {
+      VehicleService
+    .getVehicleForUser(this.$store.state.user.id)
+    .then(response => {
+      this.registeredVehicles = response.data;
+    });
+    
+   CarApiService.getMakes()
+    .then(response => {
+      this.availableMakes = response.data; 
+    })
+    .catch(error => {
+      console.error("Error fetching makes:", error);
+    });
+
+  CarApiService.getModels()
+    .then(response => {
+      this.availableModels = response.data; 
+    })
+    .catch(error => {
+      console.error("Error fetching models:", error);
+    });
   }
-}
+  };
+
 </script>
 
 <style scoped>
