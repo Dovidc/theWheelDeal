@@ -6,24 +6,23 @@
         <div class="invoice-header">
          
           <div class="invoice-summary">
-            <p><strong>Vehicle:</strong> {{ invoice.customerName }}</p>
-            <p><strong>Total:</strong> {{ invoice.total }}</p>
+            <p><strong>Vehicle:</strong> {{ invoice.workOrder.vehicle.make }} {{ invoice.workOrder.vehicle.model }} {{invoice.workOrder.vehicle.year}}</p>
+            <p><strong>Total:</strong> ${{calculateTotal(invoice)}} </p>
           </div>
            <button class="toggle-details-btn" @click="toggleDetails(invoice)">
-            {{ invoice.isOpen ? 'Hide Details' : 'Show Details' }}
+            {{ isOpen ? 'Hide Details' : 'Show Details' }}
           </button>
         </div>
         <transition name="fade">
-          <div v-if="invoice.isOpen" class="invoice-details">
+          <div v-if="isOpen" class="invoice-details">
             <!-- Invoice Button -->
              <div class="invoice-pop-up">
                 <h1>Invoice</h1>
                 
                 <div class="invoice-details-pop-up">
-                  <p><strong>Invoice No:</strong> {{ invoice.id }}</p>
-                  <p><strong>Employee Assigned:</strong> {{ employeeAssigned }}</p>
-                  <p><strong>Customer Name:</strong> {{ invoice.firstName }}  {{invoice.LastName}}</p>
-                  <p><strong>Vehicle:</strong> {{ vehicleMake }} {{ vehicleModel }} (Plate No: {{ plateNumber }})</p>
+                  <p><strong>Invoice No:</strong> {{ invoice.invoiceID }}</p>
+                  <p><strong>Customer Name:</strong> {{ invoice.user.firstName }}  {{invoice.user.lastName}}</p>
+                  <p><strong>Vehicle:</strong> {{ invoice.workOrder.vehicle.make }} {{ invoice.workOrder.vehicle.model }}</p>
                 </div>
                 
                 <table class="services-table">
@@ -34,15 +33,15 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(service, index) in services" :key="index">
-                      <td>{{ service.name }}</td>
-                      <td>{{ service.price }}</td>
+                    <tr v-for="(service, index) in invoice.workOrder.serviceStatuses" :key="index">
+                      <td>{{ service.service.serviceDescription }}</td>
+                      <td>$ {{ service.service.price }}</td>
                     </tr>
                   </tbody>
                   <tfoot>
                     <tr>
                       <th>Total:</th>
-                      <td>{{ total }}</td>
+                      <td>{{ calculateTotal(invoice) }}</td>
                     </tr>
                   </tfoot>
     </table>
@@ -69,37 +68,23 @@ export default {
   
   data() {
     return {
-      invoices: [
-        {
-          id: 1,
-          customerName: 'John Doe',
-          total: '80.00$',
-          isOpen: false,
-          purchases: [
-            { id: 1, description: 'Oil Change', quantity: 2, price: '25.00', total: '50.00' },
-            { id: 2, description: 'Engine Repair', quantity: 1, price: '30.00', total: '30.00' }
-          ]
-        },
-        {
-          id: 2,
-          customerName: 'Jane Smith',
-          total: '60.00$',
-          isOpen: false,
-          purchases: [
-            { id: 3, description: 'Break Pads', quantity: 3, price: '60.00', total: '60.00' }
-          ]
-        }
-        // ...other user invoices...
-      ]
+      isOpen: false,
+      invoices: [],
     };
   },
   methods: {
     toggleDetails(invoice) {
-      invoice.isOpen = !invoice.isOpen;
+      invoice
+      this.isOpen = !this.isOpen
     },
-    calculateTotal(purchase) {
-      (purchase.price * purchase.quantity)
-    }
+    calculateTotal(invoice) {
+      let totalPrice = 0;
+      invoice.workOrder.serviceStatuses.forEach(item => {
+        totalPrice += parseFloat(item.service.price); 
+      })
+      return totalPrice.toFixed(2);
+    },
+    
   }
 }
 </script>
