@@ -4,9 +4,10 @@
       <nav>
         <ul>
           <li><a href="/">Home</a></li>
-          <li><a href="/#services">Services</a></li>
-          <li><a href="/#about">About Us</a></li>
-          <li><a href="/#contact">Contact</a></li>
+          <li v-if="!$store.state.token || $store.state.user.role != 'Admin'"><a href="/#services">Services</a></li>
+          <li v-if="!$store.state.token || $store.state.user.role != 'Admin'"><a href="/#about">About Us</a></li>
+          <li v-if="!$store.state.token || $store.state.user.role != 'Admin'"><a href="/#contact">Contact</a></li>
+           <li v-if="$store.state.token && $store.state.user.role == 'Admin'"><a href="/employeedashboard">Dashboard</a></li>
           <li v-if="$store.state.token"><a href="/profile">Profile</a></li>
           <!-- This should only show when the user is not logged in -->
           <li v-else><router-link :to="{ name: 'login' }">Log in</router-link></li>
