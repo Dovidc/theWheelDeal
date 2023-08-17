@@ -3,10 +3,9 @@
     <h1>Invoice</h1>
     
     <div class="invoice-details">
-      <p><strong>Work Order ID:</strong> {{ workOrderId }}</p>
-      <p><strong>Employee Assigned:</strong> {{ employeeAssigned }}</p>
-      <p><strong>Customer Name:</strong> {{ customerName }}</p>
-      <p><strong>Vehicle:</strong> {{ vehicleMake }} {{ vehicleModel }} (Plate No: {{ plateNumber }})</p>
+      <p><strong>Work Order ID:</strong> {{ invoice.workOrder.workOrderId }}</p>
+      <p><strong>Customer Name:</strong> {{ getCustomerName }}</p>
+      <p><strong>Vehicle:</strong> {{ invoice.workOrder.vehicle.make }} {{ invoice.workOrder.vehicle.model }} (Plate No: {{ invoice.workOrder.vehicle.plateNumber }})</p>
     </div>
     
     <table class="services-table">
@@ -17,9 +16,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(service, index) in services" :key="index">
-          <td>{{ service.name }}</td>
-          <td>{{ service.price }}</td>
+        <tr v-for="(serviceStatus, index) in completedServices" :key="index">
+          <td>{{ serviceStatus.service.serviceDescription }}</td>
+          <td>${{ serviceStatus.service.price }}</td>
         </tr>
       </tbody>
       <tfoot>
@@ -31,42 +30,50 @@
     </table>
     
     <div class="paid-checkbox">
-        <button v-show="submitInvoiceBtn" >Submit Invoice</button>
-      <label>
+        <button v-show="invoiceIsNotPaid" @click="payInvoice">Mark as Paid</button>
+      <!-- <label>
         <input type="checkbox" v-model="paid" @click="showSubmitInvoiceBtn(submitInvoiceBtn)"> Paid
-      </label>
+      </label> -->
     </div>
   </div>
 </template>
 
 <script>
+import InvoiceService from '../services/InvoiceService';
+
 export default {
-  data() {
-    return {
-      submitInvoiceBtn: false, 
-      workOrderId: "12345",
-      employeeAssigned: "John Doe",
-      customerName: "Jane Smith",
-      vehicleMake: "Toyota",
-      vehicleModel: "Camry",
-      plateNumber: "ABC123",
-      services: [
-        { name: "Oil Change", price: "$25.00" },
-        { name: "Brake Inspection", price: "$40.00" },
-        // Add more services here
-      ],
-      paid: false,
-    };
+  props: ['invoice'],
+
+  methods: {
+      showSubmitInvoiceBtn(submitInvoiceBtn) {
+          this.submitInvoiceBtn = !submitInvoiceBtn;
+      },
+
+      payInvoice() {
+        const updatedInvoice = {...this.invoice};
+        updatedInvoice.paid = true;
+        InvoiceService.updateInvoice(updatedInvoice);
+        this.$emit('close-modal');
+      }
   },
-    methods: {
-        showSubmitInvoiceBtn(submitInvoiceBtn) {
-            this.submitInvoiceBtn = !submitInvoiceBtn;
-        }
-    },
   computed: {
-    total() {
-      return "$" + this.services.reduce((total, service) => total + parseFloat(service.price.slice(1)), 0).toFixed(2);
+    invoiceIsNotPaid() {
+      return this.invoice.paid === false;
     },
+
+    total() {
+      return "$" + this.completedServices.reduce((total, serviceStatus) => total + serviceStatus.service.price, 0).toFixed(2);
+    },
+
+    getCustomerName() {
+      const customerUser = this.invoice.user;
+      return `${customerUser.firstName} ${customerUser.lastName}`;
+    },
+
+    completedServices() {
+      return this.invoice.workOrder.serviceStatuses.filter(ss => ss.status.description === 'Completed');
+    }
+
   },
 };
 </script>

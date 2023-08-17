@@ -241,12 +241,14 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
         WorkOrder updatedWorkOrder = new WorkOrder();
 
         String sqlUpdateWorkOrder = "update work_order " +
-                "set vehicle_id = ?, time_adjustment = ?, is_approved = ?, is_completed " +
+                "set vehicle_id = ?, time_adjustment = ?, is_approved = ?, is_completed = ? " +
                 "where work_order_id = ?;";
         String sqlUnlinkCurrentUsers = "delete from users_work_order where work_order_id = ?;";
         String sqlLinkNewUsers = "insert into users_work_order (user_id, work_order_id) " +
                 "values (?,?);";//use update
-        String sqlUpdateServiceStatusList = "insert into work_order_service_status " +
+        String sqlUpdateServiceStatusList = "" +
+                "delete from work_order_service_status where work_order_id=? and service_id=?;" + // TODO: Fix this so there is history retained
+                "insert into work_order_service_status " +
                 "(work_order_id, service_id, " +
                 "work_order_service_status_id, status_change_timestamp) values (?,?,?,?);";
 
@@ -261,7 +263,10 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
                 jdbcTemplate.update(sqlLinkNewUsers, user.getId(), workOrderToUpdate.getWorkOrderId());
             }
             for (ServiceStatus serviceStatus : workOrderToUpdate.getServiceStatuses()) {
-                jdbcTemplate.update(sqlUpdateServiceStatusList, workOrderToUpdate.getWorkOrderId(),
+                jdbcTemplate.update(sqlUpdateServiceStatusList,
+                        workOrderToUpdate.getWorkOrderId(),
+                        serviceStatus.getService().getServiceID(),
+                        workOrderToUpdate.getWorkOrderId(),
                         serviceStatus.getService().getServiceID(), serviceStatus.getStatus().getStatusId(),
                         LocalDateTime.now());
             }

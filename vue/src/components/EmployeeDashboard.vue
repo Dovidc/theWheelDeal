@@ -47,22 +47,18 @@
         </div>
 
         <div class="workorder-checkbox">
-          <label>
-            <input type="checkbox" v-model="workorder.completed" /> Complete
-          </label>
           <button
-            v-show="workorder.completed"
-            @click="createInvoice(workorder)"
+            @click="createEditOrViewInvoice(workorder)"
           >
             <!-- When clicked "Create Invoice", it should switch to "Invoice Created" -->
             {{
-              workorder.invoiceCreated ? "Invoice Created" : "Create Invoice"
+              getInvoiceButtonText(workorder)
             }}
           </button>
         </div>
         <div class="modal " :class="{'is-active':workorder.id == activeModal}" >
           <div class="modal-background"></div>
-          <div class="modal-content"> <Invoice-Modal /></div>
+          <div class="modal-content"> <Invoice-Modal v-on:close-modal="activeModal=-1" v-if="activeInvoice != null" :invoice="activeInvoice" /></div>
           <button class="modal-close is-large" aria-label="close" @click="activeModal=-1"></button>
         </div>
       </div>
@@ -73,26 +69,47 @@
 <script>
 import InvoiceModal from '../components/InvoiceModal';
 import WorkOrderService from '../services/WorkOrderService';
+import InvoiceService from '../services/InvoiceService';
 
 // import VehicleService from '../services/VehicleService';
 export default {
 
   created() {
+    InvoiceService
+     .getAllInvoices()
+     .then(response => {
+       this.invoices = response.data;
+     });
+
     WorkOrderService
     .getAllWorkOrders()
     .then(response => {
       this.workOrders = response.data
-    })
+    });
   },
 
   data() {
     return {
+      activeInvoice: null,
+      invoices: [],
       workOrders: [],
       services: [],
       activeModal:-1
     };
   },
   methods: {
+    getInvoiceButtonText(workorder) {
+      const invoiceForWorkOrder = this.invoices.find(invoice => invoice.workOrder.workOrderId === workorder.workOrderId);
+      if (!invoiceForWorkOrder) {
+        return 'Create Invoice';
+      }
+      
+      if (invoiceForWorkOrder.paid) {
+        return 'View Invoice';
+      }
+
+      return 'Edit Invoice';
+    },
     
     changeWorkOrderStatus(workOrderId, serviceIndex, newStatusValue, newStatusText) {
       const workOrderToChange = this.workOrders.find(wo => wo.workOrderId === workOrderId);
@@ -100,12 +117,35 @@ export default {
       workOrderToChange.serviceStatuses[serviceIndex].status.statusId = Number.parseInt(newStatusValue);
       workOrderToChange.serviceStatuses[serviceIndex].status.description = newStatusText;
     
-      
+      WorkOrderService.updateWorkOrder(workOrderId, workOrderToChange);
     },
 
-    createInvoice(workorder) {
-      workorder.invoiceCreated = true; // Mark the workorder as invoice created
-      this.activeModal = workorder.id; // set the id to match the model
+    createEditOrViewInvoice(workorder) {
+      const invoiceForWorkOrder = this.invoices.find(invoice => invoice.workOrder.workOrderId === workorder.workOrderId);
+
+      if (!invoiceForWorkOrder) {
+
+        workorder.invoiceCreated = true; // Mark the workorder as invoice created
+
+        const workOrderWithCompletedServices = workorder;
+        workOrderWithCompletedServices.serviceStatuses = workOrderWithCompletedServices.serviceStatuses.filter(ss => ss.status.description === 'Completed')
+
+        const invoice = {
+          workOrder: workOrderWithCompletedServices,
+          user: workorder.users.find(u => u.role === 'Customer')
+        };
+
+        InvoiceService
+          .createInvoice(workorder.workOrderId, invoice)
+          .then(response => {
+            this.invoices.push(response.data);
+            this.activeInvoice = response.data;
+          })
+      } else {
+        this.activeInvoice = invoiceForWorkOrder;
+      }
+
+        this.activeModal = workorder.id; // set the id to match the model
     },
 
     getWorkOrderCustomerName(workorder) {
