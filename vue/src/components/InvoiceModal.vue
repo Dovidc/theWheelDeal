@@ -52,7 +52,11 @@ export default {
       payInvoice() {
         const updatedInvoice = {...this.invoice};
         updatedInvoice.paid = true;
-        InvoiceService.updateInvoice(updatedInvoice);
+        InvoiceService
+          .updateInvoice(this.invoice.invoiceID, updatedInvoice)
+          .then(() => {
+            this.$emit('invoice-paid');
+        })
         this.$emit('close-modal');
       }
   },

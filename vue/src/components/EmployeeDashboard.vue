@@ -58,7 +58,7 @@
         </div>
         <div class="modal " :class="{'is-active':workorder.id == activeModal}" >
           <div class="modal-background"></div>
-          <div class="modal-content"> <Invoice-Modal v-on:close-modal="activeModal=-1" v-if="activeInvoice != null" :invoice="activeInvoice" /></div>
+          <div class="modal-content"> <Invoice-Modal v-on:invoice-paid="activeInvoice.paid = true" v-on:close-modal="activeModal=-1" v-if="activeInvoice != null" :invoice="activeInvoice" /></div>
           <button class="modal-close is-large" aria-label="close" @click="activeModal=-1"></button>
         </div>
       </div>

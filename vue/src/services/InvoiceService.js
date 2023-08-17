@@ -14,8 +14,8 @@ export default {
         return axios.get('/employeedashboard/invoices');
     },
 
-    updateInvoice(invoice) {
-        return axios.put(`/employeedashboard/invoices/`, invoice)
+    updateInvoice(invoiceId, invoice) {
+        return axios.put(`employeedashboard/invoices/${invoiceId}`, invoice)
     }
 
 

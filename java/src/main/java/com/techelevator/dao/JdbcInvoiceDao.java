@@ -151,8 +151,8 @@ public class JdbcInvoiceDao implements InvoiceDao {
 
         try {
 
-            int updatedRows = jdbcTemplate.queryForObject(sql, int.class, invoice.getUser().getId(),
-                    invoice.getWorkOrder().getWorkOrderId(), invoice.isPaid());
+            int updatedRows = jdbcTemplate.update(sql, invoice.getUser().getId(),
+                    invoice.getWorkOrder().getWorkOrderId(), invoice.isPaid(), invoice.getInvoiceID());
 
             if (updatedRows == 0) {
                 throw new DaoException("Could not update Invoice.");
