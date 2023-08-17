@@ -84,12 +84,12 @@ public class JdbcInvoiceDao implements InvoiceDao {
     @Override
     public List<Invoice> getAllInvoices() {
         List<Invoice> returnedInvoices = new ArrayList<>();
-        String sql = "select invoice.invoice_id, invoice.user_id, invoice.work_order_id, is_paid, username, first_name, last_name, role, work_order.vehicle_id, is_approved, make, model, year, color\n" +
+        String sql = "select invoice.invoice_id, invoice.user_id, invoice.work_order_id, is_paid, username, first_name, last_name, role, work_order.vehicle_id, time_adjustment, is_approved, is_completed, make, model, year, color\n" +
                 "from invoice\n" +
-                "join user_invoice on invoice.user_id = user_invoice.user_id\n" +
+                "join user_invoice on invoice.invoice_id = user_invoice.invoice_id\n" +
                 "join users on user_invoice.user_id = users.user_id\n" +
-                "join users_work_order on users.user_id = users_work_order.user_id\n" +
-                "join work_order on users_work_order.work_order_id = work_order.work_order_id\n" +
+//                "join users_work_order on users.user_id = users_work_order.user_id\n" +
+                "join work_order on invoice.work_order_id = work_order.work_order_id\n" +
                 "join vehicle on work_order.vehicle_id = vehicle.vehicle_id;";
 
         SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql);
@@ -103,7 +103,7 @@ public class JdbcInvoiceDao implements InvoiceDao {
                 invoice.setInvoiceID(rowSet.getInt("invoice_id"));
                 user = JdbcWorkOrderDao.mapRowToUser(rowSet);
                 invoice.setUser(user);
-                workOrder = JdbcWorkOrderDao.mapRowToWorkOrder(rowSet);
+                workOrder = jdbcWorkOrderDao.getWorkOrderById(rowSet.getInt("work_order_id")); //JdbcWorkOrderDao.mapRowToWorkOrder(rowSet);
                 invoice.setWorkOrder(workOrder);
                 returnedInvoices.add(invoice);
 
@@ -121,7 +121,7 @@ public class JdbcInvoiceDao implements InvoiceDao {
 
         String sql = "insert into invoice (user_id, work_order_id) " +
                 "values (?,?) returning invoice_id;";
-        String sqlLinkInvoiceToUser = "insert into user_invoice (user_id, work_order_id) " +
+        String sqlLinkInvoiceToUser = "insert into user_invoice (user_id, invoice_id) " +
                 "values (?,?);";
 
         try {
@@ -129,7 +129,7 @@ public class JdbcInvoiceDao implements InvoiceDao {
                     invoiceDTO.getWorkOrder().getWorkOrderId());
 
             jdbcTemplate.update(sqlLinkInvoiceToUser, invoiceDTO.getUser().getId(),
-                    invoiceDTO.getWorkOrder().getWorkOrderId());
+                    createdInvoiceId);
 
             createdInvoice = getInvoiceByInvoiceId(createdInvoiceId);
 

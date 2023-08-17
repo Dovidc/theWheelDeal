@@ -40,7 +40,7 @@ export default {
     
   }
   .header-title {
-      color: rgb(42, 243, 15);
+      color: rgb(255, 255, 255);
     
       
   }

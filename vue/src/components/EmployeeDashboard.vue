@@ -13,56 +13,52 @@
     <!--  -->
     <div class="workorder-list">
       <div
-        v-for="workorder in workorders"
-        :key="workorder.id"
+        v-for="workorder in workOrders"
+        :key="workorder.workOrderId"
         class="workorder-item"
       >
         <div class="workorder-details">
-          <p><strong>Work Order ID:</strong> {{ workorder.id }}</p>
+          <p><strong>Work Order ID:</strong> {{ workorder.workOrderId }}</p>
           <p>
             <strong>Assigned Employee:</strong> {{ workorder.assignedEmployee }}
           </p>
-          <p><strong>Customer Name:</strong> {{ workorder.customerName }}</p>
+          <p><strong>Customer Name:</strong> {{ getWorkOrderCustomerName(workorder) }}</p>
           <!-- Add The Vehicle Info Here -->
-          <p><strong>Vehicle:</strong> Make: Model: Plate No:</p>
+          <p><strong>Vehicle:</strong> Make: {{ workorder.vehicle.make }} Model: {{ workorder.vehicle.model }} Plate No: {{ workorder.vehicle.plateNumber }}</p>
         </div>
 
         <div class="services-list">
           <div
-            v-for="(service, index) in services"
+            v-for="(serviceStatus, index) in workorder.serviceStatuses"
             :key="index"
             class="service-item"
           >
-            <p><strong>Service:</strong> {{ service.name }}</p>
+            <p><strong>Service:</strong> {{ serviceStatus.service.serviceDescription }}</p>
             <p>
               <strong>Status:</strong>
-              <select v-model="service.status">
-                <option value="Declined">Declined</option>
-                <option value="Pending">Pending</option>
-                <option value="In Progress">In Progress</option>
-                <option value="Completed">Completed</option>
+              <select v-model="serviceStatus.status.statusId" @change="changeWorkOrderStatus(workorder.workOrderId, index, $event.target.value, $event.target.options[$event.target.selectedIndex].text)">
+                <option value="3">Not Started</option>
+                <option value="2">Declined</option>
+                <option value="4">In Progress</option>
+                <option value="5">Completed</option>
               </select>
             </p>
           </div>
         </div>
 
         <div class="workorder-checkbox">
-          <label>
-            <input type="checkbox" v-model="workorder.completed" /> Complete
-          </label>
           <button
-            v-show="workorder.completed"
-            @click="createInvoice(workorder)"
+            @click="createEditOrViewInvoice(workorder)"
           >
             <!-- When clicked "Create Invoice", it should switch to "Invoice Created" -->
             {{
-              workorder.invoiceCreated ? "Invoice Created" : "Create Invoice"
+              getInvoiceButtonText(workorder)
             }}
           </button>
         </div>
         <div class="modal " :class="{'is-active':workorder.id == activeModal}" >
           <div class="modal-background"></div>
-          <div class="modal-content"> <Invoice-Popup /></div>
+          <div class="modal-content"> <Invoice-Modal v-on:close-modal="activeModal=-1" v-if="activeInvoice != null" :invoice="activeInvoice" /></div>
           <button class="modal-close is-large" aria-label="close" @click="activeModal=-1"></button>
         </div>
       </div>
@@ -71,65 +67,130 @@
 </template>
 
 <script>
-import InvoicePopup from '../components/InvoicePopup';
+import InvoiceModal from '../components/InvoiceModal';
+import WorkOrderService from '../services/WorkOrderService';
+import InvoiceService from '../services/InvoiceService';
 
+// import VehicleService from '../services/VehicleService';
 export default {
+
+  created() {
+    InvoiceService
+     .getAllInvoices()
+     .then(response => {
+       this.invoices = response.data;
+     });
+
+    WorkOrderService
+    .getAllWorkOrders()
+    .then(response => {
+      this.workOrders = response.data
+    });
+  },
+
   data() {
     return {
-      workorders: [
-        {
-          id: 1,
-          assignedEmployee: "John Doe",
-          customerName: "Mr. Potato",
-          status: "Pending",
-          service: "Oil Change",
-          invoiceCreated: false,
-          completed: false,
-        },
-        {
-          id: 2,
-          assignedEmployee: "Jack Black",
-          customerName: "Bruce Wayne",
-          status: "Pending",
-          service: "Oil Change",
-          invoiceCreated: false,
-          completed: false,
-        },
-        // ... other workorders
-      ],
-      employees: [
-        { id: 1, name: "" },
-        { id: 2, name: "" },
-      ],
-      customers: [
-        { id: 1, name: "Customer A" },
-        { id: 2, name: "Customer B" },
-        // ... other customers
-      ],
-      services: [
-        { id: 1, name: "Oil Change" },
-        { id: 2, name: "Brake Repair" },
-        // ... other services
-      ],
+      activeInvoice: null,
+      invoices: [],
+      workOrders: [],
+      services: [],
       activeModal:-1
     };
   },
   methods: {
-    createInvoice(workorder) {
-      workorder.invoiceCreated = true; // Mark the workorder as invoice created
-      this.activeModal = workorder.id; // set the id to match the model
+    getInvoiceButtonText(workorder) {
+      const invoiceForWorkOrder = this.invoices.find(invoice => invoice.workOrder.workOrderId === workorder.workOrderId);
+      if (!invoiceForWorkOrder) {
+        return 'Create Invoice';
+      }
+      
+      if (invoiceForWorkOrder.paid) {
+        return 'View Invoice';
+      }
+
+      return 'Edit Invoice';
     },
-  },
+    
+    changeWorkOrderStatus(workOrderId, serviceIndex, newStatusValue, newStatusText) {
+      const workOrderToChange = this.workOrders.find(wo => wo.workOrderId === workOrderId);
+
+      workOrderToChange.serviceStatuses[serviceIndex].status.statusId = Number.parseInt(newStatusValue);
+      workOrderToChange.serviceStatuses[serviceIndex].status.description = newStatusText;
+    
+      WorkOrderService.updateWorkOrder(workOrderId, workOrderToChange);
+    },
+
+    createEditOrViewInvoice(workorder) {
+      const invoiceForWorkOrder = this.invoices.find(invoice => invoice.workOrder.workOrderId === workorder.workOrderId);
+
+      if (!invoiceForWorkOrder) {
+
+        workorder.invoiceCreated = true; // Mark the workorder as invoice created
+
+        const workOrderWithCompletedServices = workorder;
+        workOrderWithCompletedServices.serviceStatuses = workOrderWithCompletedServices.serviceStatuses.filter(ss => ss.status.description === 'Completed')
+
+        const invoice = {
+          workOrder: workOrderWithCompletedServices,
+          user: workorder.users.find(u => u.role === 'Customer')
+        };
+
+        InvoiceService
+          .createInvoice(workorder.workOrderId, invoice)
+          .then(response => {
+            this.invoices.push(response.data);
+            this.activeInvoice = response.data;
+          })
+      } else {
+        this.activeInvoice = invoiceForWorkOrder;
+      }
+
+        this.activeModal = workorder.id; // set the id to match the model
+    },
+
+    getWorkOrderCustomerName(workorder) {
+      if (workorder.users.length > 0) {
+        return `${workorder.users[0].firstName} ${workorder.users[0].lastName}`;
+      }
+    },
+
+      getServicesForWorkOrders(workorder) {
+          const myArray = [];
+
+        if (workorder.serviceStatuses.length > 0) {
+          workorder.serviceStatuses.forEach(element => {
+
+            const service = {
+              serviceId: element.service.serviceID,
+              serviceDescription: element.service.serviceDescription,
+              statusId: element.status.statusId,
+              statusDescription: element.status.description
+            };
+
+            myArray.push(service);
+
+          });
+        }
+
+        return myArray;
+      },
+
+ 
+
+      
+    },
+    
   components: {
-    InvoicePopup
-  },
+    InvoiceModal
+  }
+  
 };
 </script>
 
 <style scoped>
 .employee-dashboard {
   padding: 20px;
-  height: 100vh;
+  min-height: 100vh;
 }
 h1 {
   font-size: 25px;

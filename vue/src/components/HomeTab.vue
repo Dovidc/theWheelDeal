@@ -15,5 +15,11 @@ export default {
 </script>
 
 <style scoped>
+#home {
+  margin-top: 30px;
+}
 
+a {
+  margin-top: 15px;
+}
 </style>

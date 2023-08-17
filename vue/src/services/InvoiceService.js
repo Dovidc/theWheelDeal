@@ -8,6 +8,14 @@ export default {
 
     createInvoice(workorderId, invoice) {
         return axios.post(`/workorders/${workorderId}/createinvoice`, invoice)
+    },
+
+    getAllInvoices() {
+        return axios.get('/employeedashboard/invoices');
+    },
+
+    updateInvoice(invoice) {
+        return axios.put(`/employeedashboard/invoices/`, invoice)
     }
 
 

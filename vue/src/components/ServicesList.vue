@@ -243,4 +243,9 @@ export default {
     cursor: pointer;
     user-select: none;
   }
+
+  h2 {
+    font-size: 25px;
+    
+  }
 </style>
