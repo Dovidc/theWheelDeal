@@ -52,7 +52,7 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
             while (rowSet.next()) {
                 WorkOrder workOrder = mapRowToWorkOrder(rowSet);
 
-                SqlRowSet rowSet2 = jdbcTemplate.queryForRowSet(sql2,rowSet.getInt("work_order.work_order_id"));
+                SqlRowSet rowSet2 = jdbcTemplate.queryForRowSet(sql2,rowSet.getInt("work_order_id"));
                 List<User> workOrderUsers = new ArrayList<>();
                 while (rowSet2.next()) {
                     User newUser = mapRowToUser(rowSet2);
@@ -60,7 +60,7 @@ public class JdbcWorkOrderDao implements WorkOrderDao {
                 }
                 workOrder.setUsers(workOrderUsers);
 
-                SqlRowSet rowSet3 = jdbcTemplate.queryForRowSet(sql3, rowSet.getInt("work_order.work_order_id"));
+                SqlRowSet rowSet3 = jdbcTemplate.queryForRowSet(sql3, rowSet.getInt("work_order_id"));
                 List<ServiceStatus> workOrderServiceStatuses = new ArrayList<>();
                 while (rowSet3.next()) {
                     ServiceStatus serviceStatus = mapRowToServiceStatus(rowSet3);

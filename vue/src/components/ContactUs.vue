@@ -20,6 +20,7 @@ export default {
 
 <style scoped>
 .contact-container {
+    
     padding-top: 20px;
     padding-bottom: 20px;
     text-align: center;
@@ -31,6 +32,8 @@ export default {
   }
   
   .contact-container h2 {
+    display: flex;
+    flex-direction: column;
     font-size: 2rem;
     margin-bottom: 1rem;
   }
@@ -39,11 +42,14 @@ export default {
   form textarea,
   form button {
     /* max-width: 600px; */
+    display: flex;
     width: 50%;
     padding: 1rem;
     border: none;
     border-radius: 5px;
     margin-bottom: 1rem;
+    justify-content: center;
+    margin-left: 25%;
     
   }
   form textarea {
