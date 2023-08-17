@@ -48,7 +48,7 @@ public class WorkOrderController {
 
     @RequestMapping(path = "/employeedashboard/workorders", method = RequestMethod.GET)
     public List<WorkOrder> getAllWorkOrders(Principal principal, @RequestParam(defaultValue = "-1") int userId,
-                                            @RequestParam(defaultValue = "null") Boolean isCompleted) {
+                                            @RequestParam(required = false) Boolean isCompleted) {
         if (userDao.getUserByUsername(principal.getName()).getRole().equalsIgnoreCase("customer")) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Cannot access all work orders.");
         } else {

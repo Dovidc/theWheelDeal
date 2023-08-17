@@ -154,7 +154,7 @@ export default {
     background-color: #6a336de7;
     color: #fff;
     padding: 3rem;
-    border-radius: 10px;
+    /* border-radius: 10px; */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   }
   

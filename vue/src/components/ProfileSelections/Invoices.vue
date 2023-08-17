@@ -20,9 +20,9 @@
                 <h1>Invoice</h1>
                 
                 <div class="invoice-details-pop-up">
-                  <p><strong>Invoice No:</strong> {{ invoiceId }}</p>
+                  <p><strong>Invoice No:</strong> {{ invoice.id }}</p>
                   <p><strong>Employee Assigned:</strong> {{ employeeAssigned }}</p>
-                  <p><strong>Customer Name:</strong> {{ customerName }}</p>
+                  <p><strong>Customer Name:</strong> {{ invoice.firstName }}  {{invoice.LastName}}</p>
                   <p><strong>Vehicle:</strong> {{ vehicleMake }} {{ vehicleModel }} (Plate No: {{ plateNumber }})</p>
                 </div>
                 
@@ -55,7 +55,18 @@
 </template>
 
 <script>
+import InvoiceService from '../../services/InvoiceService';
+
 export default {
+
+  created() {
+    InvoiceService
+    .getInvoiceForUser(this.$store.state.user.id)
+    .then(response => {
+        this.invoices = response.data
+      })
+    },
+  
   data() {
     return {
       invoices: [

@@ -87,7 +87,7 @@ const yearRange = Array.from({ length: startYear - endYear + 1 }, (_, index) => 
         model: this.newVehicle.model,
         year: this.newVehicle.year,
         color: this.newVehicle.color,
-        plateNumber: this.newVehicle.plateNumber.toUpperCase,
+        plateNumber: this.newVehicle.plateNumber,
         mileage: this.newVehicle.mileage
         // ...other properties...
       });
@@ -186,10 +186,10 @@ h1 {
 }
 
 .vehicle {
-  border: 1px solid #ddd;
+  border: 1px solid rgb(0, 0, 0);
   padding: 10px;
   margin: 10px;
-  background-color: #333333cc;
+  background-color: #3b7d9dcc;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
 }
@@ -212,12 +212,14 @@ h2 {
 .form-group {
   display: flex;
   flex-direction: column;
-  padding: 10px;
+  margin-left: 30px;
 }
 
 label {
   margin-bottom: 5px;
-  text-align: center;
+  margin-left: 20px;
+  text-align: left;
+  color: #555555;
 }
 select,
 input {

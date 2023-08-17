@@ -5,6 +5,7 @@ import com.techelevator.dao.UserDao;
 import com.techelevator.dao.WorkOrderDao;
 import com.techelevator.model.Invoice;
 import com.techelevator.model.InvoiceDTO;
+import com.techelevator.security.exception.DaoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -46,5 +47,23 @@ public class InvoiceController {
             invoiceDTO.setWorkOrder(workOrderDao.getWorkOrderById(workOrderId));
             return invoiceDao.createInvoice(invoiceDTO);
         }
+    }
+
+    @RequestMapping(path = "/employeedashboard/invoices", method = RequestMethod.GET)
+    public List<Invoice> getAllInvoices (Principal principal) {
+        if (userDao.getUserByUsername(principal.getName()).getRole().equalsIgnoreCase("Customer")) {
+            throw new DaoException("Cannot access all invoices");
+        }
+
+        return invoiceDao.getAllInvoices();
+    }
+
+    @RequestMapping(path = "employeedashboard/invoices/{invoiceId}", method = RequestMethod.PUT)
+    public Invoice updateInvoice (Principal principal, @PathVariable int invoiceId, @Valid @RequestBody Invoice invoice) {
+        if (userDao.getUserByUsername(principal.getName()).getRole().equalsIgnoreCase("customer")) {
+            throw new DaoException("Cannot update invoice.");
+        }
+        invoice.setInvoiceID(invoiceId);
+        return invoiceDao.updateInvoice(invoice);
     }
 }
