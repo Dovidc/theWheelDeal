@@ -36,7 +36,7 @@
     </div>
     <button type="submit" class="btn btn-primary">Create Account</button>
     <p class="login-link">
-      <router-link :to="{ name: 'login' }">Already have an account? Log in.</router-link>
+      <router-link :to="{ name: 'login' }">Already have an account? Log in</router-link>
     </p>
   </form>
 </div>
@@ -144,7 +144,7 @@ input[type="text"],
 input[type="email"],
 input[type="tel"],
 input[type="password"] {
-  width: 100%;
+  width: 310px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;

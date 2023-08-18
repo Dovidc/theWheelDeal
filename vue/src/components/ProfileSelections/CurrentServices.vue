@@ -18,7 +18,6 @@
     <div v-for="service in services" :key="service.serviceId" class="current-services-list">
       <div class="service-info">
         <h4>{{ service.description }}</h4>
-        <p><strong>Price:</strong> {{ service.price }}</p>
         <!-- <p><strong>Qty:</strong> {{ service.quantity }}</p> -->
       </div>
       <!-- <div class="service-total">
@@ -55,6 +54,7 @@ export default {
 
     data() {
         return {
+          
           registeredVehicles: [],
           workOrders: [],
           selectedVehicleId: -1

@@ -232,6 +232,7 @@ created() {
   padding: 20px;
   border: 1px solid rgb(221, 221, 221);
   background-color: #f8f8f8cc;
+  margin-top: 3%;
 }
 
 h1 {
@@ -254,6 +255,7 @@ label {
   display: block;
   font-weight: bold;
   margin-bottom: 5px;
+  color: #555555;
 }
 
 select,

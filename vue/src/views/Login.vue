@@ -3,7 +3,7 @@
   <div id="login">
     <Header />
   <form @submit.prevent="login" class="login-form">
-    <h1 class="login-title">Welcome to The Wheel Deal</h1>
+    <h1 class="login-title">The Wheel Deal</h1>
     <div role="alert" v-if="invalidCredentials" class="alert alert-danger">
       Invalid username and password!
     </div>
@@ -20,10 +20,10 @@
     </div>
     <button type="submit" class="btn btn-primary">Sign in</button>
     <p class="signup-link">
-      <router-link :to="{ name: 'register' }">Don't have an account? Sign up.</router-link>
+      <router-link :to="{ name: 'register' }">Don't have an account? Sign up</router-link>
     </p>
     <p class="forgot-password">
-    <router-link :to="{ name: 'ForgotPassword' }">Forgot Password?.</router-link>
+    <router-link :to="{ name: 'ForgotPassword' }">Forgot Password?</router-link>
     </p>
 
     
@@ -105,7 +105,7 @@ export default {
   font-size: 24px;
   text-align: center;
   margin-bottom: 20px;
-  color: #333;
+  color: #000000;
 }
 
 
@@ -124,7 +124,7 @@ label {
 
 input[type="text"],
 input[type="password"] {
-  width: 100%;
+  width: 310px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
